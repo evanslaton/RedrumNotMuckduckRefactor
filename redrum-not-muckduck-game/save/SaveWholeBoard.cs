@@ -57,11 +57,11 @@ namespace redrum_not_muckduck_game
         {
             if (Game.Is_Windows)
             {
-                WorkingBoardDirectory = Environment.CurrentDirectory.Replace("bin\\Debug\\netcoreapp3.1\\save\\save-data", "Board.json");
+                WorkingBoardDirectory = @"../../../save/save-data/Board.json";
             }
             else
             {
-                WorkingBoardDirectory = Environment.CurrentDirectory.Replace("bin/Debug/netcoreapp3.1/save/save-data", "Board.json");
+                WorkingBoardDirectory = @"..\..\..\save\save-data\Board.json";
             }
         }
     }

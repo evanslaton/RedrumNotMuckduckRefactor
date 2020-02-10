@@ -56,11 +56,11 @@ namespace redrum_not_muckduck_game
         {
             if (Game.Is_Windows)
             {
-                WorkingHintDirectory = Environment.CurrentDirectory.Replace("bin\\Debug\\netcoreapp3.1\\save\\save-data", "Hints.json");
+                WorkingHintDirectory = @"../../../save/save-data/Hints.json";
             }
             else
             {
-                WorkingHintDirectory = Environment.CurrentDirectory.Replace("bin/Debug/netcoreapp3.1/save/save-data", "Hints.json");
+                WorkingHintDirectory = @"..\..\..\save\save-data\Hints.json";
             }
         }
     }
