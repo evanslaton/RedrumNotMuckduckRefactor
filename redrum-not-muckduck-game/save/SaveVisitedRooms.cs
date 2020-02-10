@@ -34,11 +34,11 @@ namespace redrum_not_muckduck_game
         {
             if (Game.Is_Windows)
             {
-                WorkingVisitedRoomsDirectory = Environment.CurrentDirectory.Replace("bin\\Debug\\netcoreapp3.1", "VisitedRooms.json");
+                WorkingVisitedRoomsDirectory = Environment.CurrentDirectory.Replace("bin\\Debug\\netcoreapp3.1\\save\\save-data", "VisitedRooms.json");
             }
             else
             {
-                WorkingVisitedRoomsDirectory = Environment.CurrentDirectory.Replace("bin/Debug/netcoreapp3.1", "VisitedRooms.json");
+                WorkingVisitedRoomsDirectory = Environment.CurrentDirectory.Replace("bin/Debug/netcoreapp3.1/save/save-data", "VisitedRooms.json");
             }
         }
 
