@@ -43,11 +43,11 @@ namespace redrum_not_muckduck_game
         {
             if (Game.Is_Windows)
             {
-                WorkingHintQuotesDirectory = @"../../../save/save-data/HintQuotes.json";
+                WorkingHintQuotesDirectory = @"..\..\..\save\save-data\HintQuotes.json";
             }
             else
             {
-                WorkingHintQuotesDirectory = @"..\..\..\save\save-data\HintQuotes.json";
+                WorkingHintQuotesDirectory = @"../../../save/save-data/HintQuotes.json";
             }
         }
 

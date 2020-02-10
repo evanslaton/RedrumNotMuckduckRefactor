@@ -34,11 +34,11 @@ namespace redrum_not_muckduck_game
         {
             if (Game.Is_Windows)
             {
-                WorkingVisitedRoomsDirectory = @"../../../save/save-data/SaveState.json";
+                WorkingVisitedRoomsDirectory = @"..\..\..\save\save-data\SaveState.json";
             }
             else
             {
-                WorkingVisitedRoomsDirectory = @"..\..\..\save\save-data\SaveState.json";
+                WorkingVisitedRoomsDirectory = @"../../../save/save-data/SaveState.json";
             }
         }
 
