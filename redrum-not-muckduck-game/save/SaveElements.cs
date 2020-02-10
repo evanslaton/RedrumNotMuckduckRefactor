@@ -76,11 +76,11 @@ namespace redrum_not_muckduck_game
         {
             if (Game.Is_Windows)
             {
-                WorkingElementDirectory = Environment.CurrentDirectory.Replace("bin\\Debug\\netcoreapp3.1", "Elements.json");
+                WorkingElementDirectory = @"..\..\..\save\save-data\Elements.json";
             }
             else
             {
-                WorkingElementDirectory = Environment.CurrentDirectory.Replace("bin/Debug/netcoreapp3.1", "Elements.json");
+                WorkingElementDirectory = @"../../../save/save-data/Elements.json";
             }
         }
     }
