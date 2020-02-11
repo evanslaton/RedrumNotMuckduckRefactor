@@ -36,9 +36,9 @@ namespace redrum_not_muckduck_game
             Console.WriteLine("    ░  ░      ░░░▒░ ░ ░   ░  ▒   ░ ░▒ ▒░ ░ ▒  ▒ ░░▒░ ░ ░   ░  ▒   ░ ░▒ ▒░", Color.FromArgb(204, 34, 0));
             Console.WriteLine("    ░      ░    ░░░ ░ ░ ░        ░ ░░ ░  ░ ░  ░  ░░░ ░ ░ ░        ░ ░░ ░ ", Color.FromArgb(204, 34, 0));
        
-            TypeByLetter("    Come on an adventure.. If you dare..", 150);
+            TypeByLetter("    Come on an adventure.. If you dare..", 1);
             Console.WriteLine();
-            TypeByLetter("    Press any key to continue...", 150);
+            TypeByLetter("    Press any key to continue...", 1);
             // Waits for user to hit key to start game
             Console.ReadKey(true);
         }

@@ -27,6 +27,7 @@ namespace redrum_not_muckduck_game
         public static bool userQuitGame { get; set; } = false;
         public static List<string> Collected_Hints { get; set; } = new List<string>();
         public static List<string> Visited_Rooms { get; set; } = new List<string>();
+        public Map Map = new Map();
 
         //Instances of all "pages/scences" within the game
         public static Board Board = new Board();
@@ -184,6 +185,9 @@ namespace redrum_not_muckduck_game
                 case "save":
                     SaveTheGame();
                     break;
+                case "map":
+                    Map.Render(CurrentRoom.Name);
+                    break;
                 case "help":
                     HelpPage.Render();
                     break;
@@ -192,17 +196,19 @@ namespace redrum_not_muckduck_game
                     break;
                 default:
                     Board.Render();
-                    Console.WriteLine("Please enter a valid option: (explore, talk, leave, quit)");
+                    Console.WriteLine("Please enter a valid option: (explore, talk, leave, map, quit)");
                     break;
             }
         }
 
         private void LeaveTheRoom()
         {
-            Delete.Scene();
-            Render.AdjacentRooms();
-            Board.Render();
-            AskUserWhereToGo();
+            //Delete.Scene();
+            //Render.AdjacentRooms();
+            //Board.Render();
+            //AskUserWhereToGo();
+            Map.LeaveRoom(CurrentRoom.Name);
+
         }
 
         private void AskUserWhereToGo()
