@@ -324,8 +324,7 @@ namespace redrum_not_muckduck_game
             }
             else if (userQuitGame)
             {
-                Console.Clear();
-                Console.WriteLine("See you next time!");
+                EndPage.QuitScene();
             }
             else
             {
