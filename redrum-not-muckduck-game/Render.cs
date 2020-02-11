@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace redrum_not_muckduck_game
 {
@@ -30,11 +31,34 @@ namespace redrum_not_muckduck_game
             }
         }
 
-        public static void Quote()
+        public static void TalkChoices(Dictionary<string, string> choices)
+        {
+            int ROW_WHERE_OPTIONS_START = 14;
+            int COLUMN_WHERE_OPTIONS_START = 2;
+            string header = "Who do you want to talk to: ";
+
+            for (int i = 0; i < header.Length; i++)
+            {
+                Board.board[ROW_WHERE_OPTIONS_START, COLUMN_WHERE_OPTIONS_START + i] = header[i];
+            }
+            ROW_WHERE_OPTIONS_START++;
+
+            foreach (KeyValuePair<string, string> str in choices)
+            {
+                string person = str.Key;
+                for (int i = 0; i < person.Length; i++)
+                {
+                    Board.board[ROW_WHERE_OPTIONS_START, COLUMN_WHERE_OPTIONS_START + i] = person[i];
+                }
+                ROW_WHERE_OPTIONS_START++;
+            }
+        }
+
+        public static void Quote(string quote)
         {
             int ROW_WHERE_QUOTE_STARTS = 14;
             int COLUMN_WHERE_QUOTE_STARTS = 1;
-            string quote = Game.CurrentRoom.GetQuote();
+            //string quote = Game.CurrentRoom.GetQuote(nameSelected);
 
             for (int i = 0; i < quote.Length; i++)
             {

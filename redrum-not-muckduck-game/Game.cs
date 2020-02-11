@@ -43,7 +43,11 @@ namespace redrum_not_muckduck_game
                "*Out of the corner of your eye, you " +
                "*see a drawer slowly open. ",
                "Angela's cat, Bandit",
-               "Oscar: \'I am going into the ceiling\'",
+                new Dictionary<string, string>()
+               {
+                    { "Oscar", "\" : I am going into the ceiling\"" },
+                    { "Angela", "\" : Oscar! Take me with you!\"" }
+               },
                true
                );
             Sales = new Room(
@@ -53,7 +57,12 @@ namespace redrum_not_muckduck_game
                "*knocks over his trash can, something makes " +
                "*a thud sound as it falls out.",
                "a random torch",
-               "Andy: \'This would never happen at Cornell\'",
+                new Dictionary<string, string>()
+                   {
+                    { "Andy", "\" : This would never happen at Cornell...\"" },
+                    { "Stanley", "\" : Oh no! The next Pretzal Day!\"" },
+                    { "Jim", "\" : Andy! Come with me!\"" }
+                   },
                true
                );
             Kitchen = new Room(
@@ -61,7 +70,10 @@ namespace redrum_not_muckduck_game
                "Why is Phyllis just standing here? " +
                "*She seems very disturbed... ",
                 "Oscar falling out of ceiling",
-                "Phyllis: \'I saw Dwight came from the breakroom\'",
+                new Dictionary<string, string>()
+                {
+                    { "Phyllis", "\" : I saw Dwight come from the breakroom\"" }
+                },
                 false
                 );
             Breakroom = new Room(
@@ -69,15 +81,21 @@ namespace redrum_not_muckduck_game
                 "You are hungry but is there " +
                 "*time? Probably right?",
                 "vending machine",
-                "No one is in the breakroom",
+                new Dictionary<string, string>()
+                {
+                    { "null", "\"No one is in the breakroom\"" }
+                },
                 false
-                );
+                ); 
             Reception = new Room(
                 "Reception",
                 "Michael waits to hear what " +
                 "*you think happened today",
                 "no item",
-                "Michael: \"Would you like to solve the puzzle?\"",
+                new Dictionary<string, string>()
+                {
+                    { "Michael", "\" : Would you like to solve the puzzle?\"" }
+                },
                 false
                 );
             Annex = new Room(
@@ -89,7 +107,11 @@ namespace redrum_not_muckduck_game
                 "*He doesn't smoke cigarettes does " +
                 "*he?",
                 "beet stained cigs",
-                "Kelly: \'Why does Dwight have a blow horn?\'",
+                new Dictionary<string, string>()
+                {
+                    { "Kelly", "\" : Why does Dwight have a blow horn?\"" },
+                    { "Toby", "\" : I wish I were in Costa Rica still...\"" }
+                },
                 true
                 );
 
@@ -231,22 +253,47 @@ namespace redrum_not_muckduck_game
         private void TalkToPerson()
         {
             Delete.Scene();
-            Render.Quote();
-            AddQuoteToHintPage();
+            Render.TalkChoices(CurrentRoom.PersonsInRoom);
+            Board.Render();
+            AskUserWhoToTalkTo();
+            //AddQuoteToHintPage();
             CheckIfTalkingToMichael();
             Board.Render();
         }
 
-        private void AddQuoteToHintPage()
+        private void AskUserWhoToTalkTo()
         {
-            //Check if quote has been added to hint page
-            //Unless we're in Reception - because talking to Michael is to end the game not to get a hint
-            if (!Collected_Hints.Contains(CurrentRoom.GetQuote()) && CurrentRoom.Name != "Reception")
-            {
-                Collected_Hints.Add(CurrentRoom.GetQuote());
-                HintPage.DisplayHints(CurrentRoom.GetQuote());
-            }
+            Console.Write("> ");
+            string nameSelected = Console.ReadLine().ToLower();
+            ValidateTalkSelection(nameSelected);
+            Board.Render();
         }
+        //need to fix this so that entering nothing doesn't break out of talk
+        private void ValidateTalkSelection(string nameSelected)
+        {
+            string quote;
+            foreach (KeyValuePair<string, string> str in CurrentRoom.PersonsInRoom)
+            {
+                if (nameSelected == str.Key.ToLower())
+                {
+                    quote = str.Key + str.Value;
+                    Delete.Scene();
+                    Render.Quote(quote);
+                }
+            }
+            //AskUserWhoToTalkTo();
+        }
+
+        //private void AddQuoteToHintPage()
+        //{
+        //    //Check if quote has been added to hint page
+        //    //Unless we're in Reception - because talking to Michael is to end the game not to get a hint
+        //    if (!Collected_Hints.Contains(CurrentRoom.GetQuote()) && CurrentRoom.Name != "Reception")
+        //    {
+        //        Collected_Hints.Add(CurrentRoom.GetQuote());
+        //        HintPage.DisplayHints(CurrentRoom.GetQuote());
+        //    }
+        //}
 
         private void CheckIfTalkingToMichael()
         {
