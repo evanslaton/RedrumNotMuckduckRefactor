@@ -30,6 +30,7 @@ namespace redrum_not_muckduck_game
         //Instances of all "pages/scences" within the game
         public static Board Board = new Board();
         public static HelpPage HelpPage = new HelpPage();
+        public static Map Map = new Map();
         public static HintPage HintPage = new HintPage();
         //Checks OS of user
         public static readonly bool Is_Windows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
@@ -65,7 +66,7 @@ namespace redrum_not_muckduck_game
                 false
                 );
             Breakroom = new Room(
-                "Breakroom",
+                "Break Room",
                 "You are hungry but is there " +
                 "*time? Probably right?",
                 "vending machine",
@@ -185,12 +186,15 @@ namespace redrum_not_muckduck_game
                 case "help":
                     HelpPage.Render();
                     break;
+                case "map":
+                    Map.Render(CurrentRoom.Name);
+                    break;
                 case "hint":
                     HintPage.Render();
                     break;
                 default:
                     Board.Render();
-                    Console.WriteLine("Please enter a valid option: (explore, talk, leave, quit)");
+                    Console.WriteLine("Please enter a valid option: (explore, talk, leave, map, quit)");
                     break;
             }
         }
