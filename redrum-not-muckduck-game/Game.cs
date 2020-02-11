@@ -10,6 +10,7 @@ namespace redrum_not_muckduck_game
     // You can find the game loop, user turn loop, navigation logic, and sets the scene for the game
     class Game
     {
+        private static Random rand = new Random();
         public static Room Accounting { get; set; }
         public static Room Sales { get; set; }
         public static Room Kitchen { get; set; }
@@ -214,6 +215,9 @@ namespace redrum_not_muckduck_game
         private void CheckIfItemHasBeenFound()
         {
             Delete.Scene();
+            int randomPercentage = PercentChanceGenerator();
+            if (randomPercentage > 1)
+                Render.ActionQuote("Oscar fell through the ceiling!!!!!");
             if (CurrentRoom.HasItem)
             {
                 Render.OneLineQuestionOrQuote($"You found: {CurrentRoom.ItemInRoom}");
@@ -226,6 +230,12 @@ namespace redrum_not_muckduck_game
                 Render.OneLineQuestionOrQuote("Nothing left to explore");
             }
             Board.Render();
+        }
+
+        private int PercentChanceGenerator()
+        {
+            int percentage = rand.Next(1, 100);
+            return percentage;
         }
 
         private void TalkToPerson()

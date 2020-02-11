@@ -59,12 +59,23 @@ namespace redrum_not_muckduck_game
 
         public static void OneLineQuestionOrQuote(string questionOrQuote)
         {
-            int ROW_WHERE_QUESITON_STARTS = 14;
+            int ROW_WHERE_QUESITON_STARTS = 18;
             int COLUMN_WHERE_QUESTION_STARTS = 1;
 
             for (int i = 0; i < questionOrQuote.Length; i++)
             {
                 Board.board[ROW_WHERE_QUESITON_STARTS, COLUMN_WHERE_QUESTION_STARTS + i] = questionOrQuote[i];
+            }
+        }
+
+        public static void ActionQuote(string actionQuote)
+        {
+            int ROW_WHERE_ACTION_STARTS = 14;
+            int COLUMN_WHERE_ACTION_STARTS = 1;
+
+            for (int i = 0; i < actionQuote.Length; i++)
+            {
+                Board.board[ROW_WHERE_ACTION_STARTS, COLUMN_WHERE_ACTION_STARTS + i] = actionQuote[i];
             }
         }
 
