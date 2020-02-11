@@ -2,8 +2,6 @@
 
 namespace redrum_not_muckduck_game
 {
-    // This class controls the ending to the game
-    // You can find the winning, losing, & thank you scenes here 
     class EndPage
     {
         public static string[] WinMessage = { "\n\tYou saved everyone from the fire!",

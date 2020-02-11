@@ -6,7 +6,7 @@ namespace redrum_not_muckduck_game
     // You can find how to delete a scene, render available rooms, scene description, & quotes
     class Render
     {
-        private static readonly string[] Actions = new string[] { "- explore", "- talk to someone", "- leave the current room", "- quit playing" };
+        private static readonly string[] Actions = new string[] { "- explore", "- talk to someone", "- leave the current room", "- map", "- quit playing" };
 
         public static void AdjacentRooms()
         {
