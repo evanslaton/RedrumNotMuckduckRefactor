@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace redrum_not_muckduck_game
 {
@@ -11,16 +9,15 @@ namespace redrum_not_muckduck_game
         public static string[] WinMessage = { "\n\tYou saved everyone from the fire!",
         "\t\tThanks, Kevin! You deserve some smores.",
         "\t\t\tHopefully, Dwight will be reprimanded for starting a fire in the office."};
+        public static string[] LoseMessage = {"\n\tAfter breathing in too much smoke you wake up surrounded by firefighters. ",
+        "\t\tNo one knows how the fire was started.",
+        "\t\t\tPlay again to solve the puzzle!"};
 
         public static void WinScene()
         {
             Console.Clear();
             Render.TypeByElement(WinMessage);
         }
-
-        public static string[] LoseMessage = {"\n\tAfter breathing in too much smoke you wake up surrounded by firefighters. ",
-        "\t\tNo one knows how the fire was started.",
-        "\t\t\tPlay again to solve the puzzle!"};
 
         public static void LoseScene() 
         {

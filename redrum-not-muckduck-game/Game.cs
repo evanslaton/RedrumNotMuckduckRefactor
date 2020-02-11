@@ -24,6 +24,7 @@ namespace redrum_not_muckduck_game
         public static int Number_of_Rooms { get; set; } = 0;
         public static int Number_of_Names { get; set; } = 0;
         public static bool Is_Game_Over { get; set; } = false;
+        public static bool userQuitGame { get; set; } = false;
         public static List<string> Collected_Hints { get; set; } = new List<string>();
         public static List<string> Visited_Rooms { get; set; } = new List<string>();
 
@@ -177,7 +178,8 @@ namespace redrum_not_muckduck_game
                     TalkToPerson();
                     break;
                 case "quit":
-                    Is_Game_Over = !Is_Game_Over;
+                    Is_Game_Over = true;
+                    userQuitGame = true;
                     break;
                 case "save":
                     SaveTheGame();
@@ -303,7 +305,7 @@ namespace redrum_not_muckduck_game
              SaveHintQuotes.Saved();
              SaveElements.Saved();
              SaveWholeBoard.Saved();
-             Console.WriteLine("You game has been saved, Seen you soon.");
+             Console.WriteLine("Your game has been saved.");
         }
 
         private void CheckHealth()
@@ -316,8 +318,19 @@ namespace redrum_not_muckduck_game
 
         private void EndOfGame()
         {
-            if (Number_of_Lives == 0) { EndPage.LoseScene(); }
-            else { EndPage.WinScene(); }
+            if (Number_of_Lives == 0)
+            { 
+                EndPage.LoseScene();
+            }
+            else if (userQuitGame)
+            {
+                Console.Clear();
+                Console.WriteLine("See you next time!");
+            }
+            else
+            {
+                EndPage.WinScene();
+            }
             EndPage.ThankYouAsciiArt();
             SaveHintQuotes.ResetHintQuotesFile();
             SaveVisitedRooms.ResetVisitedRoomsFile();
