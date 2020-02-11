@@ -46,6 +46,8 @@ namespace redrum_not_muckduck_game
                "*see a drawer slowly open. ",
                "Angela's cat, Bandit",
                "Oscar: \'I am going into the ceiling\'",
+               "Oscar fell through the ceiling!!!!!",
+
                true
                );
             Sales = new Room(
@@ -56,6 +58,7 @@ namespace redrum_not_muckduck_game
                "*a thud sound as it falls out.",
                "a random torch",
                "Andy: \'This would never happen at Cornell\'",
+               "You see a pretzel on Stanley's Desk",
                true
                );
             Kitchen = new Room(
@@ -64,6 +67,7 @@ namespace redrum_not_muckduck_game
                "*She seems very disturbed... ",
                 "Oscar falling out of ceiling",
                 "Phyllis: \'I saw Dwight came from the breakroom\'",
+                "",
                 false
                 );
             Breakroom = new Room(
@@ -72,6 +76,7 @@ namespace redrum_not_muckduck_game
                 "*time? Probably right?",
                 "vending machine",
                 "No one is in the breakroom",
+                "Kevin Breaks into the vending machine and offers you a stack",
                 false
                 );
             Reception = new Room(
@@ -80,6 +85,7 @@ namespace redrum_not_muckduck_game
                 "*you think happened today",
                 "no item",
                 "Michael: \"Would you like to solve the puzzle?\"",
+                "",
                 false
                 );
             Annex = new Room(
@@ -92,6 +98,7 @@ namespace redrum_not_muckduck_game
                 "*he?",
                 "beet stained cigs",
                 "Kelly: \'Why does Dwight have a blow horn?\'",
+                "",
                 true
                 );
 
@@ -218,10 +225,25 @@ namespace redrum_not_muckduck_game
 
         private void CheckIfItemHasBeenFound()
         {
-            Delete.Scene();
             int randomPercentage = PercentChanceGenerator();
+
+            Delete.Scene();
             if (randomPercentage > 1)
-                Render.ActionQuote("Oscar fell through the ceiling!!!!!");
+            {
+                Render.ActionQuote(CurrentRoom.Action);
+                if (CurrentRoom.Name.Equals("Breakroom") || CurrentRoom.Name.Equals("Sales"))
+                {
+                    Number_of_Lives++;
+                    Console.WriteLine(Number_of_Lives);
+                    Console.ReadLine();
+                }
+                else if (CurrentRoom.Name.Equals("Accounting"))
+                {
+                    Number_of_Lives--;
+                    Console.WriteLine(Number_of_Lives);
+                    Console.ReadLine();
+                }
+            } 
             if (CurrentRoom.HasItem)
             {
                 Render.OneLineQuestionOrQuote($"You found: {CurrentRoom.ItemInRoom}");
