@@ -24,13 +24,13 @@ namespace redrum_not_muckduck_game
         public static int Number_of_Rooms { get; set; } = 0;
         public static int Number_of_Names { get; set; } = 0;
         public static bool Is_Game_Over { get; set; } = false;
+        public static bool userQuitGame { get; set; } = false;
         public static List<string> Collected_Hints { get; set; } = new List<string>();
         public static List<string> Visited_Rooms { get; set; } = new List<string>();
 
         //Instances of all "pages/scences" within the game
         public static Board Board = new Board();
         public static HelpPage HelpPage = new HelpPage();
-        public static Map Map = new Map();
         public static HintPage HintPage = new HintPage();
         //Checks OS of user
         public static readonly bool Is_Windows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
@@ -66,7 +66,7 @@ namespace redrum_not_muckduck_game
                 false
                 );
             Breakroom = new Room(
-                "Break Room",
+                "Breakroom",
                 "You are hungry but is there " +
                 "*time? Probably right?",
                 "vending machine",
@@ -178,7 +178,8 @@ namespace redrum_not_muckduck_game
                     TalkToPerson();
                     break;
                 case "quit":
-                    Is_Game_Over = !Is_Game_Over;
+                    Is_Game_Over = true;
+                    userQuitGame = true;
                     break;
                 case "save":
                     SaveTheGame();
@@ -186,15 +187,12 @@ namespace redrum_not_muckduck_game
                 case "help":
                     HelpPage.Render();
                     break;
-                case "map":
-                    Map.Render(CurrentRoom.Name);
-                    break;
                 case "hint":
                     HintPage.Render();
                     break;
                 default:
                     Board.Render();
-                    Console.WriteLine("Please enter a valid option: (explore, talk, leave, map, quit)");
+                    Console.WriteLine("Please enter a valid option: (explore, talk, leave, quit)");
                     break;
             }
         }
@@ -307,7 +305,7 @@ namespace redrum_not_muckduck_game
              SaveHintQuotes.Saved();
              SaveElements.Saved();
              SaveWholeBoard.Saved();
-             Console.WriteLine("You game has been saved, Seen you soon.");
+             Console.WriteLine("Your game has been saved.");
         }
 
         private void CheckHealth()
@@ -320,8 +318,18 @@ namespace redrum_not_muckduck_game
 
         private void EndOfGame()
         {
-            if (Number_of_Lives == 0) { EndPage.LoseScene(); }
-            else { EndPage.WinScene(); }
+            if (Number_of_Lives == 0)
+            { 
+                EndPage.LoseScene();
+            }
+            else if (userQuitGame)
+            {
+                EndPage.QuitScene();
+            }
+            else
+            {
+                EndPage.WinScene();
+            }
             EndPage.ThankYouAsciiArt();
             SaveHintQuotes.ResetHintQuotesFile();
             SaveVisitedRooms.ResetVisitedRoomsFile();

@@ -71,4 +71,3 @@ namespace redrum_not_muckduck_game
         "    Be careful, an incorrect guess will lose you a life"};
     }  
 }
-
