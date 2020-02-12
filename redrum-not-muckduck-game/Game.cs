@@ -18,7 +18,7 @@ namespace redrum_not_muckduck_game
         public static Room Annex { get; set; }
         public static Room Exit { get; set; }
         public static Room CurrentRoom { get; set; }
-        public static List<Room> List_Of_All_Roooms { get; set; }
+        public static List<Room> List_Of_All_Rooms { get; set; }
         public static int Number_of_Lives { get; set; } = 3;
         public static int Number_of_Items { get; set; } = 0;
         public static int Number_of_Rooms { get; set; } = 0;
@@ -79,7 +79,7 @@ namespace redrum_not_muckduck_game
                 false
                 );
             Breakroom = new Room(
-                "Breakroom",
+                "Break Room",
                 "You are hungry but is there " +
                 "*time? Probably right?",
                 "vending machine",
@@ -122,7 +122,7 @@ namespace redrum_not_muckduck_game
             Kitchen.AdjacentRooms = new List<Room> { Sales, Annex };
             Annex.AdjacentRooms = new List<Room> { Kitchen, Breakroom };
             Breakroom.AdjacentRooms = new List<Room> { Annex };
-            List_Of_All_Roooms = new List<Room> { Accounting, Sales, Reception, Kitchen, Annex, Breakroom };
+            List_Of_All_Rooms = new List<Room> { Accounting, Sales, Reception, Kitchen, Annex, Breakroom };
         }
 
         public void Play()
@@ -190,6 +190,7 @@ namespace redrum_not_muckduck_game
             {
                 case "leave":
                     LeaveTheRoom();
+                    Board.Render();
                     break;
                 case "explore":
                     CheckIfItemHasBeenFound();
@@ -206,6 +207,8 @@ namespace redrum_not_muckduck_game
                     break;
                 case "map":
                     Map.Render(CurrentRoom.Name);
+                    ExitMap();
+                    Board.Render();
                     break;
                 case "help":
                     HelpPage.Render();
@@ -220,22 +223,21 @@ namespace redrum_not_muckduck_game
             }
         }
 
-        private void LeaveTheRoom()
+        private void ExitMap()
         {
-            //Delete.Scene();
-            //Render.AdjacentRooms();
-            //Board.Render();
-            //AskUserWhereToGo();
-            Map.LeaveRoom(CurrentRoom.Name);
-
+            ConsoleKey key = Console.ReadKey(true).Key;
+            while (key != ConsoleKey.Enter)
+            {
+                key = Console.ReadKey(true).Key;
+            }
         }
 
-        private void AskUserWhereToGo()
+        private void LeaveTheRoom()
         {
-            Console.Write("> ");
-            string nextRoom = Console.ReadLine().ToLower();
+            string nextRoom = Map.LeaveRoom(CurrentRoom.Name);
+            Delete.Scene();
             UpdateCurrentRoom(nextRoom);
-            Board.Render();
+
         }
 
         private void CheckIfItemHasBeenFound()
@@ -350,9 +352,9 @@ namespace redrum_not_muckduck_game
             Delete.Scene();
             Delete.Location(CurrentRoom);
             //Loop through adjacent rooms to see which one the user selected
-            foreach (Room Room in CurrentRoom.AdjacentRooms)
+            foreach (Room Room in List_Of_All_Rooms)
             {
-                if (nextRoom == Room.GetNameToLowerCase())
+                if (nextRoom.ToLower() == Room.GetNameToLowerCase())
                 {
                     CheckIfVistedRoom(CurrentRoom.Name); //Check if user has been to this room
                     CurrentRoom = Room; //Update the current room

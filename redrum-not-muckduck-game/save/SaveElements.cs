@@ -57,7 +57,7 @@ namespace redrum_not_muckduck_game
 
         public static void UpdateRoom()
         {
-            foreach (Room room in Game.List_Of_All_Roooms)
+            foreach (Room room in Game.List_Of_All_Rooms)
             {
                 if(Game.CurrentRoom.Name == room.Name)
                 {

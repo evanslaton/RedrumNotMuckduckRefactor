@@ -27,13 +27,14 @@ namespace redrum_not_muckduck_game
             StringBuilder = new StringBuilder();
         }
 
-        public void LeaveRoom(string currentRoom)
+        public string LeaveRoom(string currentRoom)
         {
             CurrentRoom = currentRoom;
             RoomToGoTo = currentRoom;
             Render(currentRoom, currentRoom);
             SetCurrentRoom();
-            RoomToGoTo = null;
+            UserInput = ConsoleKey.Escape;
+            return RoomToGoTo;
         }
 
         private void SetCurrentRoom()
@@ -66,8 +67,15 @@ namespace redrum_not_muckduck_game
                     if (Coordinates[1] > 3) Coordinates[1] = 3;
                     if (ROOM_LAYOUT[Coordinates[0], Coordinates[1]].Equals("")) Coordinates[1] += 1;
                 }
-                RoomToGoTo = ROOM_LAYOUT[Coordinates[0], Coordinates[1]];
-                Render(CurrentRoom, RoomToGoTo);
+                
+                if (UserInput == ConsoleKey.UpArrow ||
+                    UserInput == ConsoleKey.DownArrow ||
+                    UserInput == ConsoleKey.LeftArrow ||
+                    UserInput == ConsoleKey.RightArrow)
+                {
+                    RoomToGoTo = ROOM_LAYOUT[Coordinates[0], Coordinates[1]];
+                    Render(CurrentRoom, RoomToGoTo);
+                }
             }
         }
 

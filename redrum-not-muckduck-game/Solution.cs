@@ -8,8 +8,8 @@ namespace redrum_not_muckduck_game
     // You can find the methods for determining a right or wrong guess
     public class Solution
     {
-        public static string[] Solutions = new string[] { "dwight", "beet stained cigs", "breakroom" };
-        public static string[] AllTheWaysToSayYes = new string[] { "y", "yes", "yeah", "yep", "yea" };
+        public static string[] Solutions = new string[] { "dwight", "beet stained cigs", "break room" };
+        public static string[] AllTheWaysToSayYes = new string[] { "y", "yes", "yeah", "yep", "yea", "yeppers", "yesh", "indubidably" };
 
         public static bool AskToSolvePuzzle()
         {
