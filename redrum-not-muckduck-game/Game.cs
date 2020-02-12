@@ -44,7 +44,11 @@ namespace redrum_not_muckduck_game
                "*Out of the corner of your eye, you " +
                "*see a drawer slowly open. ",
                "Angela's cat, Bandit",
-               "Oscar: \'I am going into the ceiling\'",
+              new Dictionary<string, string>()
+               {
+                    { "Oscar", " : \"I am going into the ceiling\"" },
+                    { "Angela", " : \"Oscar! Take me with you!\"" }
+               },
                true
                );
             Sales = new Room(
@@ -54,7 +58,12 @@ namespace redrum_not_muckduck_game
                "*knocks over his trash can, something makes " +
                "*a thud sound as it falls out.",
                "a random torch",
-               "Andy: \'This would never happen at Cornell\'",
+               new Dictionary<string, string>()
+                   {
+                    { "Andy", " : \"This would never happen at Cornell...\"" },
+                    { "Stanley", " : \"What'll happen to Pretzal Day?!\"" },
+                    { "Jim", " : \"Let's ram the door with the copier!\"" }
+                   },
                true
                );
             Kitchen = new Room(
@@ -62,7 +71,10 @@ namespace redrum_not_muckduck_game
                "Why is Phyllis just standing here? " +
                "*She seems very disturbed... ",
                 "Oscar falling out of ceiling",
-                "Phyllis: \'I saw Dwight came from the breakroom\'",
+                new Dictionary<string, string>()
+                {
+                    { "Phyllis", " : \"I saw Dwight come from the breakroom\"" }
+                },
                 false
                 );
             Breakroom = new Room(
@@ -70,7 +82,7 @@ namespace redrum_not_muckduck_game
                 "You are hungry but is there " +
                 "*time? Probably right?",
                 "vending machine",
-                "No one is in the breakroom",
+                new Dictionary<string, string>(){},
                 false
                 );
             Reception = new Room(
@@ -78,7 +90,10 @@ namespace redrum_not_muckduck_game
                 "Michael waits to hear what " +
                 "*you think happened today",
                 "no item",
-                "Michael: \"Would you like to solve the puzzle?\"",
+                new Dictionary<string, string>()
+                {
+                    { "Michael", " : \"Would you like to solve the puzzle?\"" }
+                },
                 false
                 );
             Annex = new Room(
@@ -90,7 +105,11 @@ namespace redrum_not_muckduck_game
                 "*He doesn't smoke cigarettes does " +
                 "*he?",
                 "beet stained cigs",
-                "Kelly: \'Why does Dwight have a blow horn?\'",
+                new Dictionary<string, string>()
+                {
+                    { "Kelly", " : \"Why does Dwight have a blow horn?\"" },
+                    { "Toby", " : \"I wish I were in Costa Rica still...\"" }
+                },
                 true
                 );
 
@@ -232,23 +251,72 @@ namespace redrum_not_muckduck_game
 
         private void TalkToPerson()
         {
+            //Removes prior scene text
             Delete.Scene();
-            Render.Quote();
-            AddQuoteToHintPage();
+            if (CurrentRoom.PersonsInRoom.Count == 0)
+            {
+                Render.Quote("There is no one in the room to talk to.");
+                Board.Render();
+            }
+            else
+            {
+            //Lists name of person in the current room then renders to UI
+            Render.TalkChoices(CurrentRoom.PersonsInRoom);
+            Board.Render();
+            //Prompts user input for name of who they want to talk to
+            AskUserWhoToTalkTo();
+            //AddQuoteToHintPage();
             CheckIfTalkingToMichael();
+            Board.Render();
+            }
+        }
+
+        private void AskUserWhoToTalkTo()
+        {
+            string nameSelected;
+            do
+            {
+                Console.Write("> ");
+                nameSelected = Console.ReadLine().ToLower();
+            }
+            while (!ValidateTalkSelection(nameSelected));
+            //Renders quote of selected person upon valid player input
             Board.Render();
         }
 
-        private void AddQuoteToHintPage()
+        private bool ValidateTalkSelection(string nameSelected)
         {
-            //Check if quote has been added to hint page
-            //Unless we're in Reception - because talking to Michael is to end the game not to get a hint
-            if (!Collected_Hints.Contains(CurrentRoom.GetQuote()) && CurrentRoom.Name != "Reception")
+            string quote;
+            //Searches PersonsInRoom dictionary keys for match of player input value
+            foreach (KeyValuePair<string, string> str in CurrentRoom.PersonsInRoom)
             {
-                Collected_Hints.Add(CurrentRoom.GetQuote());
-                HintPage.DisplayHints(CurrentRoom.GetQuote());
+                if (nameSelected == str.Key.ToLower())
+                {
+                    //Concatenates dictionary key + value to create quote
+                    quote = str.Key + str.Value;
+                    //Removes list of people in room
+                    Delete.Scene();
+                    Render.Quote(quote);
+                    //Stops requesting input
+                    return true;
+                }
             }
+            //If name is not found, board re-renders, notifies player, and continues input request
+            Board.Render();
+            Console.WriteLine("Not a person in this room. Please select someone in the room to talk to.");
+            return false;
         }
+
+        //private void AddQuoteToHintPage()
+        //{
+        //    //Check if quote has been added to hint page
+        //    //Unless we're in Reception - because talking to Michael is to end the game not to get a hint
+        //    if (!Collected_Hints.Contains(CurrentRoom.GetQuote()) && CurrentRoom.Name != "Reception")
+        //    {
+        //        Collected_Hints.Add(CurrentRoom.GetQuote());
+        //        HintPage.DisplayHints(CurrentRoom.GetQuote());
+        //    }
+        //}
 
         private void CheckIfTalkingToMichael()
         {
