@@ -9,16 +9,16 @@ namespace redrum_not_muckduck_game
         public string Name { get; set; }
         public string Description { get; set; }
         public string ItemInRoom { get; set; }
-        public string PersonInRoom { get; set; }
+        public Dictionary<string, string> PersonsInRoom { get; set; }
         public bool HasItem { get; set; }
         public List<Room> AdjacentRooms { get; set; }
 
-        public Room(string roomName, string description, string itemInRoom, string personInRoom, bool hasItem)
+        public Room(string roomName, string description, string itemInRoom, Dictionary<string, string> personsInRoom, bool hasItem)
         {
             Name = roomName;
             Description = description; 
             ItemInRoom = itemInRoom;
-            PersonInRoom = personInRoom;
+            PersonsInRoom = personsInRoom;
             HasItem = hasItem;
         }
 
@@ -32,14 +32,17 @@ namespace redrum_not_muckduck_game
             return Name.Length;
         }
 
-        public string GetQuote()
-        {
-            return PersonInRoom;
-        }
+        //public string GetQuote(string nameSelected)
+        //{
+        //    //this needs to select person and get their quote
+        //    //string characterQuote = Game.CurrentRoom.PersonsInRoom.
+        //    //return PersonInRoom[nameSelected];
+        //}
 
-        public int GetQuoteLength()
-        {
-            return PersonInRoom.Length;
-        }
+        //public int GetQuoteLength()
+        //{
+        //    //this needs to get the length of their quote
+        //    //return PersonInRoom[1].Length;
+        //}
     }
 }
