@@ -189,6 +189,8 @@ namespace redrum_not_muckduck_game
 
         private void UserTurn()
         {
+            Board.Render();
+            Console.WriteLine("Please enter a valid option: (explore, talk, leave, map, quit)");
             Console.Write("> ");
             string userChoice = Console.ReadLine().ToLower();
             Console.WriteLine();
@@ -197,7 +199,6 @@ namespace redrum_not_muckduck_game
             {
                 case "leave":
                     LeaveTheRoom();
-                    Board.Render();
                     break;
                 case "explore":
                     CheckIfItemHasBeenFound();
@@ -224,27 +225,25 @@ namespace redrum_not_muckduck_game
                     HintPage.Render();
                     break;
                 default:
-                    Board.Render();
-                    Console.WriteLine("Please enter a valid option: (explore, talk, leave, map, quit)");
+                    //Board.Render();
+                    //Console.WriteLine("Please enter a valid option: (explore, talk, leave, map, quit)");
                     break;
             }
         }
 
         private void ExitMap()
         {
-            ConsoleKey key = Console.ReadKey(true).Key;
-            while (key != ConsoleKey.Enter)
+            ConsoleKey key;
+            do
             {
                 key = Console.ReadKey(true).Key;
-            }
+            } while (key != ConsoleKey.Enter);
         }
 
         private void LeaveTheRoom()
         {
             string nextRoom = Map.LeaveRoom(CurrentRoom.Name);
-            Delete.Scene();
             UpdateCurrentRoom(nextRoom);
-
         }
 
         private void CheckIfItemHasBeenFound()
@@ -388,6 +387,9 @@ namespace redrum_not_muckduck_game
                         Number_of_Lives++;
                         //Solution.LoseALife();
                     }
+                    Board.Render();
+                    System.Console.WriteLine("Press any key to continue:");
+                    Console.ReadKey(true);
                 }
                 else if (CurrentRoom.Name.Equals("Accounting"))
                 {
@@ -395,9 +397,10 @@ namespace redrum_not_muckduck_game
                     Solution.LoseALife();
                     if (Number_of_Lives <= 0)
                         EndPage.LoseScene();
+                    Board.Render();
+                    System.Console.WriteLine("Press any key to continue:");
+                    Console.ReadKey(true);
                 }
-                Board.Render();
-                Console.ReadKey(true);
             }
         }
 
