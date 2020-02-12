@@ -97,11 +97,10 @@ namespace redrum_not_muckduck_game
 
         private void GetValidInput()
         {
-            UserInput = Console.ReadKey(true).Key;
-            while (!UserInputIsValid())
+            do
             {
                 UserInput = Console.ReadKey(true).Key;
-            }
+            } while (!UserInputIsValid());
         }
 
         private bool UserInputIsValid()
@@ -119,7 +118,6 @@ namespace redrum_not_muckduck_game
             string map = GenerateMap(roomToGoTo);
             Console.Clear();
             Console.WriteLine(map);
-            
         }
 
         private string GenerateMap(string roomToGoTo = null)
