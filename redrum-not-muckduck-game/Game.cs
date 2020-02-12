@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -10,6 +10,7 @@ namespace redrum_not_muckduck_game
     // You can find the game loop, user turn loop, navigation logic, and sets the scene for the game
     class Game
     {
+        private static Random rand = new Random();
         public static Room Accounting { get; set; }
         public static Room Sales { get; set; }
         public static Room Kitchen { get; set; }
@@ -50,6 +51,7 @@ namespace redrum_not_muckduck_game
                     { "Oscar", " : \"Angela, stay here. I am going*up into the ceiling to find*a way out and get help!\"" },
                     { "Angela", " : \"Oscar! Take me with you!\"" }
                },
+              "Oscar fell through the ceiling!!!! *You lose one Heart",
                true
                );
             Sales = new Room(
@@ -65,17 +67,19 @@ namespace redrum_not_muckduck_game
                     { "Stanley", " : \"What'll happen to Pretzal Day?!\"" },
                     { "Jim", " : \"Let's ram the door with the copier!\"" }
                    },
+               "You see a pretzel on Stanley's Desk and *you choose to eat it *You gain one Heart",
                true
                );
             Kitchen = new Room(
                "Kitchen",
                "Why is Phyllis just standing here? " +
                "*She seems very disturbed... ",
-                "Oscar falling out of ceiling",
-                new Dictionary<string, string>()
+                "Oscar falling out of ceiling *You lose one Heart",
+                 new Dictionary<string, string>()
                 {
                     { "Phyllis", " : \"I saw Dwight come from the breakroom\"" }
                 },
+                "",
                 false
                 );
             Breakroom = new Room(
@@ -83,7 +87,8 @@ namespace redrum_not_muckduck_game
                 "You are hungry but is there " +
                 "*time? Probably right?",
                 "vending machine",
-                new Dictionary<string, string>(){},
+                 new Dictionary<string, string>() { },
+                "Kevin broke into the vending machine *and offers you a snack *You gain one Heart", 
                 false
                 );
             Reception = new Room(
@@ -95,6 +100,7 @@ namespace redrum_not_muckduck_game
                 {
                     { "Michael", " : \"Would you like to solve the puzzle?\"" }
                 },
+                "",
                 false
                 );
             Annex = new Room(
@@ -111,6 +117,7 @@ namespace redrum_not_muckduck_game
                     { "Kelly", " : \"Why does Dwight have a blow horn?\"" },
                     { "Toby", " : \"I wish I were in Costa Rica still...\"" }
                 },
+                "",
                 true
                 );
 
@@ -361,7 +368,37 @@ namespace redrum_not_muckduck_game
                 }
             }
             Render.Location(CurrentRoom);
+            RenderSpecialActionsInRooms();
             Render.SceneDescription();
+        }
+
+        private void RenderSpecialActionsInRooms()
+        {
+            int randomPercentage = PercentChanceGenerator();
+
+            Delete.Scene();
+            if (randomPercentage > 0)
+            {
+                Delete.Scene();
+                Render.ActionQuote(CurrentRoom.Action);
+                if (CurrentRoom.Name.Equals("Break Room") || CurrentRoom.Name.Equals("Sales"))
+                {
+                    if (Number_of_Lives < 3)
+                    {
+                        Number_of_Lives++;
+                        //Solution.LoseALife();
+                    }
+                }
+                else if (CurrentRoom.Name.Equals("Accounting"))
+                {
+                    Number_of_Lives--;
+                    Solution.LoseALife();
+                    if (Number_of_Lives <= 0)
+                        EndPage.LoseScene();
+                }
+                Board.Render();
+                Console.ReadKey(true);
+            }
         }
 
         private void CheckIfVistedRoom(string roomName)
@@ -372,6 +409,12 @@ namespace redrum_not_muckduck_game
                 Render.VistedRooms(roomName); //Render to the board
                 Number_of_Rooms++;
             }
+        }
+
+        private int PercentChanceGenerator()
+        {
+            int percentage = rand.Next(1, 100);
+            return percentage;
         }
 
         private void SaveTheGame()

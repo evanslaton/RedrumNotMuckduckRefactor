@@ -10,15 +10,17 @@ namespace redrum_not_muckduck_game
         public string Description { get; set; }
         public string ItemInRoom { get; set; }
         public Dictionary<string, string> PersonsInRoom { get; set; }
+        public string Action { get; set; }
         public bool HasItem { get; set; }
         public List<Room> AdjacentRooms { get; set; }
 
-        public Room(string roomName, string description, string itemInRoom, Dictionary<string, string> personsInRoom, bool hasItem)
+        public Room(string roomName, string description, string itemInRoom, Dictionary<string, string> personsInRoom, string action, bool hasItem)
         {
             Name = roomName;
             Description = description; 
             ItemInRoom = itemInRoom;
             PersonsInRoom = personsInRoom;
+            Action = action;
             HasItem = hasItem;
         }
 

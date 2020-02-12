@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace redrum_not_muckduck_game
@@ -28,6 +28,25 @@ namespace redrum_not_muckduck_game
                     Board.board[ROW_WHERE_OPTIONS_START, COLUMN_WHERE_OPTIONS_START + i] = Room.Name[i];
                 }
                 ROW_WHERE_OPTIONS_START++;
+            }
+        }
+
+        public static void ActionQuote(string actionQuote)
+        {
+            int ROW_WHERE_ACTION_STARTS = 14;
+            int COLUMN_WHERE_ACTION_STARTS = 2;
+            int currentColumn = 0;
+
+            for (int i = 0; i < actionQuote.Length; i++)
+            {
+                if (actionQuote[i] == '*')
+                {
+                    i++;
+                    ROW_WHERE_ACTION_STARTS++;
+                    currentColumn = 0;
+                }
+                Board.board[ROW_WHERE_ACTION_STARTS, COLUMN_WHERE_ACTION_STARTS + currentColumn] = actionQuote[i];
+                currentColumn++;
             }
         }
 
