@@ -60,10 +60,25 @@ namespace redrum_not_muckduck_game
 
         private static void LoseALife()
         {
-            int COLUMN_WHERE_HEARTS_START = 49;
+            //first character column of life starts at 50 and ends at 78
+            //first character row of life starts at 2 and ends at 6
+            int COLUMN_WHERE_HEARTS_START = 50;
             int ROW_WHERE_HEARTS_START = 2;
-            int COLUMN_TO_DELETE_HEART_FROM = Game.Number_of_Lives + COLUMN_WHERE_HEARTS_START;
-            Board.board[ROW_WHERE_HEARTS_START, COLUMN_TO_DELETE_HEART_FROM] = ' ';
+            int WIDTH_OF_HEART = 9;
+            int HEIGHT_OF_HEART = 4;
+            int heartDeletionStartColumn = 
+                COLUMN_WHERE_HEARTS_START +
+                //Adjusts Column to first char of last heart
+                ((Game.Number_of_Lives-1) * WIDTH_OF_HEART) +
+                //Adjusts for spaces between hearts
+                (Game.Number_of_Lives-1);
+            for (int i = 0; i < HEIGHT_OF_HEART; i++)
+            {
+                for (int j = 0; j < WIDTH_OF_HEART; j++)
+                {
+                    Board.board[ROW_WHERE_HEARTS_START + i, heartDeletionStartColumn + j] = ' ';
+                }
+            }
             Game.Number_of_Lives -= 1;
         }
     }
