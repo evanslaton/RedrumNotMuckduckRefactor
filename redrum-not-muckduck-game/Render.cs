@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace redrum_not_muckduck_game
 {
@@ -30,11 +31,34 @@ namespace redrum_not_muckduck_game
             }
         }
 
-        public static void Quote()
+        public static void TalkChoices(Dictionary<string, string> choices)
+        {
+            int ROW_WHERE_OPTIONS_START = 14;
+            int COLUMN_WHERE_OPTIONS_START = 2;
+            string header = "Who do you want to talk to: ";
+
+            for (int i = 0; i < header.Length; i++)
+            {
+                Board.board[ROW_WHERE_OPTIONS_START, COLUMN_WHERE_OPTIONS_START + i] = header[i];
+            }
+            ROW_WHERE_OPTIONS_START++;
+
+            foreach (KeyValuePair<string, string> str in choices)
+            {
+                string person = str.Key;
+                for (int i = 0; i < person.Length; i++)
+                {
+                    Board.board[ROW_WHERE_OPTIONS_START, COLUMN_WHERE_OPTIONS_START + i] = person[i];
+                }
+                ROW_WHERE_OPTIONS_START++;
+            }
+        }
+
+        public static void Quote(string quote)
         {
             int ROW_WHERE_QUOTE_STARTS = 14;
             int COLUMN_WHERE_QUOTE_STARTS = 1;
-            string quote = Game.CurrentRoom.GetQuote();
+            //string quote = Game.CurrentRoom.GetQuote();
 
             for (int i = 0; i < quote.Length; i++)
             {
@@ -59,7 +83,7 @@ namespace redrum_not_muckduck_game
 
         public static void OneLineQuestionOrQuote(string questionOrQuote)
         {
-            int ROW_WHERE_QUESITON_STARTS = 18;
+            int ROW_WHERE_QUESITON_STARTS = 14;
             int COLUMN_WHERE_QUESTION_STARTS = 1;
 
             for (int i = 0; i < questionOrQuote.Length; i++)
@@ -102,17 +126,6 @@ namespace redrum_not_muckduck_game
             }
         }
 
-        public static void ActionQuote(string actionQuote)
-        {
-            int ROW_WHERE_ACTION_STARTS = 14;
-            int COLUMN_WHERE_ACTION_STARTS = 1;
-
-            for (int i = 0; i < actionQuote.Length; i++)
-            {
-                Board.board[ROW_WHERE_ACTION_STARTS, COLUMN_WHERE_ACTION_STARTS + i] = actionQuote[i];
-            }
-        }
-
         public static void ItemToFoundItems(string foundItem)
         {
             int ROW_WHERE_ITEMS_START = 8;
@@ -124,6 +137,18 @@ namespace redrum_not_muckduck_game
                 Board.board[ROW_TO_INSERT_NEW_ITEM, COLUMN_WHERE_ITEMS_START + i] = foundItem[i];
             }
         }
+
+        public static void ActionQuote(string actionQuote)
+        {
+            int ROW_WHERE_ACTION_STARTS = 14;
+            int COLUMN_WHERE_ACTION_STARTS = 1;
+
+            for (int i = 0; i < actionQuote.Length; i++)
+            {
+                Board.board[ROW_WHERE_ACTION_STARTS, COLUMN_WHERE_ACTION_STARTS + i] = actionQuote[i];
+            }
+        }
+
 
         public static void VistedRooms(string room)
         {

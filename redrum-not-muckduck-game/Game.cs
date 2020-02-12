@@ -25,6 +25,7 @@ namespace redrum_not_muckduck_game
         public static int Number_of_Rooms { get; set; } = 0;
         public static int Number_of_Names { get; set; } = 0;
         public static bool Is_Game_Over { get; set; } = false;
+        public static bool userQuitGame { get; set; } = false;
         public static List<string> Collected_Hints { get; set; } = new List<string>();
         public static List<string> Visited_Rooms { get; set; } = new List<string>();
 
@@ -45,9 +46,12 @@ namespace redrum_not_muckduck_game
                "*Out of the corner of your eye, you " +
                "*see a drawer slowly open. ",
                "Angela's cat, Bandit",
-               "Oscar: \'I am going into the ceiling\'",
-               "Oscar fell through the ceiling!!!!!",
-
+              new Dictionary<string, string>()
+               {
+                    { "Oscar", " : \"I am going into the ceiling\"" },
+                    { "Angela", " : \"Oscar! Take me with you!\"" }
+               },
+              "Oscar fell through the ceiling!!!!",
                true
                );
             Sales = new Room(
@@ -57,7 +61,12 @@ namespace redrum_not_muckduck_game
                "*knocks over his trash can, something makes " +
                "*a thud sound as it falls out.",
                "a random torch",
-               "Andy: \'This would never happen at Cornell\'",
+               new Dictionary<string, string>()
+                   {
+                    { "Andy", " : \"This would never happen at Cornell...\"" },
+                    { "Stanley", " : \"What'll happen to Pretzal Day?!\"" },
+                    { "Jim", " : \"Let's ram the door with the copier!\"" }
+                   },
                "You see a pretzel on Stanley's Desk",
                true
                );
@@ -66,7 +75,10 @@ namespace redrum_not_muckduck_game
                "Why is Phyllis just standing here? " +
                "*She seems very disturbed... ",
                 "Oscar falling out of ceiling",
-                "Phyllis: \'I saw Dwight came from the breakroom\'",
+                 new Dictionary<string, string>()
+                {
+                    { "Phyllis", " : \"I saw Dwight come from the breakroom\"" }
+                },
                 "",
                 false
                 );
@@ -75,8 +87,8 @@ namespace redrum_not_muckduck_game
                 "You are hungry but is there " +
                 "*time? Probably right?",
                 "vending machine",
-                "No one is in the breakroom",
-                "Kevin Breaks into the vending machine and offers you a stack",
+                 new Dictionary<string, string>() { },
+                "Kevin Breaks into the vending machine and offers you a stack", 
                 false
                 );
             Reception = new Room(
@@ -84,7 +96,10 @@ namespace redrum_not_muckduck_game
                 "Michael waits to hear what " +
                 "*you think happened today",
                 "no item",
-                "Michael: \"Would you like to solve the puzzle?\"",
+                new Dictionary<string, string>()
+                {
+                    { "Michael", " : \"Would you like to solve the puzzle?\"" }
+                },
                 "",
                 false
                 );
@@ -97,7 +112,11 @@ namespace redrum_not_muckduck_game
                 "*He doesn't smoke cigarettes does " +
                 "*he?",
                 "beet stained cigs",
-                "Kelly: \'Why does Dwight have a blow horn?\'",
+                new Dictionary<string, string>()
+                {
+                    { "Kelly", " : \"Why does Dwight have a blow horn?\"" },
+                    { "Toby", " : \"I wish I were in Costa Rica still...\"" }
+                },
                 "",
                 true
                 );
@@ -186,7 +205,8 @@ namespace redrum_not_muckduck_game
                     TalkToPerson();
                     break;
                 case "quit":
-                    Is_Game_Over = !Is_Game_Over;
+                    Is_Game_Over = true;
+                    userQuitGame = true;
                     break;
                 case "save":
                     SaveTheGame();
@@ -230,20 +250,21 @@ namespace redrum_not_muckduck_game
             Delete.Scene();
             if (randomPercentage > 1)
             {
+                Delete.Scene();
                 Render.ActionQuote(CurrentRoom.Action);
                 if (CurrentRoom.Name.Equals("Breakroom") || CurrentRoom.Name.Equals("Sales"))
                 {
+                    Board.Render();
                     Number_of_Lives++;
-                    Console.WriteLine(Number_of_Lives);
-                    Console.ReadLine();
                 }
                 else if (CurrentRoom.Name.Equals("Accounting"))
                 {
+                    Board.Render();
                     Number_of_Lives--;
-                    Console.WriteLine(Number_of_Lives);
-                    Console.ReadLine();
-                }
+                } 
             } 
+
+            Delete.Scene();
             if (CurrentRoom.HasItem)
             {
                 Render.OneLineQuestionOrQuote($"You found: {CurrentRoom.ItemInRoom}");
@@ -260,23 +281,72 @@ namespace redrum_not_muckduck_game
 
         private void TalkToPerson()
         {
+            //Removes prior scene text
             Delete.Scene();
-            Render.Quote();
-            AddQuoteToHintPage();
+            if (CurrentRoom.PersonsInRoom.Count == 0)
+            {
+                Render.Quote("There is no one in the room to talk to.");
+                Board.Render();
+            }
+            else
+            {
+            //Lists name of person in the current room then renders to UI
+            Render.TalkChoices(CurrentRoom.PersonsInRoom);
+            Board.Render();
+            //Prompts user input for name of who they want to talk to
+            AskUserWhoToTalkTo();
+            //AddQuoteToHintPage();
             CheckIfTalkingToMichael();
+            Board.Render();
+            }
+        }
+
+        private void AskUserWhoToTalkTo()
+        {
+            string nameSelected;
+            do
+            {
+                Console.Write("> ");
+                nameSelected = Console.ReadLine().ToLower();
+            }
+            while (!ValidateTalkSelection(nameSelected));
+            //Renders quote of selected person upon valid player input
             Board.Render();
         }
 
-        private void AddQuoteToHintPage()
+        private bool ValidateTalkSelection(string nameSelected)
         {
-            //Check if quote has been added to hint page
-            //Unless we're in Reception - because talking to Michael is to end the game not to get a hint
-            if (!Collected_Hints.Contains(CurrentRoom.GetQuote()) && CurrentRoom.Name != "Reception")
+            string quote;
+            //Searches PersonsInRoom dictionary keys for match of player input value
+            foreach (KeyValuePair<string, string> str in CurrentRoom.PersonsInRoom)
             {
-                Collected_Hints.Add(CurrentRoom.GetQuote());
-                HintPage.DisplayHints(CurrentRoom.GetQuote());
+                if (nameSelected == str.Key.ToLower())
+                {
+                    //Concatenates dictionary key + value to create quote
+                    quote = str.Key + str.Value;
+                    //Removes list of people in room
+                    Delete.Scene();
+                    Render.Quote(quote);
+                    //Stops requesting input
+                    return true;
+                }
             }
+            //If name is not found, board re-renders, notifies player, and continues input request
+            Board.Render();
+            Console.WriteLine("Not a person in this room. Please select someone in the room to talk to.");
+            return false;
         }
+
+        //private void AddQuoteToHintPage()
+        //{
+        //    //Check if quote has been added to hint page
+        //    //Unless we're in Reception - because talking to Michael is to end the game not to get a hint
+        //    if (!Collected_Hints.Contains(CurrentRoom.GetQuote()) && CurrentRoom.Name != "Reception")
+        //    {
+        //        Collected_Hints.Add(CurrentRoom.GetQuote());
+        //        HintPage.DisplayHints(CurrentRoom.GetQuote());
+        //    }
+        //}
 
         private void CheckIfTalkingToMichael()
         {
@@ -325,6 +395,7 @@ namespace redrum_not_muckduck_game
                 Number_of_Rooms++;
             }
         }
+
         private int PercentChanceGenerator()
         {
             int percentage = rand.Next(1, 100);
@@ -338,7 +409,7 @@ namespace redrum_not_muckduck_game
              SaveHintQuotes.Saved();
              SaveElements.Saved();
              SaveWholeBoard.Saved();
-             Console.WriteLine("You game has been saved, Seen you soon.");
+             Console.WriteLine("Your game has been saved.");
         }
 
         private void CheckHealth()
@@ -351,8 +422,18 @@ namespace redrum_not_muckduck_game
 
         private void EndOfGame()
         {
-            if (Number_of_Lives == 0) { EndPage.LoseScene(); }
-            else { EndPage.WinScene(); }
+            if (Number_of_Lives == 0)
+            { 
+                EndPage.LoseScene();
+            }
+            else if (userQuitGame)
+            {
+                EndPage.QuitScene();
+            }
+            else
+            {
+                EndPage.WinScene();
+            }
             EndPage.ThankYouAsciiArt();
             SaveHintQuotes.ResetHintQuotesFile();
             SaveVisitedRooms.ResetVisitedRoomsFile();
