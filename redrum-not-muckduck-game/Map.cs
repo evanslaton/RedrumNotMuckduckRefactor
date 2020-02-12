@@ -15,6 +15,7 @@ namespace redrum_not_muckduck_game
         private string[] Rooms { get; set; }
         private StringBuilder StringBuilder { get; set; }
         private string CurrentRoom { get; set; }
+        private string RoomToGoTo { get; set; }
         private char prependCharacter;
         private char appendCharacter;
         private ConsoleKey UserInput { get; set; }
@@ -28,27 +29,12 @@ namespace redrum_not_muckduck_game
 
         public void LeaveRoom(string currentRoom)
         {
-            Render(currentRoom);
-            SetInitialCoordinatesOfCurrentRoom();
+            CurrentRoom = currentRoom;
+            RoomToGoTo = currentRoom;
+            Render(currentRoom, currentRoom);
             SetCurrentRoom();
-            Render(CurrentRoom);
+            RoomToGoTo = null;
         }
-
-        private void SetInitialCoordinatesOfCurrentRoom()
-        {
-            for (int i = 0; i < ROOM_LAYOUT.GetLength(0); i++)
-            {
-                for (int j = 0; j < ROOM_LAYOUT.GetLength(1); j++)
-                {
-                    if (CurrentRoom.Equals(ROOM_LAYOUT[i,j]) ||
-                        ROOM_LAYOUT[i,j].Contains(CurrentRoom))
-                    {
-                        Coordinates[0] = i;
-                        Coordinates[1] = j;
-                    }
-                }
-            }
-        } 
 
         private void SetCurrentRoom()
         {
@@ -80,8 +66,24 @@ namespace redrum_not_muckduck_game
                     if (Coordinates[1] > 3) Coordinates[1] = 3;
                     if (ROOM_LAYOUT[Coordinates[0], Coordinates[1]].Equals("")) Coordinates[1] += 1;
                 }
-                CurrentRoom = ROOM_LAYOUT[Coordinates[0], Coordinates[1]];
-                Render(CurrentRoom);
+                RoomToGoTo = ROOM_LAYOUT[Coordinates[0], Coordinates[1]];
+                Render(CurrentRoom, RoomToGoTo);
+            }
+        }
+
+        private void SetInitialCoordinatesOfCurrentRoom()
+        {
+            for (int i = 0; i < ROOM_LAYOUT.GetLength(0); i++)
+            {
+                for (int j = 0; j < ROOM_LAYOUT.GetLength(1); j++)
+                {
+                    if (CurrentRoom.Equals(ROOM_LAYOUT[i, j]) ||
+                        ROOM_LAYOUT[i, j].Contains(CurrentRoom))
+                    {
+                        Coordinates[0] = i;
+                        Coordinates[1] = j;
+                    }
+                }
             }
         }
 
@@ -103,20 +105,29 @@ namespace redrum_not_muckduck_game
                 UserInput == ConsoleKey.Enter;
         }
 
-        public void Render(string currentRoom)
+        public void Render(string currentRoom, string roomToGoTo = null)
         {
             CurrentRoom = currentRoom;
-            string map = GenerateMap();
+            string map = GenerateMap(roomToGoTo);
             Console.Clear();
             Console.WriteLine(map);
+            
         }
 
-        private string GenerateMap()
+        private string GenerateMap(string roomToGoTo = null)
         {
             GenerateRoomNamesToDisplay();
-            return $"" +
-           $"\n                Current room: {CurrentRoom}.\n" +
-            "                Press ENTER to exit the map.\n\n" +
+            string map = $"\n                Current room: {CurrentRoom}\n";
+            if (roomToGoTo == null)
+            {
+                map += "                Press ENTER to exit the map.\n\n";
+            } 
+            else
+            {
+                RoomToGoTo = roomToGoTo;
+                map += $"                Press ENTER to go to: {RoomToGoTo}\n\n";
+            }
+            return map +
             "   ╔═════════════════════════════╗         ╔═══════════════════╗\n" +
             "   ║             .               ║         ║                   ║\n" +
             "   ║             .               ║         ║                   ║\n" +
@@ -144,9 +155,18 @@ namespace redrum_not_muckduck_game
         {
             for (int i = 0; i < ALL_ROOM_NAMES.Length; i++)
             {
-                if (ALL_ROOM_NAMES[i].Equals(CurrentRoom) ||
+                if (RoomToGoTo != null &&
+                    (ALL_ROOM_NAMES[i].Equals(RoomToGoTo) ||
+                    ((RoomToGoTo.Contains("quality") || RoomToGoTo.Contains("Quality")) &&
+                    (ALL_ROOM_NAMES[i].Equals("Quality") || ALL_ROOM_NAMES[i].Equals("Assurance")))))
+                {
+                    prependCharacter = '*';
+                    appendCharacter = '*';
+                }
+                else if (RoomToGoTo == null &&
+                    (ALL_ROOM_NAMES[i].Equals(CurrentRoom) ||
                     ((CurrentRoom.Contains("quality") || CurrentRoom.Contains("Quality")) &&
-                    (ALL_ROOM_NAMES[i].Equals("Quality") || ALL_ROOM_NAMES[i].Equals("Assurance"))))
+                    (ALL_ROOM_NAMES[i].Equals("Quality") || ALL_ROOM_NAMES[i].Equals("Assurance")))))
                 {
                     prependCharacter = '*';
                     appendCharacter = '*';
