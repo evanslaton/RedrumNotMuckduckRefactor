@@ -54,15 +54,23 @@ namespace redrum_not_muckduck_game
             }
         }
 
+        //Maximum chars in a line, is 48
         public static void Quote(string quote)
         {
             int ROW_WHERE_QUOTE_STARTS = 14;
             int COLUMN_WHERE_QUOTE_STARTS = 1;
-            //string quote = Game.CurrentRoom.GetQuote();
+            int currentColumn = 0;
 
             for (int i = 0; i < quote.Length; i++)
             {
-                Board.board[ROW_WHERE_QUOTE_STARTS, COLUMN_WHERE_QUOTE_STARTS + i] = quote[i];
+                if (quote[i] == '*')
+                {
+                    i++;
+                    ROW_WHERE_QUOTE_STARTS++;
+                    currentColumn = 0;
+                }
+                Board.board[ROW_WHERE_QUOTE_STARTS, COLUMN_WHERE_QUOTE_STARTS + currentColumn] = quote[i];
+                currentColumn++;
             }
         }
 
@@ -83,12 +91,12 @@ namespace redrum_not_muckduck_game
 
         public static void OneLineQuestionOrQuote(string questionOrQuote)
         {
-            int ROW_WHERE_QUESITON_STARTS = 14;
+            int ROW_WHERE_QUESTION_STARTS = 14;
             int COLUMN_WHERE_QUESTION_STARTS = 1;
 
             for (int i = 0; i < questionOrQuote.Length; i++)
             {
-                Board.board[ROW_WHERE_QUESITON_STARTS, COLUMN_WHERE_QUESTION_STARTS + i] = questionOrQuote[i];
+                Board.board[ROW_WHERE_QUESTION_STARTS, COLUMN_WHERE_QUESTION_STARTS + i] = questionOrQuote[i];     
             }
         }
 

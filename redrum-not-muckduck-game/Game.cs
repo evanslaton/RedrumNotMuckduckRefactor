@@ -46,7 +46,7 @@ namespace redrum_not_muckduck_game
                "Angela's cat, Bandit",
               new Dictionary<string, string>()
                {
-                    { "Oscar", " : \"I am going into the ceiling\"" },
+                    { "Oscar", " : \"Angela, stay here. I am going*up into the ceiling to find*a way out and get help!\"" },
                     { "Angela", " : \"Oscar! Take me with you!\"" }
                },
                true
@@ -171,7 +171,7 @@ namespace redrum_not_muckduck_game
 
         private void StartSetUp()
         {
-            if (Is_Windows) { Sound.PlaySound("Theme.mp4", 1000); } //If device is windows - play music
+            //if (Is_Windows) { Sound.PlaySound("Theme.mp4", 1000); } //If device is windows - play music
             WelcomePage.AcsiiArt();
             WelcomePage.StoryIntro();
             Render.Location(CurrentRoom);
