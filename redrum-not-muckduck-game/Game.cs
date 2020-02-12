@@ -51,7 +51,7 @@ namespace redrum_not_muckduck_game
                     { "Oscar", " : \"Angela, stay here. I am going*up into the ceiling to find*a way out and get help!\"" },
                     { "Angela", " : \"Oscar! Take me with you!\"" }
                },
-              "Oscar fell through the ceiling!!!!",
+              "Oscar fell through the ceiling!!!! *You lose one Heart",
                true
                );
             Sales = new Room(
@@ -67,14 +67,14 @@ namespace redrum_not_muckduck_game
                     { "Stanley", " : \"What'll happen to Pretzal Day?!\"" },
                     { "Jim", " : \"Let's ram the door with the copier!\"" }
                    },
-               "You see a pretzel on Stanley's Desk",
+               "You see a pretzel on Stanley's Desk and *you choose to eat it *You gain one Heart",
                true
                );
             Kitchen = new Room(
                "Kitchen",
                "Why is Phyllis just standing here? " +
                "*She seems very disturbed... ",
-                "Oscar falling out of ceiling",
+                "Oscar falling out of ceiling *You lose one Heart",
                  new Dictionary<string, string>()
                 {
                     { "Phyllis", " : \"I saw Dwight come from the breakroom\"" }
@@ -88,7 +88,7 @@ namespace redrum_not_muckduck_game
                 "*time? Probably right?",
                 "vending machine",
                  new Dictionary<string, string>() { },
-                "Kevin Breaks into the vending machine and offers you a stack", 
+                "Kevin broke into the vending machine *and offers you a snack *You gain one Heart", 
                 false
                 );
             Reception = new Room(
@@ -249,25 +249,6 @@ namespace redrum_not_muckduck_game
 
         private void CheckIfItemHasBeenFound()
         {
-            int randomPercentage = PercentChanceGenerator();
-
-            Delete.Scene();
-            if (randomPercentage > 1)
-            {
-                Delete.Scene();
-                Render.ActionQuote(CurrentRoom.Action);
-                if (CurrentRoom.Name.Equals("Breakroom") || CurrentRoom.Name.Equals("Sales"))
-                {
-                    Board.Render();
-                    Number_of_Lives++;
-                }
-                else if (CurrentRoom.Name.Equals("Accounting"))
-                {
-                    Board.Render();
-                    Number_of_Lives--;
-                } 
-            } 
-
             Delete.Scene();
             if (CurrentRoom.HasItem)
             {
@@ -387,7 +368,37 @@ namespace redrum_not_muckduck_game
                 }
             }
             Render.Location(CurrentRoom);
+            RenderSpecialActionsInRooms();
             Render.SceneDescription();
+        }
+
+        private void RenderSpecialActionsInRooms()
+        {
+            int randomPercentage = PercentChanceGenerator();
+
+            Delete.Scene();
+            if (randomPercentage > 0)
+            {
+                Delete.Scene();
+                Render.ActionQuote(CurrentRoom.Action);
+                if (CurrentRoom.Name.Equals("Break Room") || CurrentRoom.Name.Equals("Sales"))
+                {
+                    if (Number_of_Lives < 3)
+                    {
+                        Number_of_Lives++;
+                        //Solution.LoseALife();
+                    }
+                }
+                else if (CurrentRoom.Name.Equals("Accounting"))
+                {
+                    Number_of_Lives--;
+                    Solution.LoseALife();
+                    if (Number_of_Lives <= 0)
+                        EndPage.LoseScene();
+                }
+                Board.Render();
+                Console.ReadKey(true);
+            }
         }
 
         private void CheckIfVistedRoom(string roomName)

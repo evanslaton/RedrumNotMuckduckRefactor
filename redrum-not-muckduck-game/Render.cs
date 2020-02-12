@@ -34,11 +34,19 @@ namespace redrum_not_muckduck_game
         public static void ActionQuote(string actionQuote)
         {
             int ROW_WHERE_ACTION_STARTS = 14;
-            int COLUMN_WHERE_ACTION_STARTS = 1;
+            int COLUMN_WHERE_ACTION_STARTS = 2;
+            int currentColumn = 0;
 
             for (int i = 0; i < actionQuote.Length; i++)
             {
-                Board.board[ROW_WHERE_ACTION_STARTS, COLUMN_WHERE_ACTION_STARTS + i] = actionQuote[i];
+                if (actionQuote[i] == '*')
+                {
+                    i++;
+                    ROW_WHERE_ACTION_STARTS++;
+                    currentColumn = 0;
+                }
+                Board.board[ROW_WHERE_ACTION_STARTS, COLUMN_WHERE_ACTION_STARTS + currentColumn] = actionQuote[i];
+                currentColumn++;
             }
         }
 
