@@ -135,7 +135,6 @@ namespace redrum_not_muckduck_game
         public void Play()
         {
             CheckForSavedData();
-            Board.Render();
             while (!Is_Game_Over)
             {
                 UserTurn();
@@ -193,7 +192,8 @@ namespace redrum_not_muckduck_game
             Console.WriteLine("Please enter a valid option: (explore, talk, leave, map, quit)");
             Console.Write("> ");
             string userChoice = Console.ReadLine().ToLower();
-            Console.WriteLine();
+            //unnecessary?
+            //Console.WriteLine();
 
             switch (userChoice)
             {
@@ -216,7 +216,8 @@ namespace redrum_not_muckduck_game
                 case "map":
                     Map.Render(CurrentRoom.Name);
                     ExitMap();
-                    Board.Render();
+                    //Do we need this one for a specific reason?
+                    //Board.Render();
                     break;
                 case "help":
                     HelpPage.Render();
@@ -225,8 +226,6 @@ namespace redrum_not_muckduck_game
                     HintPage.Render();
                     break;
                 default:
-                    //Board.Render();
-                    //Console.WriteLine("Please enter a valid option: (explore, talk, leave, map, quit)");
                     break;
             }
         }
@@ -260,7 +259,6 @@ namespace redrum_not_muckduck_game
             {
                 Render.OneLineQuestionOrQuote("Nothing left to explore");
             }
-            Board.Render();
         }
 
         private void TalkToPerson()
@@ -270,23 +268,21 @@ namespace redrum_not_muckduck_game
             if (CurrentRoom.PersonsInRoom.Count == 0)
             {
                 Render.Quote("There is no one in the room to talk to.");
-                Board.Render();
             }
             else
             {
             //Lists name of person in the current room then renders to UI
             Render.TalkChoices(CurrentRoom.PersonsInRoom);
-            Board.Render();
             //Prompts user input for name of who they want to talk to
             AskUserWhoToTalkTo();
             //AddQuoteToHintPage();
             CheckIfTalkingToMichael();
-            Board.Render();
             }
         }
 
         private void AskUserWhoToTalkTo()
         {
+            Board.Render();
             string nameSelected;
             do
             {
@@ -294,8 +290,6 @@ namespace redrum_not_muckduck_game
                 nameSelected = Console.ReadLine().ToLower();
             }
             while (!ValidateTalkSelection(nameSelected));
-            //Renders quote of selected person upon valid player input
-            Board.Render();
         }
 
         private bool ValidateTalkSelection(string nameSelected)
@@ -368,6 +362,7 @@ namespace redrum_not_muckduck_game
             }
             Render.Location(CurrentRoom);
             RenderSpecialActionsInRooms();
+            Delete.Scene();
             Render.SceneDescription();
         }
 
@@ -384,8 +379,10 @@ namespace redrum_not_muckduck_game
                 {
                     if (Number_of_Lives < 3)
                     {
+                        Solution.GainALife();
+                        //This must occur prior to rendering the heart to prevent it being out of bounds
+                        //This is opposite of actions that lose a life due to how the Gain/Loss methods 
                         Number_of_Lives++;
-                        //Solution.LoseALife();
                     }
                     Board.Render();
                     System.Console.WriteLine("Press any key to continue:");
