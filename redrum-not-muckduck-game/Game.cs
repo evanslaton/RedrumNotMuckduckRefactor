@@ -14,6 +14,7 @@ namespace redrum_not_muckduck_game
         public static Room Accounting { get; set; }
         public static Room Sales { get; set; }
         public static Room Kitchen { get; set; }
+        public static Room Quality_Assurance { get; set; }
         public static Room Breakroom { get; set; }
         public static Room Reception { get; set; }
         public static Room Annex { get; set; }
@@ -54,6 +55,18 @@ namespace redrum_not_muckduck_game
               "Oscar fell through the ceiling!!!! *You lose one Heart",
                true
                );
+            Quality_Assurance = new Room(
+                "Quality Assurance",
+                "Creed and Meredith are sitting at their desks",
+                "There are no items in this room",
+                new Dictionary<string, string>()
+                {
+                    { "Creed", " : \"Hey I think I smell smoked ribs\""},
+                    { "Meredith", " : \"Mmmmmmmmmmm\""}
+                },
+                "",
+                false
+                );
             Sales = new Room(
                "Sales",
                "Chaos ensues as the smoke thickens. " +
@@ -124,12 +137,13 @@ namespace redrum_not_muckduck_game
             CurrentRoom = Accounting;
 
             Accounting.AdjacentRooms = new List<Room> { Sales };
+            Quality_Assurance.AdjacentRooms = new List<Room> { Sales, Accounting, Kitchen };
             Sales.AdjacentRooms = new List<Room> { Reception, Accounting, Kitchen };
             Reception.AdjacentRooms = new List<Room> { Sales };
             Kitchen.AdjacentRooms = new List<Room> { Sales, Annex };
             Annex.AdjacentRooms = new List<Room> { Kitchen, Breakroom };
             Breakroom.AdjacentRooms = new List<Room> { Annex };
-            List_Of_All_Rooms = new List<Room> { Accounting, Sales, Reception, Kitchen, Annex, Breakroom };
+            List_Of_All_Rooms = new List<Room> { Accounting, Quality_Assurance, Sales, Reception, Kitchen, Annex, Breakroom };
         }
 
         public void Play()
