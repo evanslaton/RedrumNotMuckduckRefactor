@@ -30,6 +30,12 @@ namespace redrum_not_muckduck_game
         {
             Console.Clear();
             Console.WriteLine(HelpPageMessage);
+
+            ConsoleKey key;
+            do
+            {
+                key = Console.ReadKey(true).Key;
+            } while (key != ConsoleKey.Enter);
         }
     }
 }

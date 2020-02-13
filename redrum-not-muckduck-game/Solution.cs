@@ -31,6 +31,7 @@ namespace redrum_not_muckduck_game
                 string userGuess = Console.ReadLine();
                 if (userGuess.ToLower() != Solutions[i])
                 {
+                    Game.Number_of_Lives--;
                     LoseALife();
                     WrongGuess();
                     return false; //Wrong guess - return false so that the game continues
@@ -79,7 +80,35 @@ namespace redrum_not_muckduck_game
                     Board.board[ROW_WHERE_HEARTS_START + i, heartDeletionStartColumn + j] = ' ';
                 }
             }
-            //Game.Number_of_Lives -= 1;
+        }
+
+        public static void GainALife()
+        {
+            //first character column of life starts at 50 and ends at 78
+            //first character row of life starts at 2 and ends at 6
+            int COLUMN_WHERE_HEARTS_START = 50;
+            int ROW_WHERE_HEARTS_START = 2;
+            int WIDTH_OF_HEART = 9;
+            int HEIGHT_OF_HEART = 4;
+            int currentColumn = 0;
+            int heartStringIndex = 0;
+            int heartAdditionStartColumn =
+                COLUMN_WHERE_HEARTS_START +
+                //Adjusts Column to first char of last heart
+                ((Game.Number_of_Lives) * WIDTH_OF_HEART) +
+                //Adjusts for spaces between hearts
+                (Game.Number_of_Lives);
+            string heart =  " .-. .-. " + "|   \'   |" + " \'~_ _~\' " + "    \'    ";
+            for (int i = 0; i < HEIGHT_OF_HEART; i++)
+            {
+                for (int j = 0; j < WIDTH_OF_HEART; j++)
+                {
+                    Board.board[ROW_WHERE_HEARTS_START + i, heartAdditionStartColumn + currentColumn] = heart[heartStringIndex];
+                    currentColumn++;
+                    heartStringIndex++;
+                }
+                currentColumn = 0;
+            }
         }
     }
 }
