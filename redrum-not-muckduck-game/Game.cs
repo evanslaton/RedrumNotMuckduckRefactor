@@ -135,7 +135,6 @@ namespace redrum_not_muckduck_game
         public void Play()
         {
             CheckForSavedData();
-            //Board.Render();
             while (!Is_Game_Over)
             {
                 UserTurn();
@@ -190,7 +189,6 @@ namespace redrum_not_muckduck_game
         private void UserTurn()
         {
             Board.Render();
-            Console.WriteLine($"{ Game.Number_of_Lives}");
             Console.WriteLine("Please enter a valid option: (explore, talk, leave, map, quit)");
             Console.Write("> ");
             string userChoice = Console.ReadLine().ToLower();
@@ -228,8 +226,6 @@ namespace redrum_not_muckduck_game
                     HintPage.Render();
                     break;
                 default:
-                    //Board.Render();
-                    //Console.WriteLine("Please enter a valid option: (explore, talk, leave, map, quit)");
                     break;
             }
         }
