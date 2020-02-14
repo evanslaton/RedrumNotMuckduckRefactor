@@ -135,7 +135,7 @@ namespace redrum_not_muckduck_game
         {
             int ROW_WHERE_ITEMS_START = 8;
             int COLUMN_WHERE_ITEMS_START = 50;
-            int ROW_TO_INSERT_NEW_ITEM = ROW_WHERE_ITEMS_START + Game.Number_of_Items;
+            int ROW_TO_INSERT_NEW_ITEM = ROW_WHERE_ITEMS_START + Game.NumberOfItems;
 
             for (int i = 0; i < foundItem.Length; i++)
             {
@@ -147,7 +147,7 @@ namespace redrum_not_muckduck_game
         {
             int ROW_WHERE_ROOM_START = 14;
             int COLUMN_WHERE_ROOM_START = 50;
-            int ROW_TO_INSERT_ROOM = ROW_WHERE_ROOM_START + Game.Visited_Rooms.Count;
+            int ROW_TO_INSERT_ROOM = ROW_WHERE_ROOM_START + Game.VisitedRooms.Count;
 
             for (int i = 0; i < room.Length; i++)
             {

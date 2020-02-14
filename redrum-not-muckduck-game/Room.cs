@@ -13,7 +13,8 @@ namespace redrum_not_muckduck_game
         public string Action { get; set; }
         public bool HasItem { get; set; }
 
-        public Room(string roomName, string description, string itemInRoom, Dictionary<string, string> personsInRoom, string action, bool hasItem)
+        public Room(string roomName, string description, string itemInRoom,
+            Dictionary<string, string> personsInRoom, string action, bool hasItem)
         {
             Name = roomName;
             Description = description; 
@@ -31,6 +32,20 @@ namespace redrum_not_muckduck_game
         public int GetNameLength()
         {
             return Name.Length;
+        }
+
+        public static List<Room> CreateRooms()
+        {
+            return new List<Room>
+            {
+                CreateAccounting(),
+                CreateAnnex(),
+                CreateBreakRoom(),
+                CreateKitchen(),
+                CreateQualityAssurance(),
+                CreateReception(),
+                CreateSales()
+            };
         }
 
         public static Room CreateAccounting()
@@ -52,23 +67,25 @@ namespace redrum_not_muckduck_game
             );
         }
 
-        public static Room CreateSales() {
+        public static Room CreateAnnex()
+        {
             return new Room(
-                "Sales",
-                "Chaos ensues as the smoke thickens. " +
-                "*Andy is frantically running in circles and " +
-                "*knocks over his trash can, something makes " +
-                "*a thud sound as it falls out.",
-                "a random torch",
-                new Dictionary<string, string>()
-                {
-                    { "Andy", " : \"This would never happen at Cornell...\"" },
-                    { "Stanley", " : \"What'll happen to Pretzal Day?!\"" },
-                    { "Jim", " : \"Let's ram the door with the copier!\"" }
-                },
-                "You see a pretzel on Stanley's Desk and *you choose to eat it *You gain one Heart",
-                true
-            );
+                 "Annex",
+                 "You have made it to the " +
+                 "*back of the office " +
+                 "*you should probably go back. " +
+                 "*Kelly waits around for Ryan. " +
+                 "*He doesn't smoke cigarettes does " +
+                 "*he?",
+                 "beet stained cigs",
+                 new Dictionary<string, string>()
+                 {
+                    { "Kelly", " : \"Why does Dwight have a blow horn?\"" },
+                    { "Toby", " : \"I wish I were in Costa Rica still...\"" }
+                 },
+                 "",
+                 true
+             );
         }
 
         public static Room CreateBreakRoom()
@@ -80,6 +97,38 @@ namespace redrum_not_muckduck_game
                 "vending machine",
                  new Dictionary<string, string>() { },
                 "Kevin broke into the vending machine *and offers you a snack *You gain one Heart",
+                false
+            );
+        }
+
+        public static Room CreateKitchen()
+        {
+            return new Room(
+               "Kitchen",
+               "Why is Phyllis just standing here? " +
+               "*She seems very disturbed... ",
+                "Oscar falling out of ceiling *You lose one Heart",
+                 new Dictionary<string, string>()
+                {
+                    { "Phyllis", " : \"I saw Dwight come from the breakroom\"" }
+                },
+                "",
+                false
+             );
+        }
+
+        public static Room CreateQualityAssurance()
+        {
+            return new Room(
+                "Quality Assurance",
+                "Creed and Meredith are sitting at their desks",
+                "There are no items in this room",
+                new Dictionary<string, string>()
+                {
+                    { "Creed", " : \"Hey I think I smell smoked ribs\""},
+                    { "Meredith", " : \"Mmmmmmmmmmm\""}
+                },
+                "",
                 false
             );
         }
@@ -100,23 +149,21 @@ namespace redrum_not_muckduck_game
             );
         }
 
-        public static Room CreateAnnex()
-        {
-           return  new Room(
-                "Annex",
-                "You have made it to the " +
-                "*back of the office " +
-                "*you should probably go back. " +
-                "*Kelly waits around for Ryan. " +
-                "*He doesn't smoke cigarettes does " +
-                "*he?",
-                "beet stained cigs",
+        public static Room CreateSales() {
+            return new Room(
+                "Sales",
+                "Chaos ensues as the smoke thickens. " +
+                "*Andy is frantically running in circles and " +
+                "*knocks over his trash can, something makes " +
+                "*a thud sound as it falls out.",
+                "a random torch",
                 new Dictionary<string, string>()
                 {
-                    { "Kelly", " : \"Why does Dwight have a blow horn?\"" },
-                    { "Toby", " : \"I wish I were in Costa Rica still...\"" }
+                    { "Andy", " : \"This would never happen at Cornell...\"" },
+                    { "Stanley", " : \"What'll happen to Pretzal Day?!\"" },
+                    { "Jim", " : \"Let's ram the door with the copier!\"" }
                 },
-                "",
+                "You see a pretzel on Stanley's Desk and *you choose to eat it *You gain one Heart",
                 true
             );
         }

@@ -30,7 +30,7 @@ namespace redrum_not_muckduck_game
         public void Render()
         {
             Console.Clear();
-            if(Saved_Hints == 0 && Game.Collected_Hints.Count == 0)
+            if(Saved_Hints == 0 && Game.CollectedHints.Count == 0)
             {
                 string defaultHint = "No Hint Collected";
                 DisplayHints(defaultHint);

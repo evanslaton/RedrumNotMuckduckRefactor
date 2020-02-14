@@ -6,115 +6,34 @@ using Console = Colorful.Console;
 
 namespace redrum_not_muckduck_game
 {
-    // This class controls the game logic
-    // You can find the game loop, user turn loop, navigation logic, and sets the scene for the game
     class Game
     {
+        public static readonly bool Is_Windows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
         private static Random rand = new Random();
-        public static Room Accounting { get; set; }
-        public static Room Sales { get; set; }
-        public static Room Kitchen { get; set; }
-        public static Room Breakroom { get; set; }
-        public static Room Reception { get; set; }
-        public static Room Annex { get; set; }
-        public static Room Exit { get; set; }
         public static Room CurrentRoom { get; set; }
-        public static List<Room> List_Of_All_Rooms { get; set; }
-        public static int Number_of_Lives { get; set; } = 3;
-        public static int Number_of_Items { get; set; } = 0;
-        public static int Number_of_Rooms { get; set; } = 0;
-        public static int Number_of_Names { get; set; } = 0;
-        public static bool Is_Game_Over { get; set; } = false;
-        public static bool userQuitGame { get; set; } = false;
-        public static List<string> Collected_Hints { get; set; } = new List<string>();
-        public static List<string> Visited_Rooms { get; set; } = new List<string>();
-        public Map Map = new Map();
-
-        //Instances of all "pages/scences" within the game
+        public static List<Room> AllRooms { get; set; }
+        public static int NumberOfLives { get; set; } = 3;
+        public static int NumberOfItems { get; set; } = 0;
+        public static int NumberOfNames { get; set; } = 0;
+        public static bool IsGameOver { get; set; } = false;
+        public static bool UserQuitGame { get; set; } = false;
+        public static List<string> CollectedHints { get; set; } = new List<string>();
+        public static List<string> VisitedRooms { get; set; } = new List<string>();
         public static Board Board = new Board();
         public static HelpPage HelpPage = new HelpPage();
         public static HintPage HintPage = new HintPage();
-        //Checks OS of user
-        public static readonly bool Is_Windows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+        public Map Map = new Map();
 
         public Game()
         {
-            Accounting = Room.CreateAccounting();
-            Sales = new Room(
-               "Sales",
-               "Chaos ensues as the smoke thickens. " +
-               "*Andy is frantically running in circles and " +
-               "*knocks over his trash can, something makes " +
-               "*a thud sound as it falls out.",
-               "a random torch",
-               new Dictionary<string, string>()
-                   {
-                    { "Andy", " : \"This would never happen at Cornell...\"" },
-                    { "Stanley", " : \"What'll happen to Pretzal Day?!\"" },
-                    { "Jim", " : \"Let's ram the door with the copier!\"" }
-                   },
-               "You see a pretzel on Stanley's Desk and *you choose to eat it *You gain one Heart",
-               true
-               );
-            Kitchen = new Room(
-               "Kitchen",
-               "Why is Phyllis just standing here? " +
-               "*She seems very disturbed... ",
-                "Oscar falling out of ceiling *You lose one Heart",
-                 new Dictionary<string, string>()
-                {
-                    { "Phyllis", " : \"I saw Dwight come from the breakroom\"" }
-                },
-                "",
-                false
-                );
-            Breakroom = new Room(
-                "Break Room",
-                "You are hungry but is there " +
-                "*time? Probably right?",
-                "vending machine",
-                 new Dictionary<string, string>() { },
-                "Kevin broke into the vending machine *and offers you a snack *You gain one Heart", 
-                false
-                );
-            Reception = new Room(
-                "Reception",
-                "Michael waits to hear what " +
-                "*you think happened today",
-                "no item",
-                new Dictionary<string, string>()
-                {
-                    { "Michael", " : \"Would you like to solve the puzzle?\"" }
-                },
-                "",
-                false
-                );
-            Annex = new Room(
-                "Annex",
-                "You have made it to the " +
-                "*back of the office " +
-                "*you should probably go back. " +
-                "*Kelly waits around for Ryan. " +
-                "*He doesn't smoke cigarettes does " +
-                "*he?",
-                "beet stained cigs",
-                new Dictionary<string, string>()
-                {
-                    { "Kelly", " : \"Why does Dwight have a blow horn?\"" },
-                    { "Toby", " : \"I wish I were in Costa Rica still...\"" }
-                },
-                "",
-                true
-                );
-
-            CurrentRoom = Accounting;
-            List_Of_All_Rooms = new List<Room> { Accounting, Sales, Reception, Kitchen, Annex, Breakroom };
+            AllRooms = Room.CreateRooms();
+            CurrentRoom = AllRooms[0];
         }
 
         public void Play()
         {
             CheckForSavedData();
-            while (!Is_Game_Over)
+            while (!IsGameOver)
             {
                 UserTurn();
             }
@@ -130,7 +49,7 @@ namespace redrum_not_muckduck_game
             SaveElements.GetWorkingElementDirectory();
             SaveHints.GetWorkingHintDirectory();
 
-            //Create files
+            //Create files if they don't exist
             if (!File.Exists(SaveWholeBoard.WorkingBoardDirectory))
             {
                 File.Create(SaveVisitedRooms.WorkingVisitedRoomsDirectory);
@@ -186,8 +105,8 @@ namespace redrum_not_muckduck_game
                     TalkToPerson();
                     break;
                 case "quit":
-                    Is_Game_Over = true;
-                    userQuitGame = true;
+                    IsGameOver = true;
+                    UserQuitGame = true;
                     break;
                 case "save":
                     SaveTheGame();
@@ -195,8 +114,6 @@ namespace redrum_not_muckduck_game
                 case "map":
                     Map.Render(CurrentRoom.Name);
                     ExitMap();
-                    //Do we need this one for a specific reason?
-                    //Board.Render();
                     break;
                 case "help":
                     HelpPage.Render();
@@ -232,7 +149,7 @@ namespace redrum_not_muckduck_game
                 Render.OneLineQuestionOrQuote($"You found: {CurrentRoom.ItemInRoom}");
                 Render.ItemToFoundItems(CurrentRoom.ItemInRoom);
                 CurrentRoom.HasItem = !CurrentRoom.HasItem;
-                Number_of_Items++;
+                NumberOfItems++;
             }
             else
             {
@@ -314,7 +231,7 @@ namespace redrum_not_muckduck_game
                 if (userWantsToSolve)
                 {
                     //If the user would like to solve the puzzle - check their answers
-                    Is_Game_Over = Solution.CheckSolution();
+                    IsGameOver = Solution.CheckSolution();
                     CheckHealth();
                 }
                 else
@@ -331,7 +248,7 @@ namespace redrum_not_muckduck_game
             Delete.Scene();
             Delete.Location(CurrentRoom);
             //Loop through adjacent rooms to see which one the user selected
-            foreach (Room Room in List_Of_All_Rooms)
+            foreach (Room Room in AllRooms)
             {
                 if (nextRoom.ToLower() == Room.GetNameToLowerCase())
                 {
@@ -356,12 +273,12 @@ namespace redrum_not_muckduck_game
                 Render.ActionQuote(CurrentRoom.Action);
                 if (CurrentRoom.Name.Equals("Break Room") || CurrentRoom.Name.Equals("Sales"))
                 {
-                    if (Number_of_Lives < 3)
+                    if (NumberOfLives < 3)
                     {
                         Solution.GainALife();
                         //This must occur prior to rendering the heart to prevent it being out of bounds
                         //This is opposite of actions that lose a life due to how the Gain/Loss methods 
-                        Number_of_Lives++;
+                        NumberOfLives++;
                     }
                     Board.Render();
                     System.Console.WriteLine("Press any key to continue:");
@@ -369,9 +286,9 @@ namespace redrum_not_muckduck_game
                 }
                 else if (CurrentRoom.Name.Equals("Accounting"))
                 {
-                    Number_of_Lives--;
+                    NumberOfLives--;
                     Solution.LoseALife();
-                    if (Number_of_Lives <= 0)
+                    if (NumberOfLives <= 0)
                         EndPage.LoseScene();
                     Board.Render();
                     System.Console.WriteLine("Press any key to continue:");
@@ -382,11 +299,10 @@ namespace redrum_not_muckduck_game
 
         private void CheckIfVistedRoom(string roomName)
         {
-            if (!Visited_Rooms.Contains(roomName))
+            if (!VisitedRooms.Contains(roomName))
             {
-                Visited_Rooms.Add(roomName); //Add room to list of seen rooms
+                VisitedRooms.Add(roomName); //Add room to list of seen rooms
                 Render.VistedRooms(roomName); //Render to the board
-                Number_of_Rooms++;
             }
         }
 
@@ -408,27 +324,33 @@ namespace redrum_not_muckduck_game
 
         private void CheckHealth()
         {
-            if (Number_of_Lives == 0)
+            if (NumberOfLives == 0)
             {
-                Is_Game_Over = true;
+                IsGameOver = true;
             }
         }
 
         private void EndOfGame()
         {
-            if (Number_of_Lives == 0)
+            if (NumberOfLives == 0)
             { 
                 EndPage.LoseScene();
+                ResetSaveData();
             }
-            else if (userQuitGame)
+            else if (UserQuitGame)
             {
                 EndPage.QuitScene();
             }
             else
             {
                 EndPage.WinScene();
+                ResetSaveData();
             }
             EndPage.ThankYouAsciiArt();
+        }
+
+        private void ResetSaveData()
+        {
             SaveHintQuotes.ResetHintQuotesFile();
             SaveVisitedRooms.ResetVisitedRoomsFile();
             SaveHints.ResetHintsFile();
