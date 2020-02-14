@@ -9,28 +9,6 @@ namespace redrum_not_muckduck_game
     {
         private static readonly string[] Actions = new string[] { "- explore", "- talk to someone", "- leave the current room", "- map", "- quit playing" };
 
-        public static void AdjacentRooms()
-        {
-            int ROW_WHERE_OPTIONS_START = 14;
-            int COLUMN_WHERE_OPTIONS_START = 2;
-            string header = "You have the choice to go to: ";
-
-            for (int i = 0; i < header.Length; i++)
-            {
-                Board.board[ROW_WHERE_OPTIONS_START, COLUMN_WHERE_OPTIONS_START + i] = header[i];
-            }
-            ROW_WHERE_OPTIONS_START++;
-
-            foreach (Room Room in Game.CurrentRoom.AdjacentRooms)
-            {
-                for (int i = 0; i < Room.GetNameLength(); i++)
-                {
-                    Board.board[ROW_WHERE_OPTIONS_START, COLUMN_WHERE_OPTIONS_START + i] = Room.Name[i];
-                }
-                ROW_WHERE_OPTIONS_START++;
-            }
-        }
-
         public static void ActionQuote(string actionQuote)
         {
             int ROW_WHERE_ACTION_STARTS = 14;

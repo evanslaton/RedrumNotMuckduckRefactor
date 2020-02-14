@@ -39,21 +39,7 @@ namespace redrum_not_muckduck_game
 
         public Game()
         {
-            Accounting = new Room(
-               "Accounting",
-               "Your desk is covered in M&Ms.  " +
-               "*Oscar is trying to find an exit.  " +
-               "*Out of the corner of your eye, you " +
-               "*see a drawer slowly open. ",
-               "Angela's cat, Bandit",
-              new Dictionary<string, string>()
-               {
-                    { "Oscar", " : \"Angela, stay here. I am going*up into the ceiling to find*a way out and get help!\"" },
-                    { "Angela", " : \"Oscar! Take me with you!\"" }
-               },
-              "Oscar fell through the ceiling!!!! *You lose one Heart",
-               true
-               );
+            Accounting = Room.CreateAccounting();
             Sales = new Room(
                "Sales",
                "Chaos ensues as the smoke thickens. " +
@@ -122,13 +108,6 @@ namespace redrum_not_muckduck_game
                 );
 
             CurrentRoom = Accounting;
-
-            Accounting.AdjacentRooms = new List<Room> { Sales };
-            Sales.AdjacentRooms = new List<Room> { Reception, Accounting, Kitchen };
-            Reception.AdjacentRooms = new List<Room> { Sales };
-            Kitchen.AdjacentRooms = new List<Room> { Sales, Annex };
-            Annex.AdjacentRooms = new List<Room> { Kitchen, Breakroom };
-            Breakroom.AdjacentRooms = new List<Room> { Annex };
             List_Of_All_Rooms = new List<Room> { Accounting, Sales, Reception, Kitchen, Annex, Breakroom };
         }
 
