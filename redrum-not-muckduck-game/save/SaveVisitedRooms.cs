@@ -14,7 +14,7 @@ namespace redrum_not_muckduck_game
         {
             SaveVisitedRooms SavedRoomsLists = new SaveVisitedRooms
             {
-                VisitedRooms = string.Join(",", Game.Visited_Rooms),
+                VisitedRooms = string.Join(",", Game.VisitedRooms),
             };
             File.WriteAllText(WorkingVisitedRoomsDirectory, JsonConvert.SerializeObject(SavedRoomsLists));
         }
@@ -27,7 +27,7 @@ namespace redrum_not_muckduck_game
                 .Replace("}", string.Empty)
                 .Replace("\"", string.Empty);
 
-            Game.Visited_Rooms = myVisitedRoomsFile.Split(',').ToList();
+            Game.VisitedRooms = myVisitedRoomsFile.Split(',').ToList();
         }
         
         public static void GetWorkingVisitedRoomsDirectory()

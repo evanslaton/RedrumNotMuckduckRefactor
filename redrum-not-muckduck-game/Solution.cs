@@ -31,7 +31,7 @@ namespace redrum_not_muckduck_game
                 string userGuess = Console.ReadLine();
                 if (userGuess.ToLower() != Solutions[i])
                 {
-                    Game.Number_of_Lives--;
+                    Game.NumberOfLives--;
                     LoseALife();
                     WrongGuess();
                     return false; //Wrong guess - return false so that the game continues
@@ -70,9 +70,9 @@ namespace redrum_not_muckduck_game
             int heartDeletionStartColumn = 
                 COLUMN_WHERE_HEARTS_START +
                 //Adjusts Column to first char of last heart
-                ((Game.Number_of_Lives) * WIDTH_OF_HEART) +
+                ((Game.NumberOfLives) * WIDTH_OF_HEART) +
                 //Adjusts for spaces between hearts
-                (Game.Number_of_Lives);
+                (Game.NumberOfLives);
             for (int i = 0; i < HEIGHT_OF_HEART; i++)
             {
                 for (int j = 0; j < WIDTH_OF_HEART; j++)
@@ -95,9 +95,9 @@ namespace redrum_not_muckduck_game
             int heartAdditionStartColumn =
                 COLUMN_WHERE_HEARTS_START +
                 //Adjusts Column to first char of last heart
-                ((Game.Number_of_Lives) * WIDTH_OF_HEART) +
+                ((Game.NumberOfLives) * WIDTH_OF_HEART) +
                 //Adjusts for spaces between hearts
-                (Game.Number_of_Lives);
+                (Game.NumberOfLives);
             string heart =  " .-. .-. " + "|   \'   |" + " \'~_ _~\' " + "    \'    ";
             for (int i = 0; i < HEIGHT_OF_HEART; i++)
             {

@@ -14,7 +14,7 @@ namespace redrum_not_muckduck_game
         {
             SaveHintQuotes SavedHintsLists = new SaveHintQuotes
             {
-                SeenHints = string.Join(",", Game.Collected_Hints),
+                SeenHints = string.Join(",", Game.CollectedHints),
             };
             File.WriteAllText(WorkingHintQuotesDirectory, JsonConvert.SerializeObject(SavedHintsLists));
         }
@@ -27,13 +27,13 @@ namespace redrum_not_muckduck_game
                 .Replace("}", string.Empty)
                 .Replace("\"", string.Empty);
 
-            Game.Collected_Hints = myHintQuotesFile.Split(',').ToList();
+            Game.CollectedHints = myHintQuotesFile.Split(',').ToList();
             AddHintsToBoard();
         }
 
         public static void AddHintsToBoard()
         {
-            foreach (string hint in Game.Collected_Hints)
+            foreach (string hint in Game.CollectedHints)
             {
                 Game.HintPage.DisplayHints(hint);
             }

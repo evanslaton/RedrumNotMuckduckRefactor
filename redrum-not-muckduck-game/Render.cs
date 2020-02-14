@@ -9,28 +9,6 @@ namespace redrum_not_muckduck_game
     {
         private static readonly string[] Actions = new string[] { "- explore", "- talk to someone", "- leave the current room", "- map", "- quit playing" };
 
-        public static void AdjacentRooms()
-        {
-            int ROW_WHERE_OPTIONS_START = 14;
-            int COLUMN_WHERE_OPTIONS_START = 2;
-            string header = "You have the choice to go to: ";
-
-            for (int i = 0; i < header.Length; i++)
-            {
-                Board.board[ROW_WHERE_OPTIONS_START, COLUMN_WHERE_OPTIONS_START + i] = header[i];
-            }
-            ROW_WHERE_OPTIONS_START++;
-
-            foreach (Room Room in Game.CurrentRoom.AdjacentRooms)
-            {
-                for (int i = 0; i < Room.GetNameLength(); i++)
-                {
-                    Board.board[ROW_WHERE_OPTIONS_START, COLUMN_WHERE_OPTIONS_START + i] = Room.Name[i];
-                }
-                ROW_WHERE_OPTIONS_START++;
-            }
-        }
-
         public static void ActionQuote(string actionQuote)
         {
             int ROW_WHERE_ACTION_STARTS = 14;
@@ -157,7 +135,7 @@ namespace redrum_not_muckduck_game
         {
             int ROW_WHERE_ITEMS_START = 8;
             int COLUMN_WHERE_ITEMS_START = 50;
-            int ROW_TO_INSERT_NEW_ITEM = ROW_WHERE_ITEMS_START + Game.Number_of_Items;
+            int ROW_TO_INSERT_NEW_ITEM = ROW_WHERE_ITEMS_START + Game.NumberOfItems;
 
             for (int i = 0; i < foundItem.Length; i++)
             {
@@ -169,7 +147,7 @@ namespace redrum_not_muckduck_game
         {
             int ROW_WHERE_ROOM_START = 14;
             int COLUMN_WHERE_ROOM_START = 50;
-            int ROW_TO_INSERT_ROOM = ROW_WHERE_ROOM_START + Game.Visited_Rooms.Count;
+            int ROW_TO_INSERT_ROOM = ROW_WHERE_ROOM_START + Game.VisitedRooms.Count;
 
             for (int i = 0; i < room.Length; i++)
             {

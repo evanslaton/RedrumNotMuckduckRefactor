@@ -21,14 +21,14 @@ namespace redrum_not_muckduck_game
         {
             SaveElements SaveElements = new SaveElements
             {
-                AccountingItem = Game.Accounting.HasItem.ToString(),
-                SalesItem = Game.Sales.HasItem.ToString(),
-                AnnexItem = Game.Annex.HasItem.ToString(),
+                //AccountingItem = Game.Accounting.HasItem.ToString(),
+                //SalesItem = Game.Sales.HasItem.ToString(),
+                //AnnexItem = Game.Annex.HasItem.ToString(),
                 TheCurrentRoom = Game.CurrentRoom.Name,
-                NumberofVisitedRooms = Game.Number_of_Rooms,
-                NumberofItems = Game.Number_of_Items,
-                NumberofLives = Game.Number_of_Lives,
-                NumberofHints = Game.Collected_Hints.Count(),
+                NumberofVisitedRooms = Game.NumberOfRooms,
+                NumberofItems = Game.NumberOfItems,
+                NumberofLives = Game.NumberOfLives,
+                NumberofHints = Game.CollectedHints.Count(),
             };
             
             File.WriteAllText(WorkingElementDirectory, JsonConvert.SerializeObject(SaveElements));
@@ -43,13 +43,13 @@ namespace redrum_not_muckduck_game
               .Select(s => s.Split(':'))
               .ToDictionary(a => a[0].Trim(), a => a[1].Trim());
 
-            Game.Accounting.HasItem = Convert.ToBoolean(dict["AccountingItem"]);
-            Game.Sales.HasItem = Convert.ToBoolean(dict["SalesItem"]);
-            Game.Annex.HasItem = Convert.ToBoolean(dict["AnnexItem"]);
+            //Game.Accounting.HasItem = Convert.ToBoolean(dict["AccountingItem"]);
+            //Game.Sales.HasItem = Convert.ToBoolean(dict["SalesItem"]);
+            //Game.Annex.HasItem = Convert.ToBoolean(dict["AnnexItem"]);
             Game.CurrentRoom.Name = dict["TheCurrentRoom"];
-            Game.Number_of_Rooms = Int32.Parse(dict["NumberofVisitedRooms"]);
-            Game.Number_of_Items = Int32.Parse(dict["NumberofItems"]);
-            Game.Number_of_Lives = Int32.Parse(dict["NumberofLives"]);
+            Game.NumberOfRooms = Int32.Parse(dict["NumberofVisitedRooms"]);
+            Game.NumberOfItems = Int32.Parse(dict["NumberofItems"]);
+            Game.NumberOfLives = Int32.Parse(dict["NumberofLives"]);
             HintPage.Saved_Hints = Int32.Parse(dict["NumberofHints"]);
 
             UpdateRoom();
@@ -57,7 +57,7 @@ namespace redrum_not_muckduck_game
 
         public static void UpdateRoom()
         {
-            foreach (Room room in Game.List_Of_All_Rooms)
+            foreach (Room room in Game.AllRooms)
             {
                 if(Game.CurrentRoom.Name == room.Name)
                 {
