@@ -5,13 +5,11 @@ using Console = Colorful.Console;
 
 namespace redrum_not_muckduck_game
 {
-    // This class creates the board
-    // You can control the size, color, and updating user progress
     public class Board
     {
         public static char[,] GameBoard { get; set; }
-        internal int BOARD_DIMENSION_ROWS = 30;
-        internal int BOARD_DIMENSION_COLUMNS = 80;
+        internal const int BOARD_DIMENSION_ROWS = 30;
+        internal const int BOARD_DIMENSION_COLUMNS = 80;
 
         public Board()
         {
@@ -20,8 +18,6 @@ namespace redrum_not_muckduck_game
 
         public void Render()
         {
-            // This method goes through each row and column of the 2D board to print
-            // out each character
             Console.Clear();
             for (int row = 0; row < BOARD_DIMENSION_ROWS; row++)
             {
@@ -64,9 +60,9 @@ namespace redrum_not_muckduck_game
         public char[,] Create()
         {
             // Creates default board to be updated throughout game
-            return new char[30,80] //new char[] accepts constant values only - this is the same as new char[BOARD_DIMENSON_ROWS,BOARD_DIMENSION_COLUMNS]
+            return new char[BOARD_DIMENSION_ROWS, BOARD_DIMENSION_COLUMNS] //new char[] accepts constant values only - this is the same as new char[BOARD_DIMENSON_ROWS,BOARD_DIMENSION_COLUMNS]
             {
-                {'|','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','|'},
+    {'|','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','|'},
                 {'|','Y','O','U','R',' ','L','O','C','A','T','I','O','N',':',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','|','H','E','A','L','T','H',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','|'},
                 {'|',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','|',' ','.','-','.',' ','.','-','.',' ',' ',' ','.','-','.',' ','.','-','.',' ',' ',' ','.','-','.',' ','.','-','.',' ','|'},
                 {'|',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','|','|',' ',' ',' ','\'',' ',' ',' ','|',' ','|',' ',' ',' ','\'',' ',' ',' ','|',' ','|',' ',' ',' ','\'',' ',' ',' ','|','|'},

@@ -22,7 +22,6 @@ namespace redrum_not_muckduck_game
         public static List<string> VisitedRooms { get; set; } = new List<string>();
         public static Board Board { get; set; } = new Board();
         public static HelpPage HelpPage = new HelpPage();
-        public static HintPage HintPage = new HintPage();
         public Map Map = new Map();
 
         public Game()
@@ -60,7 +59,7 @@ namespace redrum_not_muckduck_game
 
         private void StartSetUp()
         {
-            //if (Is_Windows) { Sound.PlaySound("Theme.mp4", 1000); } //If device is windows - play music
+            //if (Is_Windows) { Sound.PlaySound(@"utilities\Theme.mp4", 1000); } //If device is windows - play music
             WelcomePage.AcsiiArt();
             WelcomePage.StoryIntro();
             Render.Location(CurrentRoom);
@@ -101,9 +100,6 @@ namespace redrum_not_muckduck_game
                     break;
                 case "help":
                     HelpPage.Render();
-                    break;
-                case "hint":
-                    HintPage.Render();
                     break;
                 default:
                     break;
@@ -234,7 +230,7 @@ namespace redrum_not_muckduck_game
             //Loop through adjacent rooms to see which one the user selected
             foreach (Room Room in AllRooms)
             {
-                if (nextRoom.ToLower() == Room.GetNameToLowerCase())
+                if (nextRoom.ToLower() == Room.Name.ToLower())
                 {
                     CheckIfVistedRoom(CurrentRoom.Name); //Check if user has been to this room
                     CurrentRoom = Room; //Update the current room

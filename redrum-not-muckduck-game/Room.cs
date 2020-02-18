@@ -22,16 +22,6 @@ namespace redrum_not_muckduck_game
             HasItem = hasItem;
         }
 
-        public string GetNameToLowerCase()
-        {
-            return Name.ToLower();
-        }
-
-        public int GetNameLength()
-        {
-            return Name.Length;
-        }
-
         public static List<Room> CreateRooms()
         {
             return new List<Room>

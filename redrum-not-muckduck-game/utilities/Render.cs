@@ -7,7 +7,7 @@ namespace redrum_not_muckduck_game
     // You can find how to delete a scene, render available rooms, scene description, & quotes
     class Render
     {
-        private static readonly string[] Actions = new string[] { "- explore", "- talk to someone", "- leave the current room", "- map", "- quit playing" };
+        private static readonly string[] Actions = new string[] { "- explore", "- talk to someone", "- leave the current room", "- map", "- help", "- quit playing" };
 
         public static void ActionQuote(string actionQuote)
         {
@@ -125,7 +125,7 @@ namespace redrum_not_muckduck_game
             int ROW_WHERE_LOCATION_STARTS = 1;
             int COLUMN_WHERE_LOCATION_STARTS = 16;
 
-            for (int i = 0; i < currentRoom.GetNameLength(); i++)
+            for (int i = 0; i < currentRoom.Name.Length; i++)
             {
                 Board.GameBoard[ROW_WHERE_LOCATION_STARTS, COLUMN_WHERE_LOCATION_STARTS + i] = currentRoom.Name[i];
             }
