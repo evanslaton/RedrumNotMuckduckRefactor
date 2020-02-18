@@ -24,30 +24,34 @@ namespace redrum_not_muckduck_game
         {
             Console.Write("> ");
             string userInput = Console.ReadLine().ToLower();
-            return WAYS_TO_SAY_YES.Contains(userInput) ? true : false;
+            return WAYS_TO_SAY_YES.Contains(userInput);
         }
 
         public static bool CheckSolution()
         {
-            for (int i = 0; i < SOLUTIONS.Length; i++)
+            int correctAnswers = 0;
+            while(correctAnswers < 3 && Game.NumberOfLives > 0)
             {
                 Delete.Scene();
-                Render.OneLineQuestionOrQuote(QUESTIONS[i]);
+                Render.OneLineQuestionOrQuote(QUESTIONS[correctAnswers]);
                 Game.Board.Render();
+                Console.WriteLine("Input your guess or type \'exit\' to stop guessing:");
                 Console.Write("> ");
                 string userGuess = Console.ReadLine();
-                if (userGuess.ToLower() != SOLUTIONS[i])
+                if (userGuess == "exit") break;
+                else if (userGuess.ToLower() != SOLUTIONS[correctAnswers])
                 {
                     Game.NumberOfLives--;
                     RemoveAHeartFromBoard();
                     DisplayText(WRONG_ANSWER_TEXT);
-                    Delete.Scene();
-                    Game.Board.Render();
-                    return false;
+                    //Delete.Scene();
+                    //Game.Board.Render();
+                    continue;
                 }
                 DisplayText(CORRECT_ANSWER_TEXT);
+                correctAnswers++;
             }
-            return true;
+            return correctAnswers == 3 || Game.NumberOfLives == 0;
         }
 
         private static void DisplayText(string text)

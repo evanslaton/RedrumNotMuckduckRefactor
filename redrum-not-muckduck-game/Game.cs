@@ -226,17 +226,16 @@ namespace redrum_not_muckduck_game
         {
             if (CurrentRoom.Name == "Reception")
             {
-                //Board.Render();
+                Board.Render();
                 bool userWantsToSolve = Solution.AskToSolvePuzzle();
                 if (userWantsToSolve)
                 {
-                    //If the user would like to solve the puzzle - check their answers
                     IsGameOver = Solution.CheckSolution();
+                    Delete.Scene();
                     CheckHealth();
                 }
                 else
                 {
-                    //Otherwise - Tell them to come back when they are ready
                     Delete.Scene();
                     Render.OneLineQuestionOrQuote("Michael: \"Ok, come back when you are ready\"");
                 }
