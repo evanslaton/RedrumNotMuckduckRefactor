@@ -146,6 +146,11 @@ namespace redrum_not_muckduck_game
 
         private bool ValidateExploreSelection(string itemSelected)
         {
+            if (itemSelected.Equals("exit"))
+            {
+                Delete.Scene();
+                return true;
+            }
             //Searches ItemInRoom dictionary keys for match of player input value
             foreach (KeyValuePair<string, bool> str in CurrentRoom.ItemInRoom)
             {
@@ -194,6 +199,7 @@ namespace redrum_not_muckduck_game
 
         private string UserSelection() //AskUserWhoToTalkTo()
         {
+            Console.WriteLine("Type selection or type \'exit\' to return to Room menu");
             Console.Write("> ");
             return Console.ReadLine().ToLower();
         }
@@ -201,6 +207,11 @@ namespace redrum_not_muckduck_game
         private bool ValidateTalkSelection(string nameSelected)
         {
             string quote;
+            if (nameSelected.Equals("exit"))
+            {
+                Delete.Scene();
+                return true;
+            }
             //Searches PersonsInRoom dictionary keys for match of player input value
             foreach (KeyValuePair<string, string> str in CurrentRoom.PersonsInRoom)
             {
