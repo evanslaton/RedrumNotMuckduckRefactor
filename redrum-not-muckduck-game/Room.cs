@@ -6,14 +6,15 @@ namespace redrum_not_muckduck_game
     // Each room has a name, description, item, person, & adjacent rooms. 
     public class Room
     {
+        //added for the save
+        public Dictionary<string, bool> ItemsPickedUp { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public string ItemInRoom { get; set; }
+        public Dictionary<string, bool> ItemInRoom { get; set; }
         public Dictionary<string, string> PersonsInRoom { get; set; }
         public string Action { get; set; }
         public bool HasItem { get; set; }
-
-        public Room(string roomName, string description, string itemInRoom,
+        public Room(string roomName, string description, Dictionary<string, bool> itemInRoom,
             Dictionary<string, string> personsInRoom, string action, bool hasItem)
         {
             Name = roomName;
@@ -56,7 +57,10 @@ namespace redrum_not_muckduck_game
                "*Oscar is trying to find an exit.  " +
                "*Out of the corner of your eye, you " +
                "*see a drawer slowly open. ",
-               "Angela's cat, Bandit",
+               new Dictionary<string, bool>
+               {
+                   { "Angela's cat, Bandit", false }
+               },
               new Dictionary<string, string>()
                {
                     { "Oscar", " : \"Angela, stay here. I am going*up into the ceiling to find*a way out and get help!\"" },
@@ -77,7 +81,10 @@ namespace redrum_not_muckduck_game
                  "*Kelly waits around for Ryan. " +
                  "*He doesn't smoke cigarettes does " +
                  "*he?",
-                 "beet stained cigs",
+                 new Dictionary<string, bool>
+                 {
+                     {"beet stained cigs", false }
+                 },
                  new Dictionary<string, string>()
                  {
                     { "Kelly", " : \"Why does Dwight have a blow horn?\"" },
@@ -94,7 +101,7 @@ namespace redrum_not_muckduck_game
                 "Break Room",
                 "You are hungry but is there " +
                 "*time? Probably right?",
-                "vending machine",
+                 new Dictionary<string, bool>{},
                  new Dictionary<string, string>() { },
                 "Kevin broke into the vending machine *and offers you a snack *You gain one Heart",
                 false
@@ -104,17 +111,17 @@ namespace redrum_not_muckduck_game
         public static Room CreateKitchen()
         {
             return new Room(
-               "Kitchen",
-               "Why is Phyllis just standing here? " +
-               "*She seems very disturbed... ",
-                "Oscar falling out of ceiling *You lose one Heart",
-                 new Dictionary<string, string>()
+                "Kitchen",
+                "Why is Phyllis just standing here? " +
+                "*She seems very disturbed... ",
+                new Dictionary<string, bool>{},
+                new Dictionary<string, string>()
                 {
                     { "Phyllis", " : \"I saw Dwight come from the breakroom\"" }
                 },
-                "",
+                "Oscar falling out of ceiling *You lose one Heart",
                 false
-             );
+            );
         }
 
         public static Room CreateQualityAssurance()
@@ -122,7 +129,7 @@ namespace redrum_not_muckduck_game
             return new Room(
                 "Quality Assurance",
                 "Creed and Meredith are sitting at their desks",
-                "There are no items in this room",
+                new Dictionary<string, bool>{},
                 new Dictionary<string, string>()
                 {
                     { "Creed", " : \"Hey I think I smell smoked ribs\""},
@@ -136,16 +143,16 @@ namespace redrum_not_muckduck_game
         public static Room CreateReception()
         {
             return new Room(
-               "Reception",
-               "Michael waits to hear what " +
-               "*you think happened today",
-               "no item",
-               new Dictionary<string, string>()
-               {
-                    { "Michael", " : \"Would you like to solve the puzzle?\"" }
-               },
-               "",
-               false
+                "Reception",
+                "Michael waits to hear what " +
+                "*you think happened today",
+                new Dictionary<string, bool>{},
+                new Dictionary<string, string>()
+                {
+                     { "Michael", " : \"Would you like to solve the puzzle?\"" }
+                },
+                "",
+                false
             );
         }
 
@@ -156,7 +163,10 @@ namespace redrum_not_muckduck_game
                 "*Andy is frantically running in circles and " +
                 "*knocks over his trash can, something makes " +
                 "*a thud sound as it falls out.",
-                "a random torch",
+                new Dictionary<string, bool>
+                {
+                    { "torch", false }
+                },
                 new Dictionary<string, string>()
                 {
                     { "Andy", " : \"This would never happen at Cornell...\"" },
