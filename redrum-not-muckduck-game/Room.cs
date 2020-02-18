@@ -4,7 +4,7 @@ namespace redrum_not_muckduck_game
 {
     public class Room
     {
-        //added for the save
+        public static Dictionary<string, bool> HasEventHappened { get; set; } = new Dictionary<string, bool>();
         public Dictionary<string, bool> ItemsPickedUp { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
@@ -25,6 +25,10 @@ namespace redrum_not_muckduck_game
 
         public static List<Room> CreateRooms()
         {
+            HasEventHappened.Add("Accounting", false);
+            HasEventHappened.Add("Break Room", false);
+            HasEventHappened.Add("Quality Assurance", false);
+            HasEventHappened.Add("Sales", false);
             return new List<Room>
             {
                 CreateAccounting(),
@@ -109,7 +113,7 @@ namespace redrum_not_muckduck_game
                 {
                     { "Phyllis", " : \"I saw Dwight come from the breakroom\"" }
                 },
-                "Oscar falling out of ceiling *You lose one Heart",
+                "",
                 false
             );
         }
@@ -125,7 +129,7 @@ namespace redrum_not_muckduck_game
                     { "Creed", " : \"Hey I think I smell smoked ribs\""},
                     { "Meredith", " : \"Mmmmmmmmmmm\""}
                 },
-                "",
+                "You help Jim and Andy ram a copier into *a door, the door didn't open and you *threw out your back.......*You lose a life",
                 false
             );
         }
