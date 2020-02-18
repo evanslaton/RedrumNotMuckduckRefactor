@@ -5,23 +5,19 @@ using Console = Colorful.Console;
 
 namespace redrum_not_muckduck_game
 {
-    // This class creates the board
-    // You can control the size, color, and updating user progress
     public class Board
     {
-        internal int BOARD_DIMENSION_ROWS = 30;
-        internal int BOARD_DIMENSION_COLUMNS = 80;
-        public static char[,] board { get; set; }
+        public static char[,] GameBoard { get; set; }
+        internal const int BOARD_DIMENSION_ROWS = 30;
+        internal const int BOARD_DIMENSION_COLUMNS = 80;
 
         public Board()
         {
-            board = Create();
+            GameBoard = Create();
         }
 
         public void Render()
         {
-            // This method goes through each row and column of the 2D board to print
-            // out each character
             Console.Clear();
             for (int row = 0; row < BOARD_DIMENSION_ROWS; row++)
             {
@@ -31,30 +27,30 @@ namespace redrum_not_muckduck_game
                     // Highlights current location in green
                     if (row == 1 && column > 15 && column < 30)
                     {
-                        Console.Write(board[row, column], Color.Green);
+                        Console.Write(GameBoard[row, column], Color.Green);
                     }
                     // Highlights users health in red 
                     else if (row > 1 && row < 6 && column > 49 && column < 79)
                     {
-                        Console.Write(board[row, column], Color.Red);
+                        Console.Write(GameBoard[row, column], Color.Red);
                     }
                     // Highlights avaliable actions in yellow
                     else if (row > 4 && row < 10 && column > 3 && column < 25 && !endOfWord) 
                     {
-                        if (board[row, column] == ' ') //Once a space is found (aka its the end of the word) we print the remainin sentence in white
+                        if (GameBoard[row, column] == ' ') //Once a space is found (aka its the end of the word) we print the remainin sentence in white
                         {
                             endOfWord = true;
-                            Console.Write(board[row, column]);
+                            Console.Write(GameBoard[row, column]);
                         }
                         else //Otherwise if it's not the end of the word - print in yellow
                         {
-                            Console.Write(board[row, column], Color.Yellow); 
+                            Console.Write(GameBoard[row, column], Color.Yellow); 
                         }
                     }
                     // If its not something that needs to be highlighted - just print it in white
                     else
                     {
-                        Console.Write(board[row, column]);
+                        Console.Write(GameBoard[row, column]);
                     }
                 }
                 Console.WriteLine();
@@ -64,9 +60,9 @@ namespace redrum_not_muckduck_game
         public char[,] Create()
         {
             // Creates default board to be updated throughout game
-            return new char[30,80] //new char[] accepts constant values only - this is the same as new char[BOARD_DIMENSON_ROWS,BOARD_DIMENSION_COLUMNS]
+            return new char[BOARD_DIMENSION_ROWS, BOARD_DIMENSION_COLUMNS] //new char[] accepts constant values only - this is the same as new char[BOARD_DIMENSON_ROWS,BOARD_DIMENSION_COLUMNS]
             {
-                {'|','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','|'},
+    {'|','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','|'},
                 {'|','Y','O','U','R',' ','L','O','C','A','T','I','O','N',':',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','|','H','E','A','L','T','H',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','|'},
                 {'|',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','|',' ','.','-','.',' ','.','-','.',' ',' ',' ','.','-','.',' ','.','-','.',' ',' ',' ','.','-','.',' ','.','-','.',' ','|'},
                 {'|',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','|','|',' ',' ',' ','\'',' ',' ',' ','|',' ','|',' ',' ',' ','\'',' ',' ',' ','|',' ','|',' ',' ',' ','\'',' ',' ',' ','|','|'},

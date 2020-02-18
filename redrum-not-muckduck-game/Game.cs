@@ -1,3 +1,4 @@
+using redrum_not_muckduck_game.save;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -19,9 +20,8 @@ namespace redrum_not_muckduck_game
         public static bool UserQuitGame { get; set; } = false;
         public static List<string> CollectedHints { get; set; } = new List<string>();
         public static List<string> VisitedRooms { get; set; } = new List<string>();
-        public static Board Board = new Board();
+        public static Board Board { get; set; } = new Board();
         public static HelpPage HelpPage = new HelpPage();
-        public static HintPage HintPage = new HintPage();
         public Map Map = new Map();
 
         public Game()
@@ -42,33 +42,16 @@ namespace redrum_not_muckduck_game
 
         public void CheckForSavedData()
         {
-            //Find the files where the data is being stored
-            SaveVisitedRooms.GetWorkingVisitedRoomsDirectory();
-            SaveHintQuotes.GetWorkingHintQuotesDirectory();
-            SaveWholeBoard.GetWorkingBoardDirectory();
-            SaveElements.GetWorkingElementDirectory();
-            SaveHints.GetWorkingHintDirectory();
-
-            //Create files if they don't exist
-            if (!File.Exists(SaveWholeBoard.WorkingBoardDirectory))
+            try
             {
-                File.Create(SaveVisitedRooms.WorkingVisitedRoomsDirectory);
-                File.Create(SaveHintQuotes.WorkingHintQuotesDirectory);
-                File.Create(SaveWholeBoard.WorkingBoardDirectory);
-                File.Create(SaveElements.WorkingElementDirectory);
-                File.Create(SaveHints.WorkingHintDirectory);
+                SaveData saveData = SaveData.GetSavedData();
+                CurrentRoom = saveData.CurrentRoom;
+                Board.GameBoard = saveData.GameBoard;
+                VisitedRooms = saveData.VisitedRooms;
+                NumberOfItemsFound = saveData.NumberOfItemsFound;
+                NumberOfLives = saveData.NumberOfLives;
             }
-
-            //If there is saved data - load it
-            if (new FileInfo(SaveWholeBoard.WorkingBoardDirectory).Length != 0)
-            {
-                SaveVisitedRooms.Stored();
-                SaveHintQuotes.Stored();
-                SaveHints.Stored();
-                SaveWholeBoard.Stored();
-                SaveElements.StoredElements();
-            }
-            else //Otherwise - setup a new game
+            catch
             {
                 StartSetUp();
             }
@@ -76,7 +59,7 @@ namespace redrum_not_muckduck_game
 
         private void StartSetUp()
         {
-            //if (Is_Windows) { Sound.PlaySound("Theme.mp4", 1000); } //If device is windows - play music
+            //if (Is_Windows) { Sound.PlaySound(@"utilities\Theme.mp4", 1000); } //If device is windows - play music
             WelcomePage.AcsiiArt();
             WelcomePage.StoryIntro();
             Render.Location(CurrentRoom);
@@ -116,9 +99,6 @@ namespace redrum_not_muckduck_game
                 case "help":
                     HelpPage.Render();
                     break;
-                case "hint":
-                    HintPage.Render();
-                    break;
                 default:
                     break;
             }
@@ -141,7 +121,6 @@ namespace redrum_not_muckduck_game
 
         private void ExploreRoom()
         {
-            //Removes prior scene text
             Delete.Scene();
             if (CurrentRoom.ItemInRoom.Count == 0)
             {
@@ -280,7 +259,7 @@ namespace redrum_not_muckduck_game
             //Loop through adjacent rooms to see which one the user selected
             foreach (Room Room in AllRooms)
             {
-                if (nextRoom.ToLower() == Room.GetNameToLowerCase())
+                if (nextRoom.ToLower() == Room.Name.ToLower())
                 {
                     CheckIfVistedRoom(CurrentRoom.Name); //Check if user has been to this room
                     CurrentRoom = Room; //Update the current room
@@ -345,12 +324,7 @@ namespace redrum_not_muckduck_game
         private void SaveTheGame()
         {
             Console.Clear();
-            //added for the save
-            //SaveData saveData = new SaveData(Board.board, );
-            SaveVisitedRooms.Saved();
-            SaveHintQuotes.Saved();
-            SaveElements.Saved();
-            SaveWholeBoard.Saved();
+            SaveData.Save();
             Console.WriteLine("Your game has been saved.");
         }
 
@@ -367,7 +341,7 @@ namespace redrum_not_muckduck_game
             if (NumberOfLives == 0)
             { 
                 EndPage.LoseScene();
-                ResetSaveData();
+                SaveData.Delete();
             }
             else if (UserQuitGame)
             {
@@ -376,18 +350,9 @@ namespace redrum_not_muckduck_game
             else
             {
                 EndPage.WinScene();
-                ResetSaveData();
+                SaveData.Delete();
             }
             EndPage.ThankYouAsciiArt();
-        }
-
-        private void ResetSaveData()
-        {
-            SaveHintQuotes.ResetHintQuotesFile();
-            SaveVisitedRooms.ResetVisitedRoomsFile();
-            SaveHints.ResetHintsFile();
-            SaveWholeBoard.ResetBoardFile();
-            SaveElements.ResetElementsFile();
         }
     }
 }

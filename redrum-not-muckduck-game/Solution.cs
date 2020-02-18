@@ -72,7 +72,7 @@ namespace redrum_not_muckduck_game
             {
                 for (int j = 0; j < WIDTH_OF_HEART; j++)
                 {
-                    Board.board[ROW_WHERE_HEARTS_START + i, heartDeletionStartColumn + j] = ' ';
+                    Board.GameBoard[ROW_WHERE_HEARTS_START + i, heartDeletionStartColumn + j] = ' ';
                 }
             }
         }
@@ -92,7 +92,7 @@ namespace redrum_not_muckduck_game
             {
                 for (int j = 0; j < WIDTH_OF_HEART; j++)
                 {
-                    Board.board[ROW_WHERE_HEARTS_START + i, heartAdditionStartColumn + currentColumn] = heart[heartStringIndex];
+                    Board.GameBoard[ROW_WHERE_HEARTS_START + i, heartAdditionStartColumn + currentColumn] = heart[heartStringIndex];
                     currentColumn++;
                     heartStringIndex++;
                 }

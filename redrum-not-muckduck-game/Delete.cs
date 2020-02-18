@@ -8,9 +8,9 @@ namespace redrum_not_muckduck_game
             int ROW_WHERE_LOCATION_STARTS = 1;
             int COLUMN_WHERE_LOCATION_STARTS = 16;
 
-            for (int i = 0; i < currentRoom.GetNameLength(); i++)
+            for (int i = 0; i < currentRoom.Name.Length; i++)
             {
-                Board.board[ROW_WHERE_LOCATION_STARTS, COLUMN_WHERE_LOCATION_STARTS + i] = ' ';
+                Board.GameBoard[ROW_WHERE_LOCATION_STARTS, COLUMN_WHERE_LOCATION_STARTS + i] = ' ';
             }
         }
 
@@ -24,7 +24,7 @@ namespace redrum_not_muckduck_game
             {
                 for (int col = 0; col < COL_SCENCE_ENDS; col++)
                 {
-                    Board.board[ROW_SCENE_STARTS, COL_SCENCE_STARTS + col] = ' ';
+                    Board.GameBoard[ROW_SCENE_STARTS, COL_SCENCE_STARTS + col] = ' ';
                 }
             }
         }
