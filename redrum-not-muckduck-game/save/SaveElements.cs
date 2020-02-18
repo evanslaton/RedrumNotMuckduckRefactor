@@ -26,7 +26,7 @@ namespace redrum_not_muckduck_game
                 //AnnexItem = Game.Annex.HasItem.ToString(),
                 TheCurrentRoom = Game.CurrentRoom.Name,
                 //NumberofVisitedRooms = Game.NumberOfRooms,
-                NumberofItems = Game.NumberOfItems,
+                NumberofItems = Game.NumberOfItemsFound,
                 NumberofLives = Game.NumberOfLives,
                 NumberofHints = Game.CollectedHints.Count(),
             };
@@ -48,10 +48,9 @@ namespace redrum_not_muckduck_game
             //Game.Annex.HasItem = Convert.ToBoolean(dict["AnnexItem"]);
             Game.CurrentRoom.Name = dict["TheCurrentRoom"];
             //Game.NumberOfRooms = Int32.Parse(dict["NumberofVisitedRooms"]);
-            Game.NumberOfItems = Int32.Parse(dict["NumberofItems"]);
+            Game.NumberOfItemsFound = Int32.Parse(dict["NumberofItems"]);
             Game.NumberOfLives = Int32.Parse(dict["NumberofLives"]);
             HintPage.Saved_Hints = Int32.Parse(dict["NumberofHints"]);
-
             UpdateRoom();
         }
 

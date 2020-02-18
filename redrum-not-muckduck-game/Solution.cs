@@ -44,8 +44,6 @@ namespace redrum_not_muckduck_game
                     Game.NumberOfLives--;
                     RemoveAHeartFromBoard();
                     DisplayText(WRONG_ANSWER_TEXT);
-                    //Delete.Scene();
-                    //Game.Board.Render();
                     continue;
                 }
                 DisplayText(CORRECT_ANSWER_TEXT);
