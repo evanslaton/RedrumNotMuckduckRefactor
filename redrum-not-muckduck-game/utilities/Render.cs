@@ -51,6 +51,32 @@ namespace redrum_not_muckduck_game
             }
         }
 
+        public static void ExploreChoices(Dictionary<string, bool> itemInRoom)
+        {
+            int ROW_WHERE_OPTIONS_START = 14;
+            int COLUMN_WHERE_OPTIONS_START = 2;
+            string header = "You see the following items around you: ";
+
+            for (int i = 0; i < header.Length; i++)
+            {
+                Board.GameBoard[ROW_WHERE_OPTIONS_START, COLUMN_WHERE_OPTIONS_START + i] = header[i];
+            }
+            ROW_WHERE_OPTIONS_START++;
+
+            foreach (KeyValuePair<string, bool> pair in itemInRoom)
+            {
+                if (pair.Value == false)
+                {
+                    string itemName = pair.Key;
+                    for (int i = 0; i < itemName.Length; i++)
+                    {
+                        Board.GameBoard[ROW_WHERE_OPTIONS_START, COLUMN_WHERE_OPTIONS_START + i] = itemName[i];
+                    }
+                    ROW_WHERE_OPTIONS_START++;
+                }
+            }
+        }
+
         //Maximum chars in a line, is 48
         public static void Quote(string quote)
         {
@@ -131,11 +157,11 @@ namespace redrum_not_muckduck_game
             }
         }
 
-        public static void ItemToFoundItems(string foundItem)
+        public static void FoundItemsList(string foundItem)
         {
             int ROW_WHERE_ITEMS_START = 8;
             int COLUMN_WHERE_ITEMS_START = 50;
-            int ROW_TO_INSERT_NEW_ITEM = ROW_WHERE_ITEMS_START + Game.NumberOfItems;
+            int ROW_TO_INSERT_NEW_ITEM = ROW_WHERE_ITEMS_START + Game.NumberOfItemsFound;
 
             for (int i = 0; i < foundItem.Length; i++)
             {
