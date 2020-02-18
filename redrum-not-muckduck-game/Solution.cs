@@ -22,23 +22,29 @@ namespace redrum_not_muckduck_game
         public static bool CheckSolution()
         {
             string[] questions = new string[] { "Michael: \"Who did it?\"", "Michael: \"What did they use?\"", "Michael: \"Where did it happen?\"" };
-            for (int i = 0; i < Solutions.Length; i++)
+            int correctAnswers = 0;
+            while(correctAnswers < 3 && Game.NumberOfLives > 0)
             {
                 Delete.Scene();
-                Render.OneLineQuestionOrQuote(questions[i]);
+                Render.OneLineQuestionOrQuote(questions[correctAnswers]);
                 Game.Board.Render();
+                Console.WriteLine("Input your guess or type \'exit\' to stop guessing:");
                 Console.Write("> ");
                 string userGuess = Console.ReadLine();
-                if (userGuess.ToLower() != Solutions[i])
+
+                if (userGuess == "exit") break;
+                else if (userGuess.ToLower() != Solutions[correctAnswers])
                 {
                     Game.NumberOfLives--;
                     LoseALife();
                     WrongGuess();
-                    return false; //Wrong guess - return false so that the game continues
+                    continue;
                 }
                 RightGuess();
+                correctAnswers++;
             }
-            return true; //At this point all guesses were correct so the game ends
+            //If all guesses were correct or lives lost, the game ends, else you stop talking to Michael
+            return correctAnswers == 3 || Game.NumberOfLives == 0 ? true : false;
         }
 
         private static void WrongGuess()

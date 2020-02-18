@@ -65,12 +65,15 @@ namespace redrum_not_muckduck_game
 
             foreach (KeyValuePair<string, bool> str in choices)
             {
-                string person = str.Key;
-                for (int i = 0; i < person.Length; i++)
+                if (choices[str.Key] == false)
                 {
-                    Board.board[ROW_WHERE_OPTIONS_START, COLUMN_WHERE_OPTIONS_START + i] = person[i];
+                    string person = str.Key;
+                    for (int i = 0; i < person.Length; i++)
+                    {
+                        Board.board[ROW_WHERE_OPTIONS_START, COLUMN_WHERE_OPTIONS_START + i] = person[i];
+                    }
+                    ROW_WHERE_OPTIONS_START++;
                 }
-                ROW_WHERE_OPTIONS_START++;
             }
         }
 

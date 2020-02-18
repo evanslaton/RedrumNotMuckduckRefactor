@@ -83,7 +83,9 @@ namespace redrum_not_muckduck_game
                  "*he?",
                  new Dictionary<string, bool>
                  {
-                     {"beet stained cigs", false }
+                     {"beet stained cigs", false },
+                     {"cookies", false },
+                     {"candle", false }
                  },
                  new Dictionary<string, string>()
                  {

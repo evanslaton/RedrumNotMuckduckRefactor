@@ -17,8 +17,6 @@ namespace redrum_not_muckduck_game
         public static int NumberOfNames { get; set; } = 0;
         public static bool IsGameOver { get; set; } = false;
         public static bool UserQuitGame { get; set; } = false;
-        //Dictionary of Rooms and their Dictionary of items
-        public static Dictionary<string, Dictionary<string, bool>> RoomItems { get; set; }
         public static List<string> CollectedHints { get; set; } = new List<string>();
         public static List<string> VisitedRooms { get; set; } = new List<string>();
         public static Board Board = new Board();
@@ -92,8 +90,6 @@ namespace redrum_not_muckduck_game
             Console.WriteLine("Please enter a valid option: (explore, talk, leave, map, quit)");
             Console.Write("> ");
             string userChoice = Console.ReadLine().ToLower();
-            //unnecessary?
-            //Console.WriteLine();
 
             switch (userChoice)
             {
@@ -162,7 +158,6 @@ namespace redrum_not_muckduck_game
                 {
                     itemSelected = UserSelection();
                 } while (!ValidateExploreSelection(itemSelected));
-                //AddQuoteToHintPage();
             }
             else
             {
@@ -175,7 +170,8 @@ namespace redrum_not_muckduck_game
             //Searches ItemInRoom dictionary keys for match of player input value
             foreach (KeyValuePair<string, bool> str in CurrentRoom.ItemInRoom)
             {
-                if (itemSelected == str.Key.ToLower() && str.Value == false)
+                //if (itemSelected == str.Key.ToLower() && str.Value == false)
+                if (str.Key.ToLower().Contains(itemSelected) && str.Value == false && itemSelected.Length > 2)
                 {
                     //Removes list of people in room
                     Delete.Scene();
@@ -193,24 +189,6 @@ namespace redrum_not_muckduck_game
             return false;
         }
 
-        //private void CheckIfItemHasBeenFound()
-        //{
-        //    Delete.Scene();
-        //    if (CurrentRoom.HasItem)
-        //    {
-        //        Render.OneLineQuestionOrQuote($"You found: {CurrentRoom.ItemInRoom}");
-        //        Render.ItemToFoundItems(CurrentRoom.ItemInRoom.);
-        //        CurrentRoom.HasItem = !CurrentRoom.HasItem;
-        //        //for the list of ItemsPickedUp
-        //        ItemsPickedUp.Add(CurrentRoom.ItemInRoom, true);
-        //        NumberOfItems++;
-        //    }
-        //    else
-        //    {
-        //        Render.OneLineQuestionOrQuote("Nothing left to explore");
-        //    }
-        //}
-
         private void TalkToPerson()
         {
             //Removes prior scene text
@@ -221,19 +199,17 @@ namespace redrum_not_muckduck_game
             }
             else
             {
-
             //Lists name of person in the current room then renders to UI
                 Render.TalkChoices(CurrentRoom.PersonsInRoom);
                 Board.Render();
                 string nameSelected;
+            //Prompts user input for name of who they want to talk to
                 do
                 {
                     nameSelected = UserSelection();
                 } while (!ValidateTalkSelection(nameSelected));
-                //Prompts user input for name of who they want to talk to
-                //AskUserWhoToTalkTo();
-            //AddQuoteToHintPage();
-            CheckIfTalkingToMichael();
+                //AddQuoteToHintPage();
+                CheckIfTalkingToMichael();
             }
         }
 
@@ -242,18 +218,6 @@ namespace redrum_not_muckduck_game
             Console.Write("> ");
             return Console.ReadLine().ToLower();
         }
-
-        //private void AskUserWhoToTalkTo()
-        //{
-        //    Board.Render();
-        //    string nameSelected;
-        //    do
-        //    {
-        //        Console.Write("> ");
-        //        nameSelected = Console.ReadLine().ToLower();
-        //    }
-        //    while (!ValidateTalkSelection(nameSelected));
-        //}
 
         private bool ValidateTalkSelection(string nameSelected)
         {
@@ -299,6 +263,7 @@ namespace redrum_not_muckduck_game
                 {
                     //If the user would like to solve the puzzle - check their answers
                     IsGameOver = Solution.CheckSolution();
+                    Delete.Scene();
                     CheckHealth();
                 }
                 else
