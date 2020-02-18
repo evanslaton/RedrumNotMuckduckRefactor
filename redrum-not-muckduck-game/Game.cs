@@ -226,7 +226,7 @@ namespace redrum_not_muckduck_game
         {
             if (CurrentRoom.Name == "Reception")
             {
-                Board.Render();
+                //Board.Render();
                 bool userWantsToSolve = Solution.AskToSolvePuzzle();
                 if (userWantsToSolve)
                 {
@@ -275,7 +275,7 @@ namespace redrum_not_muckduck_game
                 {
                     if (NumberOfLives < 3)
                     {
-                        Solution.GainALife();
+                        Solution.AddAHeartToBoard();
                         //This must occur prior to rendering the heart to prevent it being out of bounds
                         //This is opposite of actions that lose a life due to how the Gain/Loss methods 
                         NumberOfLives++;
@@ -287,7 +287,7 @@ namespace redrum_not_muckduck_game
                 else if (CurrentRoom.Name.Equals("Accounting"))
                 {
                     NumberOfLives--;
-                    Solution.LoseALife();
+                    Solution.RemoveAHeartFromBoard();
                     if (NumberOfLives <= 0)
                         EndPage.LoseScene();
                     Board.Render();

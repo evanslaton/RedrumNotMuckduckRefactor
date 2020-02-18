@@ -4,69 +4,62 @@ using System.Threading;
 
 namespace redrum_not_muckduck_game
 {
-    // This class controls the solution to win the game and the amount of live user has left
-    // You can find the methods for determining a right or wrong guess
     public class Solution
     {
-        public static string[] Solutions = new string[] { "dwight", "beet stained cigs", "break room" };
-        public static string[] AllTheWaysToSayYes = new string[] { "y", "yes", "yeah", "yep", "yea", "yeppers", "yesh", "indubidably" };
+        private static string[] QUESTIONS = new string[] {
+            "Michael: \"Who did it?\"",
+            "Michael: \"What did they use?\"",
+            "Michael: \"Where did it happen?\""
+        };
+        private static string[] SOLUTIONS = new string[] { "dwight", "beet stained cigs", "break room" };
+        private static string[] WAYS_TO_SAY_YES = new string[] { "y", "yes", "yeah", "yep", "yea", "yeppers", "yesh" };
+        private static string WRONG_ANSWER_TEXT = "Michael: \"That sounds off - OUCH, lose a life\"";
+        private static string CORRECT_ANSWER_TEXT = "Michael : \"That's right!\"";
+        private static int COLUMN_WHERE_HEARTS_START = 50; // and ends at column 78
+        private static int ROW_WHERE_HEARTS_START = 2; // and ends at row 6
+        private static int WIDTH_OF_HEART = 9;
+        private static int HEIGHT_OF_HEART = 4;
 
         public static bool AskToSolvePuzzle()
         {
             Console.Write("> ");
             string userInput = Console.ReadLine().ToLower();
-            if (AllTheWaysToSayYes.Contains(userInput)) { return true; }
-            else { return false;};
+            return WAYS_TO_SAY_YES.Contains(userInput) ? true : false;
         }
 
         public static bool CheckSolution()
         {
-            string[] questions = new string[] { "Michael: \"Who did it?\"", "Michael: \"What did they use?\"", "Michael: \"Where did it happen?\"" };
-            for (int i = 0; i < Solutions.Length; i++)
+            for (int i = 0; i < SOLUTIONS.Length; i++)
             {
                 Delete.Scene();
-                Render.OneLineQuestionOrQuote(questions[i]);
+                Render.OneLineQuestionOrQuote(QUESTIONS[i]);
                 Game.Board.Render();
                 Console.Write("> ");
                 string userGuess = Console.ReadLine();
-                if (userGuess.ToLower() != Solutions[i])
+                if (userGuess.ToLower() != SOLUTIONS[i])
                 {
                     Game.NumberOfLives--;
-                    LoseALife();
-                    WrongGuess();
-                    return false; //Wrong guess - return false so that the game continues
+                    RemoveAHeartFromBoard();
+                    DisplayText(WRONG_ANSWER_TEXT);
+                    Delete.Scene();
+                    Game.Board.Render();
+                    return false;
                 }
-                RightGuess();
+                DisplayText(CORRECT_ANSWER_TEXT);
             }
-            return true; //At this point all guesses were correct so the game ends
+            return true;
         }
 
-        private static void WrongGuess()
+        private static void DisplayText(string text)
         {
             Delete.Scene();
-            Render.OneLineQuestionOrQuote("Michael: \"That sounds off - OUCH, lose a life\"");
+            Render.OneLineQuestionOrQuote(text);
             Game.Board.Render();
-            Thread.Sleep(2000);//Display if the guess was wrong for 2 second
-            Delete.Scene();
-            Game.Board.Render();
+            Thread.Sleep(2000);
         }
 
-        private static void RightGuess()
+        public static void RemoveAHeartFromBoard()
         {
-            Delete.Scene();
-            Render.OneLineQuestionOrQuote("Michael : \"That's right!\"");
-            Game.Board.Render();
-            Thread.Sleep(2000); //Display if the guess was right/wrong for 2 second
-        }
-
-        public static void LoseALife()
-        {
-            //first character column of life starts at 50 and ends at 78
-            //first character row of life starts at 2 and ends at 6
-            int COLUMN_WHERE_HEARTS_START = 50;
-            int ROW_WHERE_HEARTS_START = 2;
-            int WIDTH_OF_HEART = 9;
-            int HEIGHT_OF_HEART = 4;
             int heartDeletionStartColumn = 
                 COLUMN_WHERE_HEARTS_START +
                 //Adjusts Column to first char of last heart
@@ -82,14 +75,8 @@ namespace redrum_not_muckduck_game
             }
         }
 
-        public static void GainALife()
+        public static void AddAHeartToBoard()
         {
-            //first character column of life starts at 50 and ends at 78
-            //first character row of life starts at 2 and ends at 6
-            int COLUMN_WHERE_HEARTS_START = 50;
-            int ROW_WHERE_HEARTS_START = 2;
-            int WIDTH_OF_HEART = 9;
-            int HEIGHT_OF_HEART = 4;
             int currentColumn = 0;
             int heartStringIndex = 0;
             int heartAdditionStartColumn =
