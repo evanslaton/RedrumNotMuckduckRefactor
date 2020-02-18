@@ -12,16 +12,18 @@ namespace redrum_not_muckduck_game.save
         public char[,] GameBoard { get; set; }
         public List<Room> AllRooms { get; set; }
         public List<string> VisitedRooms { get; set; }
+        public Dictionary<string, bool> HasEventHappened { get; set; }
         public Room CurrentRoom { get; set; }
         public int NumberOfItemsFound { get; set; }
         public int NumberOfLives { get; set; }
 
         public SaveData(char[,] gameBoard, List<Room> allRooms, List<string> visitedRooms,
-            Room currentRoom, int numberOfItemsFound, int numberOfLives)
+            Dictionary<string, bool> hasEventHappened, Room currentRoom, int numberOfItemsFound, int numberOfLives)
         {
             GameBoard = gameBoard;
             AllRooms = allRooms;
             VisitedRooms = visitedRooms;
+            HasEventHappened = hasEventHappened;
             CurrentRoom = currentRoom;
             NumberOfItemsFound = numberOfItemsFound;
             NumberOfLives = numberOfLives;
@@ -30,7 +32,7 @@ namespace redrum_not_muckduck_game.save
         public static void Save()
         {
             SaveData dataToSave = new SaveData(Board.GameBoard, Game.AllRooms, Game.VisitedRooms,
-                Game.CurrentRoom, Game.NumberOfItemsFound, Game.NumberOfLives);
+                Room.HasEventHappened, Game.CurrentRoom, Game.NumberOfItemsFound, Game.NumberOfLives);
             File.WriteAllText(SavedDataPath, JsonConvert.SerializeObject(dataToSave));
         }
 

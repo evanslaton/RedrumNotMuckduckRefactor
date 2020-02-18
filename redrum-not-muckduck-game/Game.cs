@@ -50,6 +50,7 @@ namespace redrum_not_muckduck_game
                 VisitedRooms = saveData.VisitedRooms;
                 NumberOfItemsFound = saveData.NumberOfItemsFound;
                 NumberOfLives = saveData.NumberOfLives;
+                Room.HasEventHappened = saveData.HasEventHappened;
             }
             catch
             {
@@ -232,17 +233,6 @@ namespace redrum_not_muckduck_game
             return false;
         }
 
-        //private void AddQuoteToHintPage()
-        //{
-        //    //Check if quote has been added to hint page
-        //    //Unless we're in Reception - because talking to Michael is to end the game not to get a hint
-        //    if (!Collected_Hints.Contains(CurrentRoom.GetQuote()) && CurrentRoom.Name != "Reception")
-        //    {
-        //        Collected_Hints.Add(CurrentRoom.GetQuote());
-        //        HintPage.DisplayHints(CurrentRoom.GetQuote());
-        //    }
-        //}
-
         private void CheckIfTalkingToMichael()
         {
             if (CurrentRoom.Name == "Reception")
@@ -285,36 +275,42 @@ namespace redrum_not_muckduck_game
         private void RenderSpecialActionsInRooms()
         {
             int randomPercentage = PercentChanceGenerator();
-
-            Delete.Scene();
-            if (randomPercentage > 0)
+            if(Room.HasEventHappened.ContainsKey(CurrentRoom.Name) && Room.HasEventHappened[CurrentRoom.Name] == false)
             {
                 Delete.Scene();
-                Render.ActionQuote(CurrentRoom.Action);
-                if (CurrentRoom.Name.Equals("Break Room") || CurrentRoom.Name.Equals("Sales"))
+                if (randomPercentage > 0)
                 {
-                    if (NumberOfLives < 3)
+                    Delete.Scene();
+                    Render.ActionQuote(CurrentRoom.Action);
+                    if (CurrentRoom.Name.Equals("Break Room") || CurrentRoom.Name.Equals("Sales"))
                     {
-                        Solution.AddAHeartToBoard();
-                        //This must occur prior to rendering the heart to prevent it being out of bounds
-                        //This is opposite of actions that lose a life due to how the Gain/Loss methods 
-                        NumberOfLives++;
+                        if (NumberOfLives < 3)
+                        {
+                            Solution.AddAHeartToBoard();
+                            //This must occur prior to rendering the heart to prevent it being out of bounds
+                            //This is opposite of actions that lose a life due to how the Gain/Loss methods 
+                            NumberOfLives++;
+                        }
+                        Board.Render();
+                        System.Console.WriteLine("Press any key to continue:");
+                        Console.ReadKey(true);
                     }
-                    Board.Render();
-                    System.Console.WriteLine("Press any key to continue:");
-                    Console.ReadKey(true);
-                }
-                else if (CurrentRoom.Name.Equals("Accounting"))
-                {
-                    NumberOfLives--;
-                    Solution.RemoveAHeartFromBoard();
-                    if (NumberOfLives <= 0)
-                        EndPage.LoseScene();
-                    Board.Render();
-                    System.Console.WriteLine("Press any key to continue:");
-                    Console.ReadKey(true);
-                }
+                    else if (CurrentRoom.Name.Equals("Accounting") || CurrentRoom.Name.Equals("Quality Assurance"))
+                    {
+                        NumberOfLives--;
+                        Solution.RemoveAHeartFromBoard();
+                        if (NumberOfLives <= 0)
+                            EndPage.LoseScene();
+                        Board.Render();
+                        System.Console.WriteLine("Press any key to continue:");
+                        Console.ReadKey(true);
+                    }
+                    Room.HasEventHappened[CurrentRoom.Name] = true;
+
+                } 
             }
+
+           
         }
 
         private void CheckIfVistedRoom(string roomName)
