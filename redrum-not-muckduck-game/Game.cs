@@ -261,14 +261,12 @@ namespace redrum_not_muckduck_game
                 bool userWantsToSolve = Solution.AskToSolvePuzzle();
                 if (userWantsToSolve)
                 {
-                    //If the user would like to solve the puzzle - check their answers
                     IsGameOver = Solution.CheckSolution();
                     Delete.Scene();
                     CheckHealth();
                 }
                 else
                 {
-                    //Otherwise - Tell them to come back when they are ready
                     Delete.Scene();
                     Render.OneLineQuestionOrQuote("Michael: \"Ok, come back when you are ready\"");
                 }
@@ -307,7 +305,7 @@ namespace redrum_not_muckduck_game
                 {
                     if (NumberOfLives < 3)
                     {
-                        Solution.GainALife();
+                        Solution.AddAHeartToBoard();
                         //This must occur prior to rendering the heart to prevent it being out of bounds
                         //This is opposite of actions that lose a life due to how the Gain/Loss methods 
                         NumberOfLives++;
@@ -319,7 +317,7 @@ namespace redrum_not_muckduck_game
                 else if (CurrentRoom.Name.Equals("Accounting"))
                 {
                     NumberOfLives--;
-                    Solution.LoseALife();
+                    Solution.RemoveAHeartFromBoard();
                     if (NumberOfLives <= 0)
                         EndPage.LoseScene();
                     Board.Render();
