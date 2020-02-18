@@ -9,13 +9,13 @@ namespace redrum_not_muckduck_game
     // You can control the size, color, and updating user progress
     public class Board
     {
+        public static char[,] GameBoard { get; set; }
         internal int BOARD_DIMENSION_ROWS = 30;
         internal int BOARD_DIMENSION_COLUMNS = 80;
-        public static char[,] board { get; set; }
 
         public Board()
         {
-            board = Create();
+            GameBoard = Create();
         }
 
         public void Render()
@@ -31,30 +31,30 @@ namespace redrum_not_muckduck_game
                     // Highlights current location in green
                     if (row == 1 && column > 15 && column < 30)
                     {
-                        Console.Write(board[row, column], Color.Green);
+                        Console.Write(GameBoard[row, column], Color.Green);
                     }
                     // Highlights users health in red 
                     else if (row > 1 && row < 6 && column > 49 && column < 79)
                     {
-                        Console.Write(board[row, column], Color.Red);
+                        Console.Write(GameBoard[row, column], Color.Red);
                     }
                     // Highlights avaliable actions in yellow
                     else if (row > 4 && row < 10 && column > 3 && column < 25 && !endOfWord) 
                     {
-                        if (board[row, column] == ' ') //Once a space is found (aka its the end of the word) we print the remainin sentence in white
+                        if (GameBoard[row, column] == ' ') //Once a space is found (aka its the end of the word) we print the remainin sentence in white
                         {
                             endOfWord = true;
-                            Console.Write(board[row, column]);
+                            Console.Write(GameBoard[row, column]);
                         }
                         else //Otherwise if it's not the end of the word - print in yellow
                         {
-                            Console.Write(board[row, column], Color.Yellow); 
+                            Console.Write(GameBoard[row, column], Color.Yellow); 
                         }
                     }
                     // If its not something that needs to be highlighted - just print it in white
                     else
                     {
-                        Console.Write(board[row, column]);
+                        Console.Write(GameBoard[row, column]);
                     }
                 }
                 Console.WriteLine();

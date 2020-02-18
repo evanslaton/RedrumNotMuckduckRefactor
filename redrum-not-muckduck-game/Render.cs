@@ -23,7 +23,7 @@ namespace redrum_not_muckduck_game
                     ROW_WHERE_ACTION_STARTS++;
                     currentColumn = 0;
                 }
-                Board.board[ROW_WHERE_ACTION_STARTS, COLUMN_WHERE_ACTION_STARTS + currentColumn] = actionQuote[i];
+                Board.GameBoard[ROW_WHERE_ACTION_STARTS, COLUMN_WHERE_ACTION_STARTS + currentColumn] = actionQuote[i];
                 currentColumn++;
             }
         }
@@ -36,7 +36,7 @@ namespace redrum_not_muckduck_game
 
             for (int i = 0; i < header.Length; i++)
             {
-                Board.board[ROW_WHERE_OPTIONS_START, COLUMN_WHERE_OPTIONS_START + i] = header[i];
+                Board.GameBoard[ROW_WHERE_OPTIONS_START, COLUMN_WHERE_OPTIONS_START + i] = header[i];
             }
             ROW_WHERE_OPTIONS_START++;
 
@@ -45,7 +45,7 @@ namespace redrum_not_muckduck_game
                 string person = str.Key;
                 for (int i = 0; i < person.Length; i++)
                 {
-                    Board.board[ROW_WHERE_OPTIONS_START, COLUMN_WHERE_OPTIONS_START + i] = person[i];
+                    Board.GameBoard[ROW_WHERE_OPTIONS_START, COLUMN_WHERE_OPTIONS_START + i] = person[i];
                 }
                 ROW_WHERE_OPTIONS_START++;
             }
@@ -66,7 +66,7 @@ namespace redrum_not_muckduck_game
                     ROW_WHERE_QUOTE_STARTS++;
                     currentColumn = 0;
                 }
-                Board.board[ROW_WHERE_QUOTE_STARTS, COLUMN_WHERE_QUOTE_STARTS + currentColumn] = quote[i];
+                Board.GameBoard[ROW_WHERE_QUOTE_STARTS, COLUMN_WHERE_QUOTE_STARTS + currentColumn] = quote[i];
                 currentColumn++;
             }
         }
@@ -80,7 +80,7 @@ namespace redrum_not_muckduck_game
             {
                 for (int j = 0; j < Actions[i].Length; j++)
                 {
-                    Board.board[ROW_WHERE_ACTIONS_START, COLUMN_WHERE_ACTIONS_START + j] = Actions[i][j];
+                    Board.GameBoard[ROW_WHERE_ACTIONS_START, COLUMN_WHERE_ACTIONS_START + j] = Actions[i][j];
                 }
                 ROW_WHERE_ACTIONS_START++;
             }
@@ -93,7 +93,7 @@ namespace redrum_not_muckduck_game
 
             for (int i = 0; i < questionOrQuote.Length; i++)
             {
-                Board.board[ROW_WHERE_QUESTION_STARTS, COLUMN_WHERE_QUESTION_STARTS + i] = questionOrQuote[i];     
+                Board.GameBoard[ROW_WHERE_QUESTION_STARTS, COLUMN_WHERE_QUESTION_STARTS + i] = questionOrQuote[i];     
             }
         }
 
@@ -115,7 +115,7 @@ namespace redrum_not_muckduck_game
                     ROW_WHERE_SCENE_STARTS++;
                     currentColumn = 0;
                 }
-                Board.board[ROW_WHERE_SCENE_STARTS, COLUMN_WHERE_SCENE_STARTS + currentColumn] = description[i];
+                Board.GameBoard[ROW_WHERE_SCENE_STARTS, COLUMN_WHERE_SCENE_STARTS + currentColumn] = description[i];
                 currentColumn++;
             }
         }
@@ -127,7 +127,7 @@ namespace redrum_not_muckduck_game
 
             for (int i = 0; i < currentRoom.GetNameLength(); i++)
             {
-                Board.board[ROW_WHERE_LOCATION_STARTS, COLUMN_WHERE_LOCATION_STARTS + i] = currentRoom.Name[i];
+                Board.GameBoard[ROW_WHERE_LOCATION_STARTS, COLUMN_WHERE_LOCATION_STARTS + i] = currentRoom.Name[i];
             }
         }
 
@@ -139,7 +139,7 @@ namespace redrum_not_muckduck_game
 
             for (int i = 0; i < foundItem.Length; i++)
             {
-                Board.board[ROW_TO_INSERT_NEW_ITEM, COLUMN_WHERE_ITEMS_START + i] = foundItem[i];
+                Board.GameBoard[ROW_TO_INSERT_NEW_ITEM, COLUMN_WHERE_ITEMS_START + i] = foundItem[i];
             }
         }
 
@@ -151,7 +151,7 @@ namespace redrum_not_muckduck_game
 
             for (int i = 0; i < room.Length; i++)
             {
-                Board.board[ROW_TO_INSERT_ROOM, COLUMN_WHERE_ROOM_START + i] = room[i];
+                Board.GameBoard[ROW_TO_INSERT_ROOM, COLUMN_WHERE_ROOM_START + i] = room[i];
             }
         }
 
