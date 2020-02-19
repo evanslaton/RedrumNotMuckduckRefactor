@@ -59,7 +59,7 @@ namespace redrum_not_muckduck_game
                     "*a way out and get help!\"" },
                     { "Angela", " : \"Oscar! Take me with you!\"" }
                },
-              "Oscar fell through the ceiling*and lands on you!!!! *You lose one Heart",
+              "Oscar fell through the ceiling*and lands on you!!!! * *YOU LOSE A HEART",
                true
             );
         }
@@ -107,7 +107,7 @@ namespace redrum_not_muckduck_game
                      { "Kevin", " : \"What is going to happen to" +
                      "*all the vending machine snacks?!\"" }
                  },
-                "Kevin broke into the vending machine *and offers you a snack *You gain one Heart",
+                "Kevin broke into the vending machine *and offers you a snack * *YOU GAIN A HEART",
                 false
             );
         }
@@ -149,7 +149,7 @@ namespace redrum_not_muckduck_game
                     { "Meredith", " : \"Alright! I can take" +
                     "*another smoke break!\""}
                 },
-                "You help Jim and Andy ram a copier into *a door, the door didn't open and you *threw out your back.......*You lose a life",
+                "You help Jim and Andy ram a copier into *a door, the door didn't open and you *threw out your back.......* *YOU LOSE A HEART",
                 false
             );
         }
@@ -195,7 +195,7 @@ namespace redrum_not_muckduck_game
                     { "Dwight", " : \"Michael! Why did you light" +
                     "*Jan's candle. You know I*hate the smell.\"" }
                 },
-                "You see a pretzel on Stanley's Desk and *you choose to eat it. *You gain one Heart",
+                "You see a pretzel on Stanley's Desk and *you choose to eat it.* *YOU GAIN A HEART",
                 true
             );
         }

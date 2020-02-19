@@ -3,7 +3,7 @@ using System.Text;
 
 namespace redrum_not_muckduck_game
 {
-    class Map
+    public class Map
     {
         private static string[] ALL_ROOM_NAMES =
         { "Reception", "Sales", "Break Room", "Accounting", "Quality", "Assurance", "Kitchen", "Annex" };
