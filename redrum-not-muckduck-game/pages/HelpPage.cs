@@ -7,7 +7,7 @@ namespace redrum_not_muckduck_game
         public static string HelpPageMessage = "" +
             "   ╔════════════════════════════════════════════════╗\n" +
             "   ║                                                ║\n" +
-            "   ║  In order to ESCAPE you must find              ║\n" +
+            "   ║  In order to keep your job, identify           ║\n" +
             "   ║    WHO started the fire,                       ║\n" +
             "   ║     WHAT started the fire,                     ║\n" +
             "   ║      & WHERE the fire was started.             ║\n" +

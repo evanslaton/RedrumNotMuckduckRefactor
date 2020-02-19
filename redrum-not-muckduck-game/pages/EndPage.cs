@@ -4,8 +4,8 @@ namespace redrum_not_muckduck_game
 {
     class EndPage
     {
-        public static string[] WinMessage = { "\n\tYou saved everyone from the fire!",
-        "\t\tThanks, Kevin! You deserve some smores.",
+        public static string[] WinMessage = { "\n\tYou saved your job and found who did it!",
+        "\t\tYou deserve some smores.",
         "\t\t\tHopefully, Dwight will be reprimanded for starting a fire in the office."};
         public static string[] LoseMessage = {"\n\tAfter breathing in too much smoke you wake up surrounded by firefighters. ",
         "\t\tNo one knows how the fire was started.",

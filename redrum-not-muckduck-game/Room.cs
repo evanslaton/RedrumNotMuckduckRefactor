@@ -5,7 +5,6 @@ namespace redrum_not_muckduck_game
     public class Room
     {
         public static Dictionary<string, bool> HasEventHappened { get; set; } = new Dictionary<string, bool>();
-        public Dictionary<string, bool> ItemsPickedUp { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public Dictionary<string, bool> ItemInRoom { get; set; }
@@ -45,20 +44,22 @@ namespace redrum_not_muckduck_game
         {
             return new Room(
                "Accounting",
-               "Your desk is covered in M&Ms.  " +
+               "Everyone is running around.  " +
                "*Oscar is trying to find an exit.  " +
                "*Out of the corner of your eye, you " +
                "*see a drawer slowly open. ",
-               new Dictionary<string, bool>
+               new Dictionary<string, bool>()
                {
                    { "Angela's cat, Bandit", false }
                },
               new Dictionary<string, string>()
                {
-                    { "Oscar", " : \"Angela, stay here. I am going*up into the ceiling to find*a way out and get help!\"" },
+                    { "Oscar", " : \"Angela, stay here. I am going" +
+                    "*up into the ceiling to find" +
+                    "*a way out and get help!\"" },
                     { "Angela", " : \"Oscar! Take me with you!\"" }
                },
-              "Oscar fell through the ceiling!!!! *You lose one Heart",
+              "Oscar fell through the ceiling*and lands on you!!!! *You lose one Heart",
                true
             );
         }
@@ -68,20 +69,20 @@ namespace redrum_not_muckduck_game
             return new Room(
                  "Annex",
                  "You have made it to the " +
-                 "*back of the office " +
-                 "*you should probably go back. " +
-                 "*Kelly waits around for Ryan. " +
-                 "*He doesn't smoke cigarettes does " +
+                 "*back of the office. " +
+                 "*Kelly seems to be waiting around" +
+                 "*for Ryan. He doesn't smoke cigarettes does " +
                  "*he?",
-                 new Dictionary<string, bool>
+                 new Dictionary<string, bool>()
                  {
-                     {"beet stained cigs", false },
-                     {"cookies", false },
-                     {"candle", false }
+                     { "a Chad Flenderman Novel", false },
                  },
                  new Dictionary<string, string>()
                  {
-                    { "Kelly", " : \"Why does Dwight have a blow horn?\"" },
+                    { "Kelly", " : \"I saw Dwight walk by" +
+                    "*with a blow horn earlier." +
+                    "*Weird right? Then again," +
+                    "*it is Dwight...\"" },
                     { "Toby", " : \"I wish I were in Costa Rica still...\"" }
                  },
                  "",
@@ -93,10 +94,19 @@ namespace redrum_not_muckduck_game
         {
             return new Room(
                 "Break Room",
-                "You are hungry but is there " +
-                "*time? Probably right?",
-                 new Dictionary<string, bool>{},
-                 new Dictionary<string, string>() { },
+                "As you open the door a large puff" +
+                "*of smoke pours out the door." +
+                "*You see a large silhouette in" +
+                "*the room.",
+                 new Dictionary<string, bool>()
+                 {
+                     { "Cigarettes", false }
+                 },
+                 new Dictionary<string, string>() 
+                 {
+                     { "Kevin", " : \"What is going to happen to" +
+                     "*all the vending machine snacks?!\"" }
+                 },
                 "Kevin broke into the vending machine *and offers you a snack *You gain one Heart",
                 false
             );
@@ -107,11 +117,19 @@ namespace redrum_not_muckduck_game
             return new Room(
                 "Kitchen",
                 "Why is Phyllis just standing here? " +
-                "*She seems very disturbed... ",
-                new Dictionary<string, bool>{},
+                "*She has a puzzled look on her face... " +
+                "*Stanley is very distressed over something.",
+                new Dictionary<string, bool>()
+                {
+                    { "Burnt Cheese Pita", false }
+                },
                 new Dictionary<string, string>()
                 {
-                    { "Phyllis", " : \"I saw Dwight come from the breakroom\"" }
+                    { "Phyllis", " : \"Why would someone use the" +
+                    "*\'oven\' setting on the" +
+                    "*toaster-oven for a cheese pita?\"" },
+                    { "Stanley", " : \"Oh my gosh! What's going" +
+                    "*happen to the next Pretzal Day?!\"" }
                 },
                 "",
                 false
@@ -122,12 +140,14 @@ namespace redrum_not_muckduck_game
         {
             return new Room(
                 "Quality Assurance",
-                "Creed and Meredith are sitting at their desks",
-                new Dictionary<string, bool>{},
+                "Creed and Meredith are still*sitting at their desks.",
+                new Dictionary<string, bool>(){},
                 new Dictionary<string, string>()
                 {
-                    { "Creed", " : \"Hey I think I smell smoked ribs\""},
-                    { "Meredith", " : \"Mmmmmmmmmmm\""}
+                    { "Creed", " : \"Hey, I think I smell smoked ribs." +
+                    "*Why did no one tell me we were having ribs?!\""},
+                    { "Meredith", " : \"Alright! I can take" +
+                    "*another smoke break!\""}
                 },
                 "You help Jim and Andy ram a copier into *a door, the door didn't open and you *threw out your back.......*You lose a life",
                 false
@@ -138,12 +158,17 @@ namespace redrum_not_muckduck_game
         {
             return new Room(
                 "Reception",
-                "Michael waits to hear what " +
-                "*you think happened today",
-                new Dictionary<string, bool>{},
+                "Michael is panicking and you see Pam" +
+                "*trying to calm him down.",
+                new Dictionary<string, bool>()
+                {
+                    { "a candle", false }
+                },
                 new Dictionary<string, string>()
                 {
-                     { "Michael", " : \"Would you like to solve the puzzle?\"" }
+                    { "Michael", " : \"This better be important!*You didn't start the fire?*Do you know what happened?\"" },
+                    { "Pam", " : \"Jim! Have Ryan help you" +
+                    "*guys! Wait, where is Ryan?\""}
                 },
                 "",
                 false
@@ -154,20 +179,23 @@ namespace redrum_not_muckduck_game
             return new Room(
                 "Sales",
                 "Chaos ensues as the smoke thickens. " +
-                "*Andy is frantically running in circles and " +
-                "*knocks over his trash can, something makes " +
-                "*a thud sound as it falls out.",
-                new Dictionary<string, bool>
+                "*Andy is frantically running in circles." +
+                "*You notice someone smells like" +
+                "*cigarettes.",
+                new Dictionary<string, bool>()
                 {
-                    { "torch", false }
+                    { "Butane Torch", false }
                 },
                 new Dictionary<string, string>()
                 {
-                    { "Andy", " : \"This would never happen at Cornell...\"" },
-                    { "Stanley", " : \"What'll happen to Pretzal Day?!\"" },
-                    { "Jim", " : \"Let's ram the door with the copier!\"" }
+                    { "Andy", " : ~Firecrackers Popping~" +
+                    "*\"THE FIRE IS SHOOTING AT US!!!\"" },
+                    { "Jim", " : \"Let's ram the door with the copier!" +
+                    "*Andy, come help me!\"" },
+                    { "Dwight", " : \"Michael! Why did you light" +
+                    "*Jan's candle. You know I*hate the smell.\"" }
                 },
-                "You see a pretzel on Stanley's Desk and *you choose to eat it *You gain one Heart",
+                "You see a pretzel on Stanley's Desk and *you choose to eat it. *You gain one Heart",
                 true
             );
         }

@@ -1,7 +1,6 @@
 using redrum_not_muckduck_game.save;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Runtime.InteropServices;
 using Console = Colorful.Console;
 
@@ -15,10 +14,8 @@ namespace redrum_not_muckduck_game
         public static List<Room> AllRooms { get; set; }
         public static int NumberOfLives { get; set; } = 3;
         public static int NumberOfItemsFound { get; set; } = 0;
-        public static int NumberOfNames { get; set; } = 0;
         public static bool IsGameOver { get; set; } = false;
         public static bool UserQuitGame { get; set; } = false;
-        public static List<string> CollectedHints { get; set; } = new List<string>();
         public static List<string> VisitedRooms { get; set; } = new List<string>();
         public static Board Board { get; set; } = new Board();
         public static HelpPage HelpPage = new HelpPage();
@@ -51,6 +48,7 @@ namespace redrum_not_muckduck_game
                 NumberOfItemsFound = saveData.NumberOfItemsFound;
                 NumberOfLives = saveData.NumberOfLives;
                 Room.HasEventHappened = saveData.HasEventHappened;
+                AllRooms = saveData.AllRooms;
             }
             catch
             {
@@ -60,12 +58,12 @@ namespace redrum_not_muckduck_game
 
         private void StartSetUp()
         {
-            //if (Is_Windows) { Sound.PlaySound(@"utilities\Theme.mp4", 1000); } //If device is windows - play music
+            if (Is_Windows) { MusicController.PlaySound(@"utilities\Theme.mp4", 1000); } //If device is windows - play music
             WelcomePage.AcsiiArt();
             WelcomePage.StoryIntro();
             Render.Location(CurrentRoom);
             Render.Action();
-            Render.SceneDescription();
+            Render.SceneDescription(CurrentRoom.Description);
         }
 
         private void UserTurn()
@@ -122,17 +120,15 @@ namespace redrum_not_muckduck_game
 
         private void ExploreRoom()
         {
-            Delete.Scene();
+            Delete.SceneTextArea();
             if (CurrentRoom.ItemInRoom.Count == 0)
             {
                 Render.Quote("There is nothing of note in the room.");
             }
             else if (CurrentRoom.ItemInRoom.ContainsValue(false))
             {
-                //Lists name of person in the current room then renders to UI
                 Render.ExploreChoices(CurrentRoom.ItemInRoom);
                 Board.Render();
-                //Prompts user input for name of who they want to talk to
                 string itemSelected;
                 do
                 {
@@ -147,23 +143,23 @@ namespace redrum_not_muckduck_game
 
         private bool ValidateExploreSelection(string itemSelected)
         {
-            //Searches ItemInRoom dictionary keys for match of player input value
+            if (itemSelected.Equals("exit"))
+            {
+                Delete.SceneTextArea();
+                return true;
+            }
             foreach (KeyValuePair<string, bool> str in CurrentRoom.ItemInRoom)
             {
-                //if (itemSelected == str.Key.ToLower() && str.Value == false)
                 if (str.Key.ToLower().Contains(itemSelected) && str.Value == false && itemSelected.Length > 2)
                 {
-                    //Removes list of people in room
-                    Delete.Scene();
-                    Render.Quote($"You pick up {str.Key}");
+                    Delete.SceneTextArea();
+                    Render.Quote($"You pick up {str.Key}.");
                     CurrentRoom.ItemInRoom[str.Key] = true;
                     Render.FoundItemsList(str.Key);
                     NumberOfItemsFound++;
-                    //Stops requesting input
                     return true;
                 }
             }
-            //If item is not found, board re-renders, notifies player, and continues input request
             Board.Render();
             Console.WriteLine("That item is not around. Maybe the smoke is getting to you...");
             return false;
@@ -171,30 +167,27 @@ namespace redrum_not_muckduck_game
 
         private void TalkToPerson()
         {
-            //Removes prior scene text
-            Delete.Scene();
+            Delete.SceneTextArea();
             if (CurrentRoom.PersonsInRoom.Count == 0)
             {
                 Render.Quote("There is no one in the room to talk to.");
             }
             else
             {
-            //Lists name of person in the current room then renders to UI
                 Render.TalkChoices(CurrentRoom.PersonsInRoom);
                 Board.Render();
                 string nameSelected;
-            //Prompts user input for name of who they want to talk to
                 do
                 {
                     nameSelected = UserSelection();
                 } while (!ValidateTalkSelection(nameSelected));
-                //AddQuoteToHintPage();
                 CheckIfTalkingToMichael();
             }
         }
 
-        private string UserSelection() //AskUserWhoToTalkTo()
+        private string UserSelection()
         {
+            Console.WriteLine("Type selection or type \'exit\' to return to Room menu");
             Console.Write("> ");
             return Console.ReadLine().ToLower();
         }
@@ -202,21 +195,22 @@ namespace redrum_not_muckduck_game
         private bool ValidateTalkSelection(string nameSelected)
         {
             string quote;
-            //Searches PersonsInRoom dictionary keys for match of player input value
-            foreach (KeyValuePair<string, string> str in CurrentRoom.PersonsInRoom)
+            if (nameSelected.Equals("exit"))
             {
-                if (nameSelected == str.Key.ToLower())
+                Delete.SceneTextArea();
+                return true;
+            }
+            //Searches PersonsInRoom dictionary keys for match of player input value
+            foreach (KeyValuePair<string, string> person in CurrentRoom.PersonsInRoom)
+            {
+                if (nameSelected == person.Key.ToLower())
                 {
-                    //Concatenates dictionary key + value to create quote
-                    quote = str.Key + str.Value;
-                    //Removes list of people in room
-                    Delete.Scene();
+                    quote = person.Key + person.Value;
+                    Delete.SceneTextArea();
                     Render.Quote(quote);
-                    //Stops requesting input
                     return true;
                 }
             }
-            //If name is not found, board re-renders, notifies player, and continues input request
             Board.Render();
             Console.WriteLine("Not a person in this room. Please select someone in the room to talk to.");
             return false;
@@ -231,34 +225,33 @@ namespace redrum_not_muckduck_game
                 if (userWantsToSolve)
                 {
                     IsGameOver = Solution.CheckSolution();
-                    Delete.Scene();
-                    CheckHealth();
+                    Delete.SceneTextArea();
+                    if (NumberOfLives == 0) IsGameOver = true;
                 }
                 else
                 {
-                    Delete.Scene();
-                    Render.OneLineQuestionOrQuote("Michael: \"Ok, come back when you are ready\"");
+                    Delete.SceneTextArea();
+                    Render.SceneDescription("Michael: \"Ok, come back when you are ready\"");
                 }
             }
         }
 
         private void UpdateCurrentRoom(string nextRoom)
         {
-            Delete.Scene();
+            Delete.SceneTextArea();
             Delete.Location(CurrentRoom);
-            //Loop through adjacent rooms to see which one the user selected
             foreach (Room Room in AllRooms)
             {
                 if (nextRoom.ToLower() == Room.Name.ToLower())
                 {
-                    CheckIfVistedRoom(CurrentRoom.Name); //Check if user has been to this room
-                    CurrentRoom = Room; //Update the current room
+                    CheckIfVistedRoom(CurrentRoom.Name);
+                    CurrentRoom = Room;
                 }
             }
             Render.Location(CurrentRoom);
             RenderSpecialActionsInRooms();
-            Delete.Scene();
-            Render.SceneDescription();
+            Delete.SceneTextArea();
+            Render.SceneDescription(CurrentRoom.Description);
         }
 
         private void RenderSpecialActionsInRooms()
@@ -266,18 +259,16 @@ namespace redrum_not_muckduck_game
             int randomPercentage = PercentChanceGenerator();
             if(Room.HasEventHappened.ContainsKey(CurrentRoom.Name) && Room.HasEventHappened[CurrentRoom.Name] == false)
             {
-                Delete.Scene();
+                Delete.SceneTextArea();
                 if (randomPercentage > 0)
                 {
-                    Delete.Scene();
+                    Delete.SceneTextArea();
                     Render.ActionQuote(CurrentRoom.Action);
                     if (CurrentRoom.Name.Equals("Break Room") || CurrentRoom.Name.Equals("Sales"))
                     {
                         if (NumberOfLives < 3)
                         {
                             Solution.AddAHeartToBoard();
-                            //This must occur prior to rendering the heart to prevent it being out of bounds
-                            //This is opposite of actions that lose a life due to how the Gain/Loss methods 
                             NumberOfLives++;
                         }
                         Board.Render();
@@ -295,11 +286,8 @@ namespace redrum_not_muckduck_game
                         Console.ReadKey(true);
                     }
                     Room.HasEventHappened[CurrentRoom.Name] = true;
-
                 } 
             }
-
-           
         }
 
         private void CheckIfVistedRoom(string roomName)
@@ -322,14 +310,6 @@ namespace redrum_not_muckduck_game
             Console.Clear();
             SaveData.Save();
             Console.WriteLine("Your game has been saved.");
-        }
-
-        private void CheckHealth()
-        {
-            if (NumberOfLives == 0)
-            {
-                IsGameOver = true;
-            }
         }
 
         private void EndOfGame()
