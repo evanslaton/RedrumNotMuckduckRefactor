@@ -75,7 +75,7 @@ namespace redrum_not_muckduck_game
                  "*he?",
                  new Dictionary<string, bool>()
                  {
-                     { "A Chad Flenderman Novel", false },
+                     { "a Chad Flenderman Novel", false },
                  },
                  new Dictionary<string, string>()
                  {
@@ -162,7 +162,7 @@ namespace redrum_not_muckduck_game
                 "*trying to calm him down.",
                 new Dictionary<string, bool>()
                 {
-                    { "A Serenity by Jan Candle", false }
+                    { "a candle", false }
                 },
                 new Dictionary<string, string>()
                 {
