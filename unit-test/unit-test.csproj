@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>unit_test</RootNamespace>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
@@ -11,6 +12,10 @@
     <PackageReference Include="MSTest.TestAdapter" Version="2.0.0" />
     <PackageReference Include="MSTest.TestFramework" Version="2.0.0" />
     <PackageReference Include="coverlet.collector" Version="1.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\redrum-not-muckduck-game\redrum-not-muckduck-game.csproj" />
   </ItemGroup>
 
 </Project>

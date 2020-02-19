@@ -47,7 +47,7 @@ namespace redrum_not_muckduck_game.save
 
         public static string GetPathToSavedData()
         {
-            if (Game.Is_Windows)
+            if (Game.onWindows)
             {
                 return @"..\..\..\save\saved-data.json";
             }

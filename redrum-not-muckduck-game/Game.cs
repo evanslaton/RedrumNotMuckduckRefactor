@@ -6,9 +6,9 @@ using Console = Colorful.Console;
 
 namespace redrum_not_muckduck_game
 {
-    class Game
+    public class Game
     {
-        public static readonly bool Is_Windows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+        public static readonly bool onWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
         private static Random rand = new Random();
         public static Room CurrentRoom { get; set; }
         public static List<Room> AllRooms { get; set; }
@@ -58,7 +58,7 @@ namespace redrum_not_muckduck_game
 
         private void StartSetUp()
         {
-            if (Is_Windows) { MusicController.PlaySound(@"utilities\Theme.mp4", 1000); } //If device is windows - play music
+            if (onWindows) MusicController.PlaySound(@"utilities\Theme.mp4", 1000);
             WelcomePage.AcsiiArt();
             WelcomePage.StoryIntro();
             Render.Location(CurrentRoom);
@@ -181,7 +181,11 @@ namespace redrum_not_muckduck_game
                 {
                     nameSelected = UserSelection();
                 } while (!ValidateTalkSelection(nameSelected));
-                CheckIfTalkingToMichael();
+
+                if (!nameSelected.Equals("exit"))
+                {
+                    CheckIfTalkingToMichael();
+                }
             }
         }
 
