@@ -260,17 +260,14 @@ namespace redrum_not_muckduck_game
             if(Room.HasEventHappened.ContainsKey(CurrentRoom.Name) && Room.HasEventHappened[CurrentRoom.Name] == false)
             {
                 Delete.SceneTextArea();
-                if (randomPercentage > 0)
+                if (randomPercentage > 49)
                 {
                     Delete.SceneTextArea();
                     Render.ActionQuote(CurrentRoom.Action);
-                    if (CurrentRoom.Name.Equals("Break Room") || CurrentRoom.Name.Equals("Sales"))
+                    if (NumberOfLives < 3 && (CurrentRoom.Name.Equals("Break Room") || CurrentRoom.Name.Equals("Sales")))
                     {
-                        if (NumberOfLives < 3)
-                        {
-                            Solution.AddAHeartToBoard();
-                            NumberOfLives++;
-                        }
+                        Solution.AddAHeartToBoard();
+                        NumberOfLives++;
                         Board.Render();
                         System.Console.WriteLine("Press any key to continue:");
                         Console.ReadKey(true);
