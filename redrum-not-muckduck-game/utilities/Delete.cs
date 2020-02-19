@@ -1,5 +1,4 @@
-﻿using System;
-namespace redrum_not_muckduck_game
+﻿namespace redrum_not_muckduck_game
 {
     class Delete
     {
@@ -14,17 +13,17 @@ namespace redrum_not_muckduck_game
             }
         }
 
-        public static void Scene()
+        public static void SceneTextArea()
         {
             int ROW_SCENE_ENDS = 20;
             int COL_SCENCE_STARTS = 1;
             int COL_SCENCE_ENDS = 48;
 
-            for (int ROW_SCENE_STARTS = 14; ROW_SCENE_STARTS < ROW_SCENE_ENDS; ROW_SCENE_STARTS++)
+            for (int rowSceneStarts = 14; rowSceneStarts < ROW_SCENE_ENDS; rowSceneStarts++)
             {
                 for (int col = 0; col < COL_SCENCE_ENDS; col++)
                 {
-                    Board.GameBoard[ROW_SCENE_STARTS, COL_SCENCE_STARTS + col] = ' ';
+                    Board.GameBoard[rowSceneStarts, COL_SCENCE_STARTS + col] = ' ';
                 }
             }
         }

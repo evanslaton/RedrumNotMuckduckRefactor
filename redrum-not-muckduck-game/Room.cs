@@ -5,7 +5,6 @@ namespace redrum_not_muckduck_game
     public class Room
     {
         public static Dictionary<string, bool> HasEventHappened { get; set; } = new Dictionary<string, bool>();
-        public Dictionary<string, bool> ItemsPickedUp { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public Dictionary<string, bool> ItemInRoom { get; set; }

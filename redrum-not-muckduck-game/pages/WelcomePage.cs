@@ -1,12 +1,9 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Drawing;
 using Console = Colorful.Console;
 
 namespace redrum_not_muckduck_game
 {
-    // This class controls the intro to the game
-    // You can find Acsii Art & Story here
     class WelcomePage
     {
         public static void AcsiiArt()
@@ -39,8 +36,7 @@ namespace redrum_not_muckduck_game
             TypeByLetter("    Come on an adventure.. If you dare..", 1);
             Console.WriteLine();
             TypeByLetter("    Press any key to continue...", 1);
-            // Waits for user to hit key to start game
-            Console.ReadKey(true);
+            Console.ReadKey(true); // Waits for user to hit key to start game
         }
 
         public static void TypeByLetter(string line, int milliseconds)

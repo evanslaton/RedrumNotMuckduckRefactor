@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-namespace redrum_not_muckduck_game
+﻿namespace redrum_not_muckduck_game
 {
     class Program
     {

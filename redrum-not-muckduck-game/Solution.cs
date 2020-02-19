@@ -32,7 +32,7 @@ namespace redrum_not_muckduck_game
             int correctAnswers = 0;
             while(correctAnswers < 3 && Game.NumberOfLives > 0)
             {
-                Delete.Scene();
+                Delete.SceneTextArea();
                 Render.OneLineQuestionOrQuote(QUESTIONS[correctAnswers]);
                 Game.Board.Render();
                 Console.WriteLine("Input your guess or type \'exit\' to stop guessing:");
@@ -54,7 +54,7 @@ namespace redrum_not_muckduck_game
 
         private static void DisplayText(string text)
         {
-            Delete.Scene();
+            Delete.SceneTextArea();
             Render.OneLineQuestionOrQuote(text);
             Game.Board.Render();
             Thread.Sleep(2000);
@@ -62,12 +62,7 @@ namespace redrum_not_muckduck_game
 
         public static void RemoveAHeartFromBoard()
         {
-            int heartDeletionStartColumn = 
-                COLUMN_WHERE_HEARTS_START +
-                //Adjusts Column to first char of last heart
-                ((Game.NumberOfLives) * WIDTH_OF_HEART) +
-                //Adjusts for spaces between hearts
-                (Game.NumberOfLives);
+            int heartDeletionStartColumn = GetColumn();
             for (int i = 0; i < HEIGHT_OF_HEART; i++)
             {
                 for (int j = 0; j < WIDTH_OF_HEART; j++)
@@ -81,12 +76,7 @@ namespace redrum_not_muckduck_game
         {
             int currentColumn = 0;
             int heartStringIndex = 0;
-            int heartAdditionStartColumn =
-                COLUMN_WHERE_HEARTS_START +
-                //Adjusts Column to first char of last heart
-                ((Game.NumberOfLives) * WIDTH_OF_HEART) +
-                //Adjusts for spaces between hearts
-                (Game.NumberOfLives);
+            int heartAdditionStartColumn = GetColumn();
             string heart =  " .-. .-. " + "|   \'   |" + " \'~_ _~\' " + "    \'    ";
             for (int i = 0; i < HEIGHT_OF_HEART; i++)
             {
@@ -98,6 +88,11 @@ namespace redrum_not_muckduck_game
                 }
                 currentColumn = 0;
             }
+        }
+
+        public static int GetColumn()
+        {
+            return COLUMN_WHERE_HEARTS_START + ((Game.NumberOfLives) * WIDTH_OF_HEART) + (Game.NumberOfLives);
         }
     }
 }
