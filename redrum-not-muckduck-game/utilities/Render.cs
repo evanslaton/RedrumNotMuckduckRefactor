@@ -78,7 +78,7 @@ namespace redrum_not_muckduck_game
         public static void Quote(string quote)
         {
             int quoteStartRow = 14;
-            int COLUMN_WHERE_QUOTE_STARTS = 1;
+            int COLUMN_WHERE_QUOTE_STARTS = 2;
             int currentColumn = 0;
 
             for (int i = 0; i < quote.Length; i++)

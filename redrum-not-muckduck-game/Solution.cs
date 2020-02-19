@@ -11,10 +11,10 @@ namespace redrum_not_muckduck_game
             "Michael: \"What did they use?\"",
             "Michael: \"Where did it happen?\""
         };
-        private static string[] SOLUTIONS = new string[] { "dwight", "beet stained cigs", "break room" };
+        private static string[] SOLUTIONS = new string[] { "dwight", "cigarettes", "break room" };
         private static string[] WAYS_TO_SAY_YES = new string[] { "y", "yes", "yeah", "yep", "yea", "yeppers", "yesh" };
-        private static string WRONG_ANSWER_TEXT = "Michael: \"That sounds off - OUCH, lose a life\"";
-        private static string CORRECT_ANSWER_TEXT = "Michael : \"That's right!\"";
+        private static string WRONG_ANSWER_TEXT = "Michael looks aggravated by your response.*You lose a life* *Press any key to continue...";
+        private static string CORRECT_ANSWER_TEXT = "Michael seems to agree with you.";
         private static int COLUMN_WHERE_HEARTS_START = 50; // and ends at column 78
         private static int ROW_WHERE_HEARTS_START = 2; // and ends at row 6
         private static int WIDTH_OF_HEART = 9;
@@ -22,6 +22,7 @@ namespace redrum_not_muckduck_game
 
         public static bool AskToSolvePuzzle()
         {
+            Console.WriteLine("Type \'yes\' to solve the mystery:");
             Console.Write("> ");
             string userInput = Console.ReadLine().ToLower();
             return WAYS_TO_SAY_YES.Contains(userInput);
@@ -38,8 +39,9 @@ namespace redrum_not_muckduck_game
                 Console.WriteLine("Input your guess or type \'exit\' to stop guessing:");
                 Console.Write("> ");
                 string userGuess = Console.ReadLine();
-                if (userGuess == "exit") break;
-                else if (userGuess.ToLower() != SOLUTIONS[correctAnswers])
+                if (userGuess.Equals("exit")) break;
+                else if (!SOLUTIONS[correctAnswers].Contains(userGuess.ToLower())
+                    || userGuess.Length < 3 )
                 {
                     Game.NumberOfLives--;
                     RemoveAHeartFromBoard();
@@ -57,7 +59,7 @@ namespace redrum_not_muckduck_game
             Delete.SceneTextArea();
             Render.SceneDescription(text);
             Game.Board.Render();
-            Thread.Sleep(2000);
+            Console.ReadKey(true);
         }
 
         public static void RemoveAHeartFromBoard()

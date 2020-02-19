@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using NUnit.Framework;
 using Room = redrum_not_muckduck_game.Room;
+using NUnit.Framework;
 
 namespace UnitTests
 {
@@ -9,24 +9,33 @@ namespace UnitTests
     {
         private string Name = "Classroom1";
         private string Description = "TLG Learning Center";
-        private string ItemInRoom = "Computers";
-        private string PersonInRoom = "Renni: \"Good Morning\"";
         private bool HasItem = false;
-        private List<Room> AdjacentRooms;
+        public Dictionary<string, bool> HasEventHappened;
+        public Dictionary<string, bool> ItemInRoom;
+        public Dictionary<string, string> PersonsInRoom;
+        public string Action { get; set; } = "";
         private Room RoomToTest;
-        private Room AdjacentRoomToTest;
 
         [SetUp] //Creates the room to be used in tests
         public void Setup()
         {
-            RoomToTest = new Room(Name, Description, ItemInRoom, PersonInRoom, HasItem);
-            RoomToTest.AdjacentRooms = new List<Room> { AdjacentRoomToTest };
+            HasEventHappened = new Dictionary<string, bool>();
+            HasEventHappened.Add("shoe", false);
+
+            ItemInRoom = new Dictionary<string, bool>();
+            ItemInRoom.Add("chicken nuggets", false);
+
+            PersonsInRoom = new Dictionary<string, string>();
+            PersonsInRoom.Add("charley", "I'm here!!!");
+
+            RoomToTest = new Room(Name, Description, ItemInRoom,
+                PersonsInRoom, Action, HasItem);
         }
 
         [Test]
         public void RoomShouldHaveAName()
         {
-            Assert.AreEqual(RoomToTest.Name, Name); ;
+            Assert.AreEqual(RoomToTest.Name, Name); 
         }
 
         [Test]
@@ -44,7 +53,7 @@ namespace UnitTests
         [Test]
         public void RoomsCanHavePeopleInThem()
         {
-            Assert.AreEqual(RoomToTest.PersonInRoom, PersonInRoom);
+            Assert.AreEqual(RoomToTest.PersonsInRoom, PersonsInRoom);
         }
 
         [Test]

@@ -54,16 +54,25 @@ namespace redrum_not_muckduck_game
             Render.TypeByElement(intro);
         }
 
-        private static string[] intro = { "\n    Those M&Ms look good. I wonder how many I can stuff in my mouth.",
-        "    As you strategically place M&Ms on your tongue,",
-        "\t    you notice it smells like a campfire... you crave smores.",
-        "    Looking around you see smoke coming into the office from all directions. ",
-        "\n\t\t    You are trapped in the office!",
-        "\n    To escape you must find WHO started the fire,", "" +
-        "\t    WHAT started the fire,",
-        "\t\t    & WHERE the fire was started.",
-        "    After gathering as much information possible head to the reception area,", 
-        "\t    to show Michael what you have found.",
-        "    Be careful, an incorrect guess will lose you a life"};
+        private static string[] intro = { "\n\tAs you stare at Kevin scarfing down M&M’s directly from his",
+        "\t\tcandy jar, you wonder if anyone actually likes you.",
+        "\t\t\tDwight mentions the smell of smoke.",
+        "\n\tAngela: \"Did you bring in your jerky again, Dwight?\"",
+        "\t\tPam: \"SMOKE! FIRE!\"",
+        "\t\t\tDwight: \"Oh no! What should we do?!\"",
+        "\n\tCreed: \"It was the temp’s fault. Get ‘em guys.\"",
+        "\t\tMichael: \"I'LL PUNISH THEM LATER! WE'RE TRAPPED!",
+        "\t\t\tEVERYONE FOR THEMSELVES!\"",
+        "\n\tYou can't lose this job! You must find the cause of the fire.",
+        "\t\tEXPLORE the rooms for clues",
+        "\t\t\tand TALK to others to gather information",
+        "\n\tBefore you escape, you need to: Find WHO started the fire,",
+        "\t\tWHAT they used to start the fire,",
+        "\t\t\t& WHERE the fire started.",
+        "\n\tWhen ready, approach Michael and let him know what happened,",
+        "\t\tbut be careful, there are many hazards around the office,",
+        "\t\t\tand an incorrect guess will lose you a life!",
+        "\n\tPress any key to continue..."
+        };
     }  
 }
