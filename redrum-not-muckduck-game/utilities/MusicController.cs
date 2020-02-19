@@ -17,5 +17,9 @@ namespace redrum_not_muckduck_game
             outputDevice.Play();
             Thread.Sleep(milliSeconds);
         }
+        public static void StopMusic()
+        {
+            outputDevice.Dispose();
+        }
     }
 }

@@ -63,7 +63,7 @@ namespace redrum_not_muckduck_game
             WelcomePage.StoryIntro();
             Render.Location(CurrentRoom);
             Render.Action();
-            Render.SceneDescription();
+            Render.SceneDescription(CurrentRoom.Description);
         }
 
         private void UserTurn()
@@ -231,7 +231,7 @@ namespace redrum_not_muckduck_game
                 else
                 {
                     Delete.SceneTextArea();
-                    Render.OneLineQuestionOrQuote("Michael: \"Ok, come back when you are ready\"");
+                    Render.SceneDescription("Michael: \"Ok, come back when you are ready\"");
                 }
             }
         }
@@ -251,7 +251,7 @@ namespace redrum_not_muckduck_game
             Render.Location(CurrentRoom);
             RenderSpecialActionsInRooms();
             Delete.SceneTextArea();
-            Render.SceneDescription();
+            Render.SceneDescription(CurrentRoom.Description);
         }
 
         private void RenderSpecialActionsInRooms()

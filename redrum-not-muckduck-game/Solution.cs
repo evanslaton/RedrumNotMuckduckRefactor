@@ -33,7 +33,7 @@ namespace redrum_not_muckduck_game
             while(correctAnswers < 3 && Game.NumberOfLives > 0)
             {
                 Delete.SceneTextArea();
-                Render.OneLineQuestionOrQuote(QUESTIONS[correctAnswers]);
+                Render.SceneDescription(QUESTIONS[correctAnswers]);
                 Game.Board.Render();
                 Console.WriteLine("Input your guess or type \'exit\' to stop guessing:");
                 Console.Write("> ");
@@ -55,7 +55,7 @@ namespace redrum_not_muckduck_game
         private static void DisplayText(string text)
         {
             Delete.SceneTextArea();
-            Render.OneLineQuestionOrQuote(text);
+            Render.SceneDescription(text);
             Game.Board.Render();
             Thread.Sleep(2000);
         }

@@ -109,34 +109,22 @@ namespace redrum_not_muckduck_game
             }
         }
 
-        public static void OneLineQuestionOrQuote(string questionOrQuote)
-        {
-            int ROW_WHERE_QUESTION_STARTS = 14;
-            int COLUMN_WHERE_QUESTION_STARTS = 1;
-
-            for (int i = 0; i < questionOrQuote.Length; i++)
-            {
-                Board.GameBoard[ROW_WHERE_QUESTION_STARTS, COLUMN_WHERE_QUESTION_STARTS + i] = questionOrQuote[i];     
-            }
-        }
-
-        public static void SceneDescription()
+        public static void SceneDescription(string sceneText)
         {
             int sceneStartRow = 14;
             int COLUMN_WHERE_SCENE_STARTS = 2;
             int currentColumn = 0;
-            string description = Game.CurrentRoom.Description;
 
-            for (int i = 0; i < description.Length; i++)
+            for (int i = 0; i < sceneText.Length; i++)
             {
                 // Text after asterisk start on a new line 
-                if (description[i] == '*')
+                if (sceneText[i] == '*')
                 {
                     i++;
                     sceneStartRow++;
                     currentColumn = 0;
                 }
-                Board.GameBoard[sceneStartRow, COLUMN_WHERE_SCENE_STARTS + currentColumn] = description[i];
+                Board.GameBoard[sceneStartRow, COLUMN_WHERE_SCENE_STARTS + currentColumn] = sceneText[i];
                 currentColumn++;
             }
         }
@@ -166,7 +154,7 @@ namespace redrum_not_muckduck_game
 
         public static void VistedRooms(string room)
         {
-            int ROW_WHERE_ROOM_START = 14;
+            int ROW_WHERE_ROOM_START = 18;
             int COLUMN_WHERE_ROOM_START = 50;
             int insertRoomRow = ROW_WHERE_ROOM_START + Game.VisitedRooms.Count;
 
@@ -183,6 +171,7 @@ namespace redrum_not_muckduck_game
                 Console.WriteLine(input[i]);
                 Console.ReadKey(true);  // Waits for user to press key to continue
             }
+            MusicController.outputDevice.Dispose();
         }
     }
 }
