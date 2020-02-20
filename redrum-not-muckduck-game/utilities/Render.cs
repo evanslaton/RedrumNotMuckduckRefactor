@@ -5,7 +5,7 @@ namespace redrum_not_muckduck_game
 {
     class Render
     {
-        private static string[] Actions = new string[] { "- explore", "- talk to someone", "- leave the current room", "- map", "- help", "- quit playing" };
+        private static string[] Actions = new string[] { "- explore", "- talk to someone", "- leave the current room", "- map", "- help", "- save", "- quit playing" };
         public static void ActionQuote(string actionQuote)
         {
             int actionStartRow = 14;
