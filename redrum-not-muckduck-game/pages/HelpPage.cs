@@ -16,8 +16,8 @@ namespace redrum_not_muckduck_game
             "   ║   possible head to the reception area to       ║\n" +
             "   ║     show Michael what you have found.          ║\n" +
             "   ║                                                ║\n" +
-            "   ║  Your options for naviagting in the rooms are: ║\n" +
-            "   ║      (explore, talk, leave, map, and quit).    ║\n" +
+            "   ║  Your options for navigating in the rooms are: ║\n" +
+            "   ║ explore, talk, leave, map, help, save and quit ║\n" +
             "   ║                                                ║\n" +
             "   ║   Press ENTER to go back to the room.          ║\n" +
             "   ║                                                ║\n" +
