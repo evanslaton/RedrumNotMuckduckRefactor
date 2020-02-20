@@ -33,7 +33,7 @@ namespace redrum_not_muckduck_game
                         Console.Write(GameBoard[row, column], Color.Red);
                     }
                     // Highlights avaliable actions in yellow
-                    else if (row > 4 && row < 11 && column > 3 && column < 25 && !endOfWord) 
+                    else if (row > 4 && row < 12 && column > 3 && column < 25 && !endOfWord) 
                     {
                         if (GameBoard[row, column] == ' ')
                         {
