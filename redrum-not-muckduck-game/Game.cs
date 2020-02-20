@@ -69,7 +69,7 @@ namespace redrum_not_muckduck_game
         private void UserTurn()
         {
             Board.Render();
-            Console.WriteLine("Please enter a valid option: (explore, talk, leave, map, quit)");
+            Console.WriteLine("Please enter a valid ACTION: (explore, talk, etc.)");
             Console.Write("> ");
             string userChoice = Console.ReadLine().ToLower();
 
